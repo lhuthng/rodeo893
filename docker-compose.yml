@@ -1,0 +1,74 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: bakery
+      POSTGRES_PASSWORD: bakery
+      POSTGRES_DB: bakery
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - bakery-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bakery"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
+    networks:
+      - bakery-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend.Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://bakery:bakery@postgres:5432/bakery
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - bakery-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend.Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      BACKEND_URL: http://backend:3000
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - bakery-net
+
+networks:
+  bakery-net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:

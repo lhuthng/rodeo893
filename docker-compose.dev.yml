@@ -1,0 +1,21 @@
+# dev override: expose all services to host for testing
+services:
+  backend:
+    ports:
+      - "3000:3000"
+    environment:
+      APP_ENV: dev
+
+  postgres:
+    ports:
+      - "5432:5432"
+
+  redis:
+    ports:
+      - "6379:6379"
+
+  frontend:
+    ports:
+      - "5173:3000"
+    environment:
+      APP_ENV: dev

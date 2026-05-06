@@ -1,0 +1,25 @@
+[package]
+name = "bakery-backend"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "bakery-backend"
+path = "main.rs"
+
+[dependencies]
+api.workspace             = true
+infrastructure.workspace  = true
+application.workspace     = true
+domain.workspace          = true
+
+tokio.workspace           = true
+tracing.workspace         = true
+tracing-subscriber.workspace = true
+dotenvy.workspace         = true
+anyhow.workspace          = true
+sqlx.workspace            = true
+deadpool-redis.workspace  = true
+apalis.workspace          = true
+apalis-sql.workspace      = true
+config.workspace          = true

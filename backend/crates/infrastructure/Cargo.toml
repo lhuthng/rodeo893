@@ -1,0 +1,33 @@
+[package]
+name = "infrastructure"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+domain.workspace          = true
+application.workspace     = true
+
+tokio.workspace           = true
+sqlx.workspace            = true
+deadpool-redis.workspace  = true
+redis.workspace           = true
+apalis.workspace          = true
+apalis-sql.workspace      = true
+serde.workspace           = true
+serde_json.workspace      = true
+uuid.workspace            = true
+chrono.workspace          = true
+rust_decimal.workspace    = true
+argon2.workspace          = true
+rand.workspace            = true
+sha2.workspace            = true
+hex.workspace             = true
+jsonwebtoken.workspace    = true
+hmac.workspace            = true
+reqwest.workspace         = true
+lettre.workspace          = true
+thiserror.workspace       = true
+anyhow.workspace          = true
+tracing.workspace         = true
+async-trait.workspace     = true
+once_cell.workspace       = true

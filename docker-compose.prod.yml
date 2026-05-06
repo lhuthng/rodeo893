@@ -1,0 +1,11 @@
+# prod override: only frontend exposed
+services:
+  frontend:
+    ports:
+      - "80:3000"
+    environment:
+      APP_ENV: prod
+
+  backend:
+    environment:
+      APP_ENV: prod
