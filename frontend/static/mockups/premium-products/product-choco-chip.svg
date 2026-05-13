@@ -1,0 +1,25 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="98" y1="88" x2="1088" y2="670" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5EBDD"/>
+      <stop offset="1" stop-color="#DFC6A9"/>
+    </linearGradient>
+    <linearGradient id="cookie" x1="420" y1="262" x2="760" y2="556" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#916445"/>
+      <stop offset="1" stop-color="#5B3926"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <ellipse cx="600" cy="520" rx="236" ry="32" fill="#321E12" fill-opacity="0.18"/>
+  <path d="M400 430C400 330 488 252 596 252C706 252 790 332 790 430C790 530 704 606 596 606C488 606 400 530 400 430Z" fill="url(#cookie)"/>
+  <path d="M596 252C706 252 790 332 790 430C790 486 764 536 722 570L512 306C538 272 582 252 596 252Z" fill="#A97852" fill-opacity="0.35"/>
+  <path d="M522 308L714 572" stroke="#2C180E" stroke-opacity="0.4" stroke-width="4"/>
+  <g fill="#2A160C">
+    <circle cx="548" cy="374" r="10"/>
+    <circle cx="620" cy="336" r="10"/>
+    <circle cx="666" cy="390" r="8"/>
+    <circle cx="570" cy="450" r="9"/>
+    <circle cx="640" cy="478" r="9"/>
+  </g>
+  <rect x="74" y="74" width="1052" height="612" rx="20" stroke="#2A160C" stroke-opacity="0.16"/>
+</svg>

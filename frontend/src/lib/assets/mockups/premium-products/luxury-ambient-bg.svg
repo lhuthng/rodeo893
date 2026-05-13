@@ -1,0 +1,39 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g0" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F4EEE6"/>
+      <stop offset="0.5" stop-color="#EADFCF"/>
+      <stop offset="1" stop-color="#D7C3A2"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 260) rotate(12) scale(520 380)">
+      <stop stop-color="#FFF8EF"/>
+      <stop offset="1" stop-color="#FFF8EF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1500 860) rotate(-8) scale(640 440)">
+      <stop stop-color="#6E4A2E" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#6E4A2E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="340" y1="110" x2="1580" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8A5D3B" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#2A1A0F" stop-opacity="0.13"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#g0)"/>
+  <rect width="1920" height="1080" fill="url(#glow1)"/>
+  <rect width="1920" height="1080" fill="url(#glow2)"/>
+
+  <g opacity="0.4">
+    <path d="M0 770C230 690 420 660 620 690C870 730 1020 860 1230 888C1440 916 1650 846 1920 728" stroke="url(#line)" stroke-width="2"/>
+    <path d="M0 840C250 760 460 730 690 760C920 790 1050 900 1260 940C1470 980 1710 930 1920 860" stroke="url(#line)" stroke-width="1.5"/>
+    <path d="M0 910C250 855 440 840 650 860C860 880 1040 950 1270 994C1500 1038 1710 1015 1920 960" stroke="url(#line)" stroke-width="1.25"/>
+  </g>
+
+  <g opacity="0.26" stroke="#2A1A0F" stroke-width="1.2">
+    <circle cx="1420" cy="260" r="120"/>
+    <circle cx="1420" cy="260" r="180"/>
+    <circle cx="1420" cy="260" r="240"/>
+  </g>
+
+  <rect x="88" y="88" width="1744" height="904" rx="18" stroke="#2A1A0F" stroke-opacity="0.14"/>
+</svg>

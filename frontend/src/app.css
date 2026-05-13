@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* ── COLORS ── */
+  --color-espresso:          #1A1109;
+  --color-espresso-light:    #2C1C0E;
+  --color-mahogany:          #5C3317;
+  --color-crimson:           #8B1A1A;
+  --color-crimson-bright:    #C0392B;
+  --color-parchment:         #E8D5B0;
+  --color-parchment-light:   #F5ECD7;
+  --color-parchment-dark:    #D4BC90;
+  --color-gold:              #C9A843;  /* warm antique gold — awards, premium badges  */
+  --color-gold-light:        #E2C97E;  /* lighter gold — highlights, glows            */
+  --color-gold-dark:         #9C7D22;  /* deep gold — pressed text, stamps            */
+  --color-olive:             #3E5232;  /* deep forest green — health, provenance      */
+  --color-olive-light:       #6B8A5A;  /* sage — secondary accents, freshness         */
+  --color-olive-muted:       #8FA07E;  /* dusty sage — backgrounds, subtle tones      */
+
+  /* ── FONTS ── */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body:    "Cormorant Garamond", Georgia, serif;
+  --font-mono:    "DM Mono", monospace;
+
+  /* ── FONT SIZES ── */
+  --text-2xs:  0.55rem;   /* 8.8px  — barcode labels, fine print   */
+  --text-xs:   0.6rem;    /* 9.6px  — nav links, mono tags, eyebrow */
+  --text-sm:   0.875rem;  /* 14px   — card descriptions             */
+  --text-base: 1rem;      /* 16px   — base                          */
+  --text-md:   1.1rem;    /* 17.6px — body copy                     */
+  --text-lg:   1.25rem;   /* 20px   — lead text, card titles        */
+  --text-xl:   1.35rem;   /* 21.6px — product names                 */
+  --text-2xl:  1.6rem;    /* 25.6px — nav logo, tag names           */
+  --text-3xl:  2rem;      /* 32px   — section subtitles             */
+  --text-4xl:  2.8rem;    /* 44.8px — stat numbers                  */
+  --text-5xl:  3.5rem;    /* 56px   — mid headings                  */
+  --text-6xl:  clamp(2.5rem, 4.5vw, 4rem);   /* editorial titles    */
+  --text-hero: clamp(4rem, 7vw, 6.5rem);     /* hero h1             */
+
+  /* ── FONT WEIGHTS ── */
+  --font-weight-light:   300;
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-bold:    700;
+  --font-weight-black:   900;
+
+  /* ── LINE HEIGHTS ── */
+  --leading-none:   0.95;
+  --leading-tight:  1.05;
+  --leading-snug:   1.15;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose:  1.75;
+
+  /* ── LETTER SPACING ── */
+  --tracking-tight:   -0.02em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.12em;
+  --tracking-wider:    0.18em;
+  --tracking-widest:   0.2em;
+  --tracking-widest2:  0.22em;
+
+  /* ── SPACING (extra tokens on top of Tailwind defaults) ── */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+  --spacing-26: 6.5rem;
+
+  /* ── BORDER RADIUS ── */
+  --radius-none: 0px;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-full: 9999px;
+
+  /* ── BORDERS ── */
+  --border-parchment:      1px solid #D4BC90;
+  --border-crimson:        1px solid #C0392B;
+  --border-espresso:       1px solid rgba(26,17,9,0.15);
+
+  /* ── SHADOWS ── */
+  --shadow-card: 0 12px 32px rgba(26, 17, 9, 0.12);
+  --shadow-lift: 0 4px 16px rgba(26, 17, 9, 0.08);
+
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	@apply bg-parchment-light text-espresso font-body overflow-x-hidden;
+
+	&::before {
+		@apply fixed inset-0 pointer-events-none z-200 opacity-50;
+
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+	}
+
+	&::after {
+		@apply fixed content-[""] inset-0 pointer-events-none z-199 opacity-80;
+
+		background-image: repeating-linear-gradient(
+      92deg,
+      transparent 0px,
+      transparent 38px,
+      rgba(92,51,23,0.025) 38px,
+      rgba(92,51,23,0.025) 39px
+    ),
+    repeating-linear-gradient(
+      178deg,
+      transparent 0px,
+      transparent 38px,
+      rgba(92,51,23,0.025) 60px,
+      rgba(92,51,23,0.025) 61px
+    );
+	}
+}
+
+section {
+	@apply relative z-100;
+}
+
+@keyframes fadeUp {
+	from { opacity: 0; transform: translateY(20px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+	from { opacity: 0; transform: scale(0.95); }
+	to   { opacity: 1; transform: scale(1); }
+}
+@keyframes marquee {
+	from { transform: translateX(0); }
+	to   { transform: translateX(-50%); }
+}

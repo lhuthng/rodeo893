@@ -1,0 +1,31 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="90" x2="1080" y2="670" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7EFE5"/>
+      <stop offset="1" stop-color="#E4D2BC"/>
+    </linearGradient>
+    <linearGradient id="cone" x1="560" y1="380" x2="680" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BF8A57"/>
+      <stop offset="1" stop-color="#7D522E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+
+  <g opacity="0.28" stroke="#2A1A10" stroke-width="1.2">
+    <path d="M160 610C280 570 400 556 520 564C680 574 760 632 882 640C962 644 1026 626 1080 600"/>
+    <path d="M160 642C292 600 406 590 530 600C686 612 766 662 898 670C966 674 1032 660 1082 632"/>
+  </g>
+
+  <g>
+    <ellipse cx="602" cy="282" rx="170" ry="118" fill="#6C4736"/>
+    <ellipse cx="516" cy="316" rx="96" ry="86" fill="#A87952"/>
+    <ellipse cx="684" cy="320" rx="96" ry="86" fill="#8C6344"/>
+    <path d="M514 390H690L626 608C620 629 592 629 586 608L514 390Z" fill="url(#cone)"/>
+    <path d="M534 428L668 560" stroke="#F0D3AE" stroke-opacity="0.5" stroke-width="4"/>
+    <path d="M574 408L686 536" stroke="#F0D3AE" stroke-opacity="0.5" stroke-width="4"/>
+    <path d="M520 464L652 606" stroke="#F0D3AE" stroke-opacity="0.5" stroke-width="4"/>
+  </g>
+
+  <rect x="74" y="74" width="1052" height="612" rx="20" stroke="#2A1A10" stroke-opacity="0.16"/>
+</svg>

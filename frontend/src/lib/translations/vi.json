@@ -1,0 +1,249 @@
+{
+	"code": "vi",
+	"routes": {
+		"home": "trang-chu",
+		"products": "san-pham",
+		"productsCookies": "banh-quy",
+		"productsIceCream": "kem",
+		"productsCoffee": "ca-phe",
+		"membership": "thanh-vien",
+		"account": "tai-khoan",
+		"orders": "don-hang",
+		"about": "ve-chung-toi",
+		"contact": "lien-he",
+		"productVanilla": "vani-banh-quy",
+		"productMocha": "mocha-banh-quy",
+		"productChocoChip": "socola-vien-banh-quy",
+		"productPeanutButter": "bo-dua-phong-banh-quy",
+		"productAlmondCrescent": "vong-trang-hanh-nhan",
+		"productIceCreamChoco": "kem-socola",
+		"productIceCreamCoffee": "kem-ca-phe",
+		"productBlueCheeseCoffee": "ca-phe-pho-mai-xanh"
+	},
+	"titles": {
+		"home": "Rodeo 893",
+		"products": "Sản Phẩm | Rodeo 893",
+		"productsCookies": "Bánh Quy | Rodeo 893",
+		"productsIceCream": "Kem | Rodeo 893",
+		"productsCoffee": "Cà Phê | Rodeo 893",
+		"membership": "Thành Viên | Rodeo 893",
+		"account": "Tài Khoản | Rodeo 893",
+		"orders": "Đơn Hàng | Rodeo 893",
+		"about": "Câu Chuyện Của Chúng Tôi | Rodeo 893",
+		"contact": "Liên Hệ | Rodeo 893",
+		"productVanilla": "Bánh Quy Vani | Rodeo 893",
+		"productMocha": "Bánh Quy Mocha | Rodeo 893",
+		"productChocoChip": "Bánh Quy Sôcôla Viên | Rodeo 893",
+		"productPeanutButter": "Bánh Quy Bơ Đậu Phộng | Rodeo 893",
+		"productAlmondCrescent": "Bánh Trăng Hạnh Nhân | Rodeo 893",
+		"productIceCreamChoco": "Kem Sôcôla | Rodeo 893",
+		"productIceCreamCoffee": "Kem Cà Phê | Rodeo 893",
+		"productBlueCheeseCoffee": "Cà Phê Phô Mai Xanh | Rodeo 893"
+	},
+	"meta-descriptions": {
+		"home": "Tiệm bánh cao cấp với bánh quy, kem và cà phê thủ công — đặt trước, số lượng có hạn, làm theo đơn.",
+		"products": "Khám phá bánh quy, kem và cà phê đặc trưng của Rodeo 893 trong bộ sưu tập được tuyển chọn kỹ lưỡng.",
+		"productsCookies": "Xem toàn bộ các loại bánh quy của Rodeo 893 và khám phá các hương vị hiện có.",
+		"productsIceCream": "Xem toàn bộ các loại kem của Rodeo 893 và khám phá các hương vị hiện có.",
+		"productsCoffee": "Khám phá cà phê đặc trưng của Rodeo 893 và công thức pha chế độc quyền.",
+		"membership": "Trở thành thành viên Rodeo 893 để được ưu tiên đặt hàng, tiếp cận sớm và tận hưởng đặc quyền bakery cao cấp.",
+		"account": "Xem thông tin cá nhân, địa chỉ đã lưu và trạng thái thành viên trong tài khoản Rodeo 893 của bạn.",
+		"orders": "Xem lại quy trình đặt hàng, đơn hàng gần đây và hướng dẫn giao hàng tại Rodeo 893.",
+		"about": "Đọc câu chuyện đằng sau Rodeo 893 và triết lý làm bánh thủ công số lượng nhỏ.",
+		"contact": "Liên hệ với Rodeo 893 để đặt trước, sự kiện và thông tin về bộ sưu tập.",
+		"productVanilla": "Bánh quy vani mềm mại với hương thơm tinh tế và phần kết hoàn hảo.",
+		"productMocha": "Bánh quy mocha rang xay với chiều sâu ca cao và hương cà phê quyến rũ.",
+		"productChocoChip": "Bánh quy sôcôla viên đậm đà với chocolate đen và nhân mềm mịn.",
+		"productPeanutButter": "Bánh quy bơ đậu phộng chắc chắn với vị béo ngậy tinh tế.",
+		"productAlmondCrescent": "Bánh trăng hạnh nhân mỏng giòn với phần hoàn thiện đặc biệt.",
+		"productIceCreamChoco": "Kem sôcôla đen với hồ sơ vị trưởng thành, mịn màng hơn.",
+		"productIceCreamCoffee": "Kem cà phê với nền hương rang xay thanh lịch.",
+		"productBlueCheeseCoffee": "Cà phê phô mai xanh đặc trưng dành cho những vị khách muốn trải nghiệm táo bạo và khó quên."
+	},
+	"brand": {
+		"name": "Rodeo 893",
+		"subtitle": "Tiệm Bánh",
+		"eyebrow": "Đặt trước · Số lượng có hạn · Làm theo đơn",
+		"footerNote": "Nướng với tâm huyết"
+	},
+	"navigation": {
+		"primary": [
+			{ "route": "products", "label": "Sản Phẩm" },
+			{ "route": "membership", "label": "Thành Viên" },
+			{ "route": "about", "label": "Câu Chuyện" },
+			{ "route": "contact", "label": "Liên Hệ" }
+		],
+		"account": { "route": "account", "label": "Tài Khoản" }
+	},
+	"cta": {
+		"membership": "Đăng ký",
+		"order": "Đặt ngay",
+		"exploreProducts": "Khám phá sản phẩm",
+		"learnStory": "Đọc câu chuyện",
+		"viewAll": "Xem thực đơn đầy đủ",
+		"reviewOrders": "Xem quy trình đặt hàng",
+		"contactUs": "Liên hệ chúng tôi"
+	},
+	"home": {
+		"hero": {
+			"eyebrow": "Đặt trước · Số lượng có hạn · Làm theo đơn",
+			"lineOne": "Tiệm Bánh",
+			"lineTwo": "với",
+			"lineThree": "phong thái.",
+			"description": "Sang trọng, giản dị. Bánh quy, kem và cà phê được làm theo từng mẻ nhỏ với nguyên liệu tuyển chọn và hoàn thiện tỉ mỉ.",
+			"membershipNote": "Thành viên được ưu tiên tiếp cận trước các đợt ra mắt và khung thời gian nhận hàng."
+		},
+		"featured": {
+			"eyebrow": "Tuyển chọn đặc trưng",
+			"title": "Thực đơn ngắn gọn, được chăm chút kỹ lưỡng.",
+			"description": "Danh mục sản phẩm được giữ gọn để mỗi mẻ bánh đều được cân nhắc kỹ. Bắt đầu với những hương vị cổ điển, rồi khám phá các cách pha chế và nhân bánh độc đáo hơn."
+		},
+		"membership": {
+			"eyebrow": "Thành Viên",
+			"title": "Dành cho khách hàng thường xuyên muốn được ưu tiên.",
+			"description": "Thành viên là nền tảng chuyển đổi chính. Cảm giác cao cấp, thiết thực và bình tĩnh: thông báo ra mắt sớm, khung thời gian đặt hàng ưu tiên và nhịp đặt hàng lặp lại gọn gàng hơn."
+		},
+		"process": {
+			"eyebrow": "Quy trình đặt hàng",
+			"title": "Quy trình đặt hàng điềm tĩnh và có chủ đích hơn.",
+			"steps": [
+				"Chọn từ thực đơn hiện tại và các sản phẩm đặc biệt.",
+				"Đăng ký thành viên nếu bạn muốn được ưu tiên và đặt hàng dễ dàng hơn.",
+				"Gửi yêu cầu đặt trước và chờ thông tin xác nhận."
+			]
+		},
+		"story": {
+			"eyebrow": "Rodeo 893",
+			"title": "Thủ công không kèm vẻ ngoài mộc mạc.",
+			"description": "Định hướng hình ảnh cần cảm giác thanh lịch hơn là dễ thương: tông màu ấm áp, cà phê đen đậm, typography sắc nét, và sự kiềm chế đủ để mỗi thẻ sản phẩm đều có chủ đích."
+		},
+		"finalCta": {
+			"title": "Đăng ký trước, hoặc đặt hàng trực tiếp.",
+			"description": "Mọi bề mặt chính đều dẫn khách hàng đến thành viên hoặc hành động đặt hàng mà không cần phải kêu gọi ồn ào."
+		}
+	},
+	"productsPage": {
+		"eyebrow": "Sản Phẩm",
+		"title": "Bánh quy, kem và một loại cà phê đặc trưng.",
+		"description": "Danh mục được tổ chức rõ ràng, trong khi mỗi sản phẩm vẫn có tệp nội dung riêng để mở rộng và kể chuyện theo từng địa phương.",
+		"categories": {
+			"cookies": "Bánh Quy",
+			"iceCream": "Kem",
+			"coffee": "Cà Phê"
+		},
+		"hero": {
+			"title": "Một bộ sưu tập cảm giác như ra mắt sản phẩm hơn là danh mục.",
+			"description": "Bắt đầu với tổng quan, rồi vào trang danh mục để xem hương vị và trang chi tiết cho từng sản phẩm đặc trưng."
+		}
+	},
+	"membershipPage": {
+		"eyebrow": "Thành Viên",
+		"title": "Quyền truy cập cao cấp cho khách hàng thường xuyên.",
+		"description": "Trang này tồn tại để chuyển đổi. Nó giải thích tại sao thành viên quan trọng, quyền ưu tiên có nghĩa gì và cách nó đơn giản hóa việc đặt hàng lặp lại.",
+		"badge": "Chương trình thành viên ưu tiên",
+		"reassurance": "Dành cho khách hàng đặt hàng thường xuyên và thích quy trình thanh toán lại nhanh hơn.",
+		"stats": [
+			{ "label": "Khung ưu tiên", "value": "Truy cập sớm" },
+			{ "label": "Nhịp đặt hàng", "value": "Sẵn sàng lặp lại" },
+			{ "label": "Hỗ trợ", "value": "Phong cách concierge" }
+		],
+		"stepsTitle": "Cách thành viên hoạt động",
+		"steps": [
+			"Kích hoạt thành viên một lần từ tài khoản của bạn.",
+			"Nhận thông báo về thực đơn mới và phát hành giới hạn.",
+			"Sử dụng hồ sơ và địa chỉ đã lưu để đặt hàng lặp lại nhanh hơn."
+		],
+		"conciergeTitle": "Concierge thành viên",
+		"conciergeText": "Đối với đơn hàng định kỳ, sự kiện và quà tặng, thành viên giúp việc liên lạc chặt chẽ hơn và lập lịch suôn sẻ hơn.",
+		"benefits": [
+			"Ưu tiên tiếp cận các đợt ra mắt và mẻ giới hạn",
+			"Quy trình đặt hàng lặp lại gọn gàng hơn qua tài khoản",
+			"Cảm giác cao cấp không có chương trình tích điểm ồn ào"
+		]
+	},
+	"accountPage": {
+		"eyebrow": "Tài Khoản",
+		"title": "Hồ sơ, địa chỉ và trạng thái thành viên.",
+		"description": "Giao diện tài khoản phản ánh mô hình backend: thông tin hồ sơ, trạng thái thành viên, địa chỉ đã lưu và không gian cho số dư tín dụng và hành động đặt hàng trong tương lai.",
+		"panels": [
+			"Hồ sơ và trạng thái đăng nhập",
+			"Địa chỉ giao hàng đã lưu",
+			"Trạng thái thành viên và nhắc gia hạn"
+		]
+	},
+	"ordersPage": {
+		"eyebrow": "Đơn Hàng",
+		"title": "Quy trình đặt hàng, tham chiếu và theo dõi trong tương lai.",
+		"description": "Giai đoạn một chưa có thanh toán trực tiếp, nhưng kiến trúc thông tin đã khớp với backend: tham chiếu đơn hàng, thông tin giao hàng, ghi chú và chi tiết sẵn sàng theo dõi.",
+		"states": [
+			"Yêu cầu đặt hàng đã nhận",
+			"Chờ xác nhận lô hàng",
+			"Sắp xếp nhận hàng hoặc giao hàng"
+		]
+	},
+	"aboutPage": {
+		"eyebrow": "Câu Chuyện",
+		"title": "Ngôn ngữ bakery xây dựng trên sự điều độ.",
+		"description": "Rodeo 893 nên cảm thấy sang trọng vì nó cụ thể, không phải vì nó ồn ào. Các trang nên thưa thoáng, ấm áp và chính xác."
+	},
+	"contactPage": {
+		"eyebrow": "Liên Hệ",
+		"title": "Đặt hàng, sự kiện và thông tin nhận hàng.",
+		"description": "Sử dụng trang này cho các yêu cầu, thảo luận bán sỉ và hướng dẫn nhận hàng, trong khi giữ các hành động chính tập trung vào thành viên và sản phẩm.",
+		"channels": [
+			"Instagram để cập nhật thực đơn và thông tin nhanh",
+			"Email cho yêu cầu sự kiện và hợp tác",
+			"Hướng dẫn đặt hàng trực tiếp cho nhận tại chỗ hoặc giao hàng"
+		]
+	},
+	"productDetails": {
+		"productVanilla": {
+			"name": "Bánh Quy Vani",
+			"tagline": "Yên tĩnh. Bơ mềm. Tinh tế.",
+			"description": "Bánh quy vani bơ mềm với phần kết tinh tế — nhẹ nhàng trên hương vị, rõ ràng trong cấu trúc. Không có gì phô trương, không có gì thiếu.",
+			"details": ["Hương vani thuần túy", "Viền nướng vàng nhẹ", "Giòn bên ngoài, mềm bên trong"]
+		},
+		"productMocha": {
+			"name": "Bánh Quy Mocha",
+			"tagline": "Ca cao đậm đà gặp cà phê thơm ngát.",
+			"description": "Bánh quy mocha rang xay cân bằng chiều sâu ca cao và hương cà phê — đậm đà nhưng không nặng nề. Dành cho những ai muốn thứ gì đó có tính cách.",
+			"details": ["Ca cao rang xay thực sự", "Hương cà phê nhẹ", "Kết cấu dày và dẻo"]
+		},
+		"productChocoChip": {
+			"name": "Bánh Quy Sôcôla Viên",
+			"tagline": "Đậm đà. Mềm mịn. Không thể chối từ.",
+			"description": "Bánh quy sôcôla viên đậm đà với chocolate đen và nhân mềm giữ nguyên sau khi nguội. Một công thức cổ điển được thực hiện với nguyên liệu nghiêm túc.",
+			"details": ["Chocolate đen chất lượng cao", "Nhân mềm sau khi nguội", "Mép nướng giòn nhẹ"]
+		},
+		"productPeanutButter": {
+			"name": "Bánh Quy Bơ Đậu Phộng",
+			"tagline": "Chắc chắn. Đậm đà. Hơi mặn.",
+			"description": "Bánh quy bơ đậu phộng chắc nịch với vị béo ngậy và cạnh mặn tinh tế — không ngọt một chiều, không mỏng. Một cái gì đó để cầm tay với sự tự tin.",
+			"details": ["Bơ đậu phộng tự nhiên", "Muối biển hoàn thiện", "Kết cấu dày đặc và dẻo"]
+		},
+		"productAlmondCrescent": {
+			"name": "Bánh Trăng Hạnh Nhân",
+			"tagline": "Tinh tế. Giòn nhẹ. Nghi lễ.",
+			"description": "Bánh trăng hạnh nhân mỏng giòn với phần bột nhẹ và hạnh nhân được xử lý kỹ. Một loại bánh để thưởng thức từ từ — không vội vã.",
+			"details": ["Bơ chất lượng cao", "Bột hạnh nhân mịn", "Đường bột hoàn thiện nhẹ nhàng"]
+		},
+		"productIceCreamChoco": {
+			"name": "Kem Sôcôla",
+			"tagline": "Đen. Mịn màng. Trưởng thành.",
+			"description": "Kem sôcôla đen với profile vị trưởng thành — đậm đà hơn, mịn hơn, ít ngọt hơn những gì bạn mong đợi. Dành cho những ai nghiêm túc về sôcôla.",
+			"details": ["Ca cao Valrhona", "Ít ngọt hơn bình thường", "Kết cấu kem mịn màng"]
+		},
+		"productIceCreamCoffee": {
+			"name": "Kem Cà Phê",
+			"tagline": "Rang xay. Thanh lịch. Sâu sắc.",
+			"description": "Kem cà phê với nền hương rang xay thanh lịch — không phải vanilla với màu nâu, mà là cà phê thực sự được tôn trọng. Một profile mà cả người uống cà phê đều nhận ra.",
+			"details": ["Hạt cà phê chất lượng cao", "Ngâm nguội lâu", "Độ ngọt cân bằng"]
+		},
+		"productBlueCheeseCoffee": {
+			"name": "Cà Phê Phô Mai Xanh",
+			"tagline": "Táo bạo. Khó quên. Chỉ có ở đây.",
+			"description": "Cà phê phô mai xanh đặc trưng dành cho những vị khách muốn thứ gì đó dũng cảm và đáng nhớ. Không phải cho tất cả mọi người — nhưng đối với người phù hợp, không có gì khác sánh kịp.",
+			"details": ["Phô mai xanh nhập khẩu", "Cà phê espresso đậm đà", "Phục vụ lạnh theo cách riêng"]
+		}
+	}
+}

@@ -1,0 +1,22 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="90" y1="92" x2="1112" y2="676" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2E8DA"/>
+      <stop offset="1" stop-color="#DABD9E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <ellipse cx="600" cy="542" rx="206" ry="30" fill="#2C1A0F" fill-opacity="0.2"/>
+  <ellipse cx="600" cy="468" rx="160" ry="54" fill="#8B664A"/>
+  <ellipse cx="600" cy="414" rx="118" ry="94" fill="#A97A57"/>
+  <ellipse cx="566" cy="382" rx="38" ry="28" fill="#C1966F"/>
+  <ellipse cx="646" cy="388" rx="34" ry="26" fill="#B38763"/>
+  <g fill="#4A2E1D" opacity="0.86">
+    <ellipse cx="530" cy="496" rx="16" ry="8"/>
+    <ellipse cx="560" cy="512" rx="16" ry="8"/>
+    <ellipse cx="590" cy="496" rx="16" ry="8"/>
+    <ellipse cx="620" cy="512" rx="16" ry="8"/>
+    <ellipse cx="650" cy="496" rx="16" ry="8"/>
+  </g>
+  <rect x="74" y="74" width="1052" height="612" rx="20" stroke="#2C1A0F" stroke-opacity="0.16"/>
+</svg>

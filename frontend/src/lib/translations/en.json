@@ -1,0 +1,249 @@
+{
+	"code": "en",
+	"routes": {
+		"home": "home",
+		"products": "products",
+		"productsCookies": "cookies",
+		"productsIceCream": "ice-cream",
+		"productsCoffee": "coffee",
+		"membership": "membership",
+		"account": "account",
+		"orders": "orders",
+		"about": "about",
+		"contact": "contact",
+		"productVanilla": "vanilla-cookie",
+		"productMocha": "mocha-cookie",
+		"productChocoChip": "choco-chip-cookie",
+		"productPeanutButter": "peanut-butter-cookie",
+		"productAlmondCrescent": "almond-crescent",
+		"productIceCreamChoco": "choco-ice-cream",
+		"productIceCreamCoffee": "coffee-ice-cream",
+		"productBlueCheeseCoffee": "blue-cheese-coffee"
+	},
+	"titles": {
+		"home": "Rodeo 893",
+		"products": "Products | Rodeo 893",
+		"productsCookies": "Cookies | Rodeo 893",
+		"productsIceCream": "Ice Cream | Rodeo 893",
+		"productsCoffee": "Coffee | Rodeo 893",
+		"membership": "Membership | Rodeo 893",
+		"account": "Account | Rodeo 893",
+		"orders": "Orders | Rodeo 893",
+		"about": "Our Story | Rodeo 893",
+		"contact": "Contact | Rodeo 893",
+		"productVanilla": "Vanilla Cookie | Rodeo 893",
+		"productMocha": "Mocha Cookie | Rodeo 893",
+		"productChocoChip": "Choco Chip Cookie | Rodeo 893",
+		"productPeanutButter": "Peanut Butter Cookie | Rodeo 893",
+		"productAlmondCrescent": "Almond Crescent | Rodeo 893",
+		"productIceCreamChoco": "Choco Ice Cream | Rodeo 893",
+		"productIceCreamCoffee": "Coffee Ice Cream | Rodeo 893",
+		"productBlueCheeseCoffee": "Blue Cheese Coffee | Rodeo 893"
+	},
+	"meta-descriptions": {
+		"home": "Luxury bakery storefront for small-batch cookies, ice cream, and coffee with membership and order-first calls to action.",
+		"products": "Explore Rodeo 893 cookies, ice cream, and signature coffee in a curated product gallery.",
+		"productsCookies": "See all Rodeo 893 cookies and browse the available flavors.",
+		"productsIceCream": "See all Rodeo 893 ice cream offerings and browse the available flavors.",
+		"productsCoffee": "See Rodeo 893 coffee and its signature pour.",
+		"membership": "Join the Rodeo 893 membership for priority drops, early ordering, and premium bakery perks.",
+		"account": "View profile, saved addresses, and membership status in your Rodeo 893 account.",
+		"orders": "Review your order flow, recent orders, and delivery guidance at Rodeo 893.",
+		"about": "Read the story behind Rodeo 893 and its small-batch bakery philosophy.",
+		"contact": "Get in touch with Rodeo 893 for pre-orders, events, and collection details.",
+		"productVanilla": "A quiet, buttery vanilla cookie with a refined finish.",
+		"productMocha": "A roasted mocha cookie balancing cocoa depth and coffee perfume.",
+		"productChocoChip": "A rich choco chip cookie with dark chocolate and a soft center.",
+		"productPeanutButter": "A dense peanut butter cookie with a polished savory edge.",
+		"productAlmondCrescent": "A delicate almond crescent with a ceremonial finish.",
+		"productIceCreamChoco": "Dark choco ice cream with a silkier, grown-up profile.",
+		"productIceCreamCoffee": "Coffee ice cream with a roasted, elegant backbone.",
+		"productBlueCheeseCoffee": "Signature blue cheese coffee for guests who want something daring and memorable."
+	},
+	"brand": {
+		"name": "Rodeo 893",
+		"subtitle": "Bakery",
+		"eyebrow": "Pre-order only · Small batch · Made to order",
+		"footerNote": "Baked with intent"
+	},
+	"navigation": {
+		"primary": [
+			{ "route": "products", "label": "Products" },
+			{ "route": "membership", "label": "Membership" },
+			{ "route": "about", "label": "Our story" },
+			{ "route": "contact", "label": "Contact" }
+		],
+		"account": { "route": "account", "label": "Account" }
+	},
+	"cta": {
+		"membership": "Join",
+		"order": "Order now",
+		"exploreProducts": "Explore products",
+		"learnStory": "Read our story",
+		"viewAll": "View full menu",
+		"reviewOrders": "Review order flow",
+		"contactUs": "Contact us"
+	},
+	"home": {
+		"hero": {
+			"eyebrow": "Pre-order only · Small batch · Made to order",
+			"lineOne": "Bakery",
+			"lineTwo": "with",
+			"lineThree": "composure.",
+			"description": "Luxury, pared down. Cookies, ice cream, and coffee made in limited runs with patient ingredients and a deliberate finish.",
+			"membershipNote": "Members get first access to drops and preferred collection windows."
+		},
+		"featured": {
+			"eyebrow": "Signature selection",
+			"title": "A short menu, treated with care.",
+			"description": "The catalog stays compact so every batch can feel considered. Start with the classics, then move into the more unusual pours and fillings."
+		},
+		"membership": {
+			"eyebrow": "Membership",
+			"title": "For regulars who want the first word.",
+			"description": "Membership is the primary conversion surface. It should feel premium, useful, and calm: early release notices, priority ordering windows, and a cleaner repeat-order rhythm."
+		},
+		"process": {
+			"eyebrow": "How ordering works",
+			"title": "A quieter, more intentional order flow.",
+			"steps": [
+				"Choose from the current menu and featured drops.",
+				"Select membership if you want priority access and easier repeats.",
+				"Place a pre-order request and wait for confirmation details."
+			]
+		},
+		"story": {
+			"eyebrow": "Rodeo 893",
+			"title": "Small batch without the rustic costume.",
+			"description": "The visual direction should feel elegant rather than cute: warm parchment, dark espresso, sharp typography, and enough restraint that every product card feels intentional."
+		},
+		"finalCta": {
+			"title": "Join first, or order directly.",
+			"description": "Every major surface should lead guests toward membership or an order-oriented action without shouting for attention."
+		}
+	},
+	"productsPage": {
+		"eyebrow": "Products",
+		"title": "Cookies, ice cream, and one signature coffee.",
+		"description": "The listing stays generic and structured, while each product still has its own content file for later expansion and localized storytelling.",
+		"categories": {
+			"cookies": "Cookies",
+			"iceCream": "Ice cream",
+			"coffee": "Coffee"
+		},
+		"hero": {
+			"title": "A collection that feels more like a product launch than a catalog.",
+			"description": "Start with the overview, then move into category pages for flavors and detail pages for each signature item."
+		}
+	},
+	"membershipPage": {
+		"eyebrow": "Membership",
+		"title": "Premium access for returning guests.",
+		"description": "This page exists to convert. It should explain why membership matters, what priority access means, and how it simplifies repeat orders.",
+		"badge": "Members-first program",
+		"reassurance": "Built for customers who order frequently and prefer a quieter, faster checkout rhythm.",
+		"stats": [
+			{ "label": "Priority windows", "value": "Early access" },
+			{ "label": "Order rhythm", "value": "Repeat-ready" },
+			{ "label": "Support", "value": "Concierge tone" }
+		],
+		"stepsTitle": "How membership works",
+		"steps": [
+			"Activate membership once from your account.",
+			"Receive early menu windows and limited-drop notifications.",
+			"Use your saved profile and addresses for faster repeat ordering."
+		],
+		"conciergeTitle": "Member concierge",
+		"conciergeText": "For recurring orders, events, and gifting, membership keeps communication tighter and scheduling smoother.",
+		"benefits": [
+			"Priority access to drops and limited batches",
+			"Cleaner repeat-order flow through your account",
+			"A premium feeling without a noisy loyalty gimmick"
+		]
+	},
+	"accountPage": {
+		"eyebrow": "Account",
+		"title": "Profile, addresses, and membership state.",
+		"description": "The account surface should mirror the backend model: profile details, membership status, stored addresses, and space for future credit balance and order actions.",
+		"panels": [
+			"Profile and login status",
+			"Saved delivery addresses",
+			"Membership status and renewal prompt"
+		]
+	},
+	"ordersPage": {
+		"eyebrow": "Orders",
+		"title": "Order flow, references, and future tracking.",
+		"description": "Phase one stops short of live checkout, but the information architecture already matches the backend: order references, delivery info, notes, and tracking-ready detail.",
+		"states": [
+			"Order request received",
+			"Batch confirmation pending",
+			"Collection or delivery arranged"
+		]
+	},
+	"aboutPage": {
+		"eyebrow": "Our story",
+		"title": "A bakery language built on restraint.",
+		"description": "Rodeo 893 should feel luxurious because it is specific, not because it is loud. The pages should stay sparse, warm, and exact."
+	},
+	"contactPage": {
+		"eyebrow": "Contact",
+		"title": "Orders, events, and collection details.",
+		"description": "Use this page for inquiries, wholesale conversations, and collection guidance, while keeping the primary actions focused on membership and products.",
+		"channels": [
+			"Instagram for menu drops and quick updates",
+			"Email for event and partnership inquiries",
+			"Direct order guidance for pickup or delivery coordination"
+		]
+	},
+	"productDetails": {
+		"productVanilla": {
+			"name": "Vanilla",
+			"category": "Cookie",
+			"description": "A restrained vanilla cookie built around butter, soft edges, and a clean finish.",
+			"notes": ["Warm butter profile", "Soft center", "Elegant everyday choice"]
+		},
+		"productMocha": {
+			"name": "Mocha",
+			"category": "Cookie",
+			"description": "Mocha with a roasted perfume and a darker cocoa backbone.",
+			"notes": ["Coffee-led aroma", "Dark cocoa depth", "For richer pairings"]
+		},
+		"productChocoChip": {
+			"name": "Choco chip",
+			"category": "Cookie",
+			"description": "A dark chocolate cookie with a soft center and a polished finish.",
+			"notes": ["Dark chocolate pieces", "Soft bite", "Signature staple"]
+		},
+		"productPeanutButter": {
+			"name": "Peanut butter",
+			"category": "Cookie",
+			"description": "Peanut butter made dense, savory, and a little more refined than expected.",
+			"notes": ["Roasted nut depth", "Dense texture", "Balanced salt finish"]
+		},
+		"productAlmondCrescent": {
+			"name": "Almond crescent",
+			"category": "Cookie",
+			"description": "A delicate almond crescent designed for a quieter, ceremonial sort of indulgence.",
+			"notes": ["Fragrant almond", "Delicate crumb", "Elegant presentation"]
+		},
+		"productIceCreamChoco": {
+			"name": "Choco",
+			"category": "Ice cream",
+			"description": "Dark choco ice cream with a richer profile and a clean melt.",
+			"notes": ["Dark chocolate body", "Silky texture", "Dessert-forward finish"]
+		},
+		"productIceCreamCoffee": {
+			"name": "Coffee",
+			"category": "Ice cream",
+			"description": "Coffee ice cream with roasted depth and an elegant bitterness.",
+			"notes": ["Roasted coffee note", "Smooth finish", "Adult dessert profile"]
+		},
+		"productBlueCheeseCoffee": {
+			"name": "Blue cheese coffee",
+			"category": "Coffee",
+			"description": "The signature pour: unexpected, aromatic, and designed to be remembered.",
+			"notes": ["Distinct aroma", "Conversation starter", "For adventurous regulars"]
+		}
+	}
+}

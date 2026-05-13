@@ -1,0 +1,24 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="98" y1="86" x2="1100" y2="676" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEE2D1"/>
+      <stop offset="1" stop-color="#D6B895"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="512" y1="236" x2="694" y2="536" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5B3C2A"/>
+      <stop offset="1" stop-color="#25170F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <g opacity="0.22" stroke="#25170F" stroke-width="1.2">
+    <circle cx="604" cy="380" r="246"/>
+    <circle cx="604" cy="380" r="296"/>
+  </g>
+  <ellipse cx="604" cy="546" rx="186" ry="24" fill="#2A190F" fill-opacity="0.22"/>
+  <rect x="520" y="244" width="168" height="286" rx="56" fill="url(#glass)"/>
+  <rect x="542" y="274" width="124" height="222" rx="40" fill="#8F6241"/>
+  <rect x="542" y="274" width="124" height="80" rx="40" fill="#DCC59F" fill-opacity="0.45"/>
+  <path d="M688 314H738C766 314 790 338 790 366C790 394 766 418 738 418H688" stroke="#4F3424" stroke-width="16" stroke-linecap="round"/>
+  <path d="M606 228L642 206L660 240L632 260L606 228Z" fill="#98A892"/>
+  <rect x="74" y="74" width="1052" height="612" rx="20" stroke="#25170F" stroke-opacity="0.16"/>
+</svg>

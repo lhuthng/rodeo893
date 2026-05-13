@@ -1,0 +1,30 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="110" x2="1060" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4ECE1"/>
+      <stop offset="1" stop-color="#DDC8AD"/>
+    </linearGradient>
+    <linearGradient id="cup" x1="520" y1="270" x2="670" y2="540" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6E4630"/>
+      <stop offset="1" stop-color="#3A2518"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+
+  <g opacity="0.26" stroke="#2B190F" stroke-width="1.4">
+    <circle cx="600" cy="380" r="248"/>
+    <circle cx="600" cy="380" r="296"/>
+  </g>
+
+  <g>
+    <ellipse cx="600" cy="528" rx="216" ry="32" fill="#3D2A1E" fill-opacity="0.2"/>
+    <path d="M478 286C478 256 502 232 532 232H668C698 232 722 256 722 286V462C722 506 686 542 642 542H558C514 542 478 506 478 462V286Z" fill="url(#cup)"/>
+    <rect x="506" y="264" width="188" height="208" rx="84" fill="#A47042"/>
+    <path d="M722 306H760C792 306 818 332 818 364C818 396 792 422 760 422H722" stroke="#4F3323" stroke-width="20" stroke-linecap="round"/>
+    <path d="M528 330C552 316 574 318 596 330" stroke="#F6E2C4" stroke-width="6" stroke-linecap="round"/>
+    <path d="M604 330C628 316 650 318 672 330" stroke="#F6E2C4" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <rect x="74" y="74" width="1052" height="612" rx="20" stroke="#2B190F" stroke-opacity="0.16"/>
+</svg>

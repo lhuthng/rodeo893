@@ -1,9 +1,17 @@
 <script>
-	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import '../app.css';
+	import { onMount } from "svelte";
+	import { language } from "$lib/localization";
 
-	let { children } = $props();
+	let { children, data } = $props();
+
+	onMount(() => {
+		document.documentElement.lang = $language;
+	});
+
+	$effect(() => {
+			document.documentElement.lang = $language;
+	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
-{@render children()}
+{@render children?.()}
