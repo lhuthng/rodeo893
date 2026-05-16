@@ -70,7 +70,7 @@
 		"primary": [
 			{ "route": "products", "label": "Products" },
 			{ "route": "membership", "label": "Membership" },
-			{ "route": "about", "label": "Our story" },
+			{ "route": "about", "label": "Story" },
 			{ "route": "contact", "label": "Contact" }
 		],
 		"account": { "route": "account", "label": "Account" }

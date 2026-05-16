@@ -34,18 +34,29 @@
 	}
 
 	.orders-step {
-		@apply border border-espresso/10 bg-parchment p-5;
+		@apply border p-5 transition-all duration-500;
+		border-color: var(--theme-border);
+		background-color: var(--theme-bg-elevated);
 
 		& span {
-			@apply font-mono text-xs uppercase tracking-[0.22em] text-crimson-bright;
+			@apply font-mono text-xs tracking-widest2 uppercase transition-colors duration-500;
+			color: var(--theme-accent);
 		}
 
 		& p {
-			@apply mt-4 text-lg leading-relaxed text-mahogany;
+			@apply mt-4 text-lg leading-relaxed transition-colors duration-500;
+			color: var(--theme-fg-muted);
 		}
 	}
 
 	.orders-link {
-		@apply inline-flex w-fit items-center px-5 py-3 bg-espresso text-parchment-light text-sm uppercase tracking-[0.18em] transition-colors duration-150 hover:bg-crimson-bright;
+		@apply inline-flex w-fit items-center px-5 py-3 text-sm tracking-wider uppercase transition-colors duration-500;
+		background-color: var(--theme-accent);
+		color: var(--theme-accent-fg);
+
+		&:hover {
+			background-color: var(--theme-accent-alt);
+			color: var(--theme-accent-alt-fg);
+		}
 	}
 </style>

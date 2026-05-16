@@ -33,18 +33,29 @@
 	@reference '../../../app.css';
 
 	.category-hero {
-		@apply mt-10 grid gap-6 md:grid-cols-[0.85fr_1.15fr];
+		@apply mt-10 grid gap-6 transition-all duration-500 md:grid-cols-[0.85fr_1.15fr];
 	}
 
 	.category-hero__copy {
-		@apply border border-espresso/10 bg-espresso px-6 py-8 text-parchment-light;
+		@apply border px-6 py-8 transition-all duration-500;
+		border-color: var(--theme-border);
+		background-color: var(--theme-bg-elevated);
+		color: var(--theme-fg);
 
 		& p {
 			@apply font-display text-4xl tracking-tight;
+			transition: color 500ms ease;
 		}
 
 		& a {
-			@apply mt-6 inline-flex w-fit items-center border border-parchment-dark px-5 py-3 text-sm uppercase tracking-[0.18em] transition-colors duration-150 hover:border-crimson-bright hover:text-crimson-bright;
+			@apply mt-6 inline-flex w-fit items-center px-5 py-3 text-sm tracking-wider uppercase transition-colors duration-500;
+			border: 1px solid var(--theme-border);
+			color: var(--theme-fg);
+
+			&:hover {
+				border-color: var(--theme-accent);
+				color: var(--theme-accent);
+			}
 		}
 	}
 
@@ -52,19 +63,27 @@
 		@apply grid gap-4;
 
 		& a {
-			@apply border border-espresso/10 bg-parchment-light p-5 transition-transform duration-150 hover:-translate-y-1;
+			@apply border p-5 transition-all duration-500 hover:-translate-y-1;
+			border-color: var(--theme-border);
+			background-color: var(--theme-bg-elevated);
 		}
 
 		& img {
-			@apply mb-4 h-36 w-full border border-dashed border-parchment-dark bg-parchment object-cover;
+			@apply mb-4 h-36 w-full border border-dashed object-cover transition-all duration-500;
+			border-color: var(--theme-border);
+			background-color: var(--theme-bg);
 		}
 
 		& span {
-			@apply block font-display text-2xl text-espresso;
+			@apply block font-display text-2xl;
+			transition: color 500ms ease;
+			color: var(--theme-fg);
 		}
 
 		& small {
-			@apply mt-2 block text-lg leading-relaxed text-mahogany;
+			@apply mt-2 block text-lg leading-relaxed;
+			transition: color 500ms ease;
+			color: var(--theme-fg-muted);
 		}
 	}
 </style>

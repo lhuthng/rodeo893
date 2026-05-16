@@ -11,7 +11,7 @@
 	eyebrow={$t('membershipPage.eyebrow')}
 	title={$t('membershipPage.title')}
 	description={$t('membershipPage.description')}
-	tone="dark"
+	theme="dark"
 >
 	<div class="membership-topline">
 		<div class="membership-pill">{$t('membershipPage.badge')}</div>
@@ -47,7 +47,10 @@
 		<div class="membership-panel membership-panel--accent">
 			<h2>{$t('membershipPage.conciergeTitle')}</h2>
 			<p>{$t('membershipPage.conciergeText')}</p>
-			<p class="membership-note">Membership status, activation, and future billing details align directly with the backend membership endpoints.</p>
+			<p class="membership-note">
+				Membership status, activation, and future billing details align directly with the backend
+				membership endpoints.
+			</p>
 			<div class="membership-actions">
 				<a class="membership-primary" href={$getRoute('account')}>{$t('cta.membership')}</a>
 				<a class="membership-secondary" href={$getRoute('products')}>{$t('cta.order')}</a>
@@ -60,7 +63,8 @@
 	@reference '../../../app.css';
 
 	.membership-topline {
-		@apply mt-8 flex flex-wrap items-center gap-4 text-parchment;
+		@apply mt-8 flex flex-wrap items-center gap-4 transition-all duration-500;
+		color: var(--theme-fg);
 
 		& p {
 			@apply text-lg;
@@ -68,22 +72,29 @@
 	}
 
 	.membership-pill {
-		@apply inline-flex items-center border border-parchment-dark/50 bg-parchment/10 px-3 py-2 font-mono text-xs uppercase tracking-[0.2em] text-parchment-light;
+		@apply inline-flex items-center px-3 py-2 font-mono text-xs tracking-widest uppercase transition-all duration-500;
+		border: 1px solid var(--theme-border);
+		background-color: var(--theme-bg-elevated);
+		color: var(--theme-fg);
 	}
 
 	.membership-stats {
 		@apply mt-6 grid gap-4 md:grid-cols-3;
 
 		& > div {
-			@apply border border-parchment-dark/35 bg-espresso-light/75 p-4;
+			@apply p-4 transition-all duration-500;
+			border: 1px solid var(--theme-border);
+			background-color: var(--theme-bg-elevated);
 		}
 
 		& p {
-			@apply font-mono text-xs uppercase tracking-[0.2em] text-crimson-bright;
+			@apply font-mono text-xs tracking-widest uppercase transition-colors duration-500;
+			color: var(--theme-accent);
 		}
 
 		& strong {
-			@apply mt-2 block font-display text-2xl tracking-tight text-parchment-light;
+			@apply mt-2 block font-display text-2xl tracking-tight transition-colors duration-500;
+			color: var(--theme-fg);
 		}
 	}
 
@@ -92,12 +103,16 @@
 	}
 
 	.membership-panel {
-		@apply grid gap-4 border border-parchment-dark/40 bg-espresso-light p-6 text-lg leading-relaxed text-parchment;
+		@apply grid gap-4 p-6 text-lg leading-relaxed transition-all duration-500;
+		border: 1px solid var(--theme-border);
+		background-color: var(--theme-bg-elevated);
+		color: var(--theme-fg);
 	}
 
 	.membership-panel--rich {
 		& h2 {
-			@apply font-display text-3xl text-parchment-light;
+			@apply font-display text-3xl transition-colors duration-500;
+			color: var(--theme-fg);
 		}
 
 		& ol {
@@ -105,15 +120,17 @@
 		}
 
 		& li {
-			@apply flex gap-3 border-b border-parchment-dark/30 pb-3;
+			@apply flex gap-3 pb-3 transition-colors duration-500;
+			border-bottom: 1px solid var(--theme-border);
 		}
 
 		& li span {
-			@apply font-mono text-xs uppercase tracking-[0.2em] text-crimson-bright;
+			@apply font-mono text-xs tracking-widest uppercase transition-colors duration-500;
+			color: var(--theme-accent);
 		}
 
 		& li p {
-			@apply text-lg;
+			@apply text-lg transition-colors duration-500;
 		}
 	}
 
@@ -121,40 +138,57 @@
 		@apply mt-2 grid gap-2;
 
 		& p {
-			@apply border border-parchment-dark/30 bg-espresso px-4 py-3;
+			@apply px-4 py-3 transition-all duration-500;
+			border: 1px solid var(--theme-border);
+			background-color: var(--theme-bg);
 		}
 	}
 
 	.membership-panel--accent {
-		@apply bg-parchment text-espresso;
+		background-color: var(--theme-bg);
+		color: var(--theme-fg);
 
 		& h2 {
-			@apply font-display text-4xl leading-tight tracking-tight;
+			@apply font-display text-4xl leading-tight tracking-tight transition-colors duration-500;
 		}
 
 		& p {
-			@apply text-xl leading-relaxed;
+			@apply text-xl leading-relaxed transition-colors duration-500;
 		}
 	}
 
 	.membership-note {
-		@apply border-l border-crimson-bright/55 pl-3 text-lg text-mahogany;
+		@apply border-l pl-3 text-lg transition-colors duration-500;
+		border-color: var(--theme-accent);
+		color: var(--theme-fg-muted);
 	}
 
 	.membership-actions {
 		@apply mt-3 flex flex-wrap gap-3;
-}
+	}
 
 	.membership-primary,
 	.membership-secondary {
-		@apply inline-flex w-fit items-center px-5 py-3 text-sm uppercase tracking-[0.18em] transition-colors duration-150;
+		@apply inline-flex w-fit items-center px-5 py-3 text-sm tracking-wider uppercase transition-colors duration-500;
 	}
 
 	.membership-primary {
-		@apply bg-espresso text-parchment-light hover:bg-crimson-bright;
+		background-color: var(--theme-accent);
+		color: var(--theme-accent-fg);
+
+		&:hover {
+			background-color: var(--theme-accent-alt);
+			color: var(--theme-accent-alt-fg);
+		}
 	}
 
 	.membership-secondary {
-		@apply border border-espresso/30 text-espresso hover:border-crimson-bright hover:text-crimson-bright;
+		border: 1px solid var(--theme-border);
+		color: var(--theme-fg);
+
+		&:hover {
+			border-color: var(--theme-accent);
+			color: var(--theme-accent);
+		}
 	}
 </style>

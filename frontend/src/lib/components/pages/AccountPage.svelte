@@ -23,6 +23,9 @@
 	}
 
 	.panel-card {
-		@apply border border-espresso/10 bg-parchment-light p-6 text-lg leading-relaxed text-mahogany;
+		@apply border p-6 text-lg leading-relaxed transition-all duration-500;
+		border-color: var(--theme-border);
+		background-color: var(--theme-bg-elevated);
+		color: var(--theme-fg-muted);
 	}
 </style>

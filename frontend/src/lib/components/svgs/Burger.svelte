@@ -14,11 +14,14 @@
 	<path d="M4 18L20 18" stroke-linecap="round"></path>
 </svg>
 
-<style>
+<style lang="postcss">
+	@reference "../../../app.css";
+
 	path {
+		@apply origin-center stroke-(--theme-fg) transition-[stroke] duration-500 transform-fill;
+
+		stroke: var(--theme-fg);
 		transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-		transform-box: fill-box;
-		transform-origin: center;
 	}
 
 	svg.toggled {

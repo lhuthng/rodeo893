@@ -91,16 +91,11 @@
 
 <svelte:window bind:innerWidth />
 
-<nav class="z-200" class:dark={isMembershipRoute}>
+<nav class="z-200" data-theme={isMembershipRoute ? 'dark' : undefined}>
 	<div class="relative flex h-full justify-between">
 		<div class="nav-links__burger">
 			<button onclick={() => (isBurgerOpen = !isBurgerOpen)}
-				><Burger
-					class="h-8 w-8 {isMembershipRoute
-						? 'stroke-parchment-light'
-						: 'stroke-espresso'} transition-colors duration-300"
-					toggled={isBurgerOpen}
-				/></button
+				><Burger class="h-8 w-8" toggled={isBurgerOpen} /></button
 			>
 
 			<ol class="hidden">
@@ -167,12 +162,7 @@
 			</li>
 			<li><a class="membership-link" href={$getRoute('membership')}>{$t('cta.membership')}</a></li>
 			<li class="relative h-full w-14">
-				<a
-					class="ribbon"
-					class:ribbon--open={isBurgerOpen}
-					class:dark={isMembershipRoute}
-					href={$getRoute('products')}
-				>
+				<a class="ribbon" class:ribbon--open={isBurgerOpen} href={$getRoute('products')}>
 					<span class="relative z-20 block w-full px-2 py-4 text-center uppercase not-lg:text-sm"
 						>{$t('cta.order')}</span
 					>
@@ -192,7 +182,7 @@
 		></button>
 		<div
 			class="burger-menu-panel"
-			class:dark={isMembershipRoute}
+			data-theme={isMembershipRoute ? 'dark' : undefined}
 			in:fly={{ y: '-100%', duration: 500 }}
 			out:fly={{ y: '-100%', duration: 500 }}
 		>
@@ -253,45 +243,13 @@
 	@reference "../../app.css";
 
 	nav {
-		@apply fixed inset-x-0 top-0 flex h-16 items-center justify-center border-b border-espresso/10 bg-parchment-light/92 font-display text-espresso backdrop-blur-md transition-[background-color,border-color] duration-500 lg:h-24;
+		@apply fixed inset-x-0 top-0 flex h-16 items-center justify-center font-display backdrop-blur-md transition-[background-color,border-color,color] duration-500 lg:h-24;
+		background-color: var(--theme-bg-nav);
+		color: var(--theme-fg);
+		border-bottom: 1px solid var(--theme-border);
 
 		& > div {
 			@apply m-auto w-full max-w-300;
-		}
-
-		&.dark {
-			@apply border-parchment/10 bg-espresso/95 text-parchment-light;
-		}
-	}
-
-	nav.dark {
-		& .membership-link {
-			@apply border-parchment/20 text-parchment-light hover:border-parchment hover:bg-gold-light hover:text-espresso;
-		}
-
-		& .nav-links__burger button {
-			@apply border-parchment/20 hover:bg-gold-light hover:*:stroke-espresso;
-		}
-
-		& .nav-links > li > a {
-			&::before {
-				@apply bg-gold;
-			}
-			&:hover {
-				@apply bg-gold text-espresso;
-				&::before {
-					@apply right-2 left-2 bg-espresso! opacity-100;
-				}
-			}
-			&.active {
-				@apply text-gold-light;
-				&::before {
-					@apply right-3 left-3 bg-gold opacity-100;
-				}
-			}
-			&.active:hover {
-				@apply text-espresso;
-			}
 		}
 	}
 
@@ -303,16 +261,26 @@
 		}
 
 		.nav-brand__main {
-			@apply text-3xl font-semibold tracking-tight text-espresso transition-colors duration-500;
+			@apply text-3xl font-semibold tracking-tight transition-colors duration-500;
+			color: var(--theme-fg);
 		}
 
 		.nav-brand__sub {
-			@apply font-mono text-base tracking-wider text-espresso transition-colors duration-500;
+			@apply font-mono text-base tracking-wider transition-colors duration-500;
+			color: var(--theme-fg);
 		}
 	}
 
 	.membership-link {
-		@apply inline-flex items-center border border-espresso/20 px-3 py-2 font-mono text-sm tracking-[0.14em] whitespace-nowrap text-espresso uppercase transition-colors duration-500 not-lg:hidden hover:border-espresso hover:bg-espresso hover:text-parchment-light;
+		@apply inline-flex h-10 items-center px-3 py-2 font-mono text-xs tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-500 not-lg:hidden;
+		border: 1px solid var(--theme-border);
+		color: var(--theme-fg);
+
+		&:hover {
+			border-color: var(--theme-fg);
+			background-color: var(--theme-interactive);
+			color: var(--theme-interactive-fg);
+		}
 	}
 
 	.language-picker {
@@ -320,10 +288,18 @@
 	}
 
 	.language-trigger {
-		@apply inline-flex cursor-pointer items-center gap-2 border border-espresso/20 px-3 py-2 font-mono text-sm tracking-[0.14em] text-espresso uppercase transition-colors duration-500 hover:border-espresso hover:bg-espresso hover:text-parchment-light;
+		@apply inline-flex h-10 cursor-pointer items-center gap-2 px-3 py-2 font-mono text-xs tracking-[0.14em] uppercase transition-colors duration-500;
+		border: 1px solid var(--theme-border);
+		color: var(--theme-fg);
 
 		& span {
 			@apply leading-none;
+		}
+
+		&:hover {
+			border-color: var(--theme-fg);
+			background-color: var(--theme-interactive);
+			color: var(--theme-interactive-fg);
 		}
 	}
 
@@ -332,14 +308,23 @@
 	}
 
 	.language-dropdown {
-		@apply absolute top-[calc(100%+0.35rem)] right-0 z-20 min-w-18 border border-espresso/20 bg-parchment-light p-1 shadow-lift;
+		@apply absolute top-[calc(100%+0.35rem)] right-0 z-20 min-w-18 p-1 shadow-lift;
+		border: 1px solid var(--theme-border);
+		background-color: var(--theme-bg-elevated);
 	}
 
 	.language-option {
-		@apply inline-flex w-full cursor-pointer items-center justify-center px-3 py-2 font-mono text-sm tracking-[0.14em] text-espresso uppercase transition-colors duration-150 hover:bg-espresso hover:text-parchment-light;
+		@apply inline-flex w-full cursor-pointer items-center justify-center px-3 py-2 font-mono text-xs tracking-[0.14em] uppercase transition-colors duration-150 not-lg:text-sm;
+		color: var(--theme-fg);
+
+		&:hover {
+			background-color: var(--theme-interactive);
+			color: var(--theme-interactive-fg);
+		}
 
 		&.active {
-			@apply bg-crimson-bright text-parchment-light;
+			background-color: var(--theme-accent);
+			color: var(--theme-accent-fg);
 		}
 	}
 
@@ -347,79 +332,85 @@
 		@apply relative flex items-center lg:hidden;
 
 		button {
-			@apply my-2 ml-2 cursor-pointer border border-espresso/20 transition-colors duration-150 hover:bg-espresso hover:*:stroke-parchment-light;
+			@apply my-2 ml-2 cursor-pointer transition-colors duration-150;
+			border: 1px solid var(--theme-border);
+
+			&:hover {
+				@apply bg-(--theme-interactive) text-(--theme-interactive-fg) [&>svg>path]:stroke-(--theme-interactive-fg);
+			}
 		}
 	}
 
 	.nav-links {
 		@apply flex shrink grow items-center justify-center font-mono text-sm tracking-wider whitespace-nowrap uppercase not-lg:hidden;
+
 		& > li > a {
-			@apply relative block px-4 py-4 text-espresso transition-colors duration-500;
+			@apply relative block px-4 py-4 transition-colors duration-500;
+			color: var(--theme-fg);
 
 			&::before {
-				@apply absolute right-1/2 bottom-2 left-1/2 h-0.5 bg-crimson-bright opacity-0 transition-all duration-100 content-[''];
+				@apply absolute right-1/2 bottom-2 left-1/2 h-0.5 opacity-0 transition-all duration-100 content-[''];
+				background-color: var(--theme-accent);
 			}
 
 			&:hover {
-				@apply bg-crimson-bright font-bold text-parchment-light;
+				@apply font-bold;
+				background-color: var(--theme-accent);
+				color: var(--theme-accent-fg);
 
 				&::before {
-					@apply right-2 left-2 bg-parchment-light! opacity-100;
+					@apply right-2 left-2 opacity-100;
+					background-color: var(--theme-accent-fg) !important;
 				}
 			}
 
 			&.active {
-				@apply text-espresso-light;
+				color: var(--theme-fg-active);
 
 				&::before {
-					@apply right-3 left-3 bg-crimson-bright opacity-100;
+					@apply right-3 left-3 opacity-100;
+					background-color: var(--theme-accent);
 				}
 			}
 
 			&.active:hover {
-				@apply text-parchment-light;
+				color: var(--theme-accent-fg);
 			}
 		}
 	}
 
-	nav.dark .nav-brand {
-		& .nav-brand__main,
-		& .nav-brand__sub {
-			@apply text-parchment-light;
-		}
-	}
-
-	nav.dark .nav-links {
-		& > li > a {
-			@apply text-parchment-light;
-		}
-	}
-
 	.burger-menu-panel {
-		@apply relative z-10 max-h-dvh overflow-y-auto border-espresso/20 bg-parchment-light pt-16 lg:pt-24;
+		@apply relative z-10 max-h-dvh overflow-y-auto pt-16 lg:pt-24;
+		background-color: var(--theme-bg);
+		color: var(--theme-fg);
 	}
 
 	.burger-menu__list {
 		@apply flex flex-col font-mono text-sm tracking-wider uppercase;
 
 		& > li > a {
-			@apply block border-b border-espresso/5 px-6 py-3 transition-colors duration-150;
+			@apply block px-6 py-3 transition-colors duration-150;
+			border-bottom: 1px solid var(--theme-border);
 
 			&:hover {
-				@apply bg-crimson-bright font-bold text-parchment-light;
+				@apply font-bold;
+				background-color: var(--theme-accent);
+				color: var(--theme-accent-fg);
 			}
 
 			&.active {
-				@apply font-bold text-espresso-light;
+				@apply font-bold;
+				color: var(--theme-fg-active);
 
 				&::before {
 					content: '›';
-					@apply mr-2 inline-block text-crimson-bright;
+					@apply mr-2 inline-block;
+					color: var(--theme-accent);
 				}
 			}
 
 			&.active:hover {
-				@apply text-parchment-light;
+				color: var(--theme-accent-fg);
 			}
 		}
 
@@ -428,19 +419,35 @@
 		}
 
 		& .membership-link {
-			@apply inline-flex w-full items-center justify-center border-none px-6 py-4 font-mono text-sm tracking-[0.14em] whitespace-nowrap text-espresso uppercase transition-colors duration-150 hover:border-none hover:bg-espresso hover:text-parchment-light;
+			@apply inline-flex w-full items-center justify-center border-none px-6 py-4 font-mono text-sm tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-150;
+			color: var(--theme-fg);
+
+			&:hover {
+				border: none;
+				background-color: var(--theme-fg);
+				color: var(--theme-bg);
+			}
 		}
 
 		& .language-trigger--menu {
-			@apply inline-flex w-full items-center justify-center gap-2 border-none px-6 py-4 font-mono text-sm tracking-[0.14em] text-espresso uppercase transition-colors duration-150 hover:bg-espresso hover:text-parchment-light;
+			@apply inline-flex w-full items-center justify-center gap-2 border-none px-6 py-4 font-mono text-sm tracking-[0.14em] uppercase transition-colors duration-150;
+			color: var(--theme-fg);
+
+			&:hover {
+				background-color: var(--theme-accent);
+				color: var(--theme-accent-fg);
+			}
 		}
 
 		& .language-dropdown--menu {
-			@apply static mt-2 w-full border-espresso/10 bg-transparent p-0 shadow-none;
+			@apply static mt-2 w-full p-0 shadow-none;
+			background-color: transparent;
+			border-color: var(--theme-border);
 		}
 
 		& .language-option--menu {
-			@apply border-b border-espresso/5 px-6 py-3;
+			@apply px-6 py-3;
+			border-bottom: 1px solid var(--theme-border);
 		}
 	}
 
@@ -448,12 +455,14 @@
 		@apply absolute -inset-x-2 -top-3 flex h-[calc(100%+0.75rem)] items-center justify-center transition-transform duration-150 not-lg:translate-y-1 hover:translate-y-3;
 
 		span {
-			@apply text-parchment-light transition-colors duration-500;
+			@apply relative z-20 block w-full px-2 py-4 text-center uppercase transition-colors duration-500 not-lg:text-sm;
+			color: var(--theme-accent-fg);
 		}
 
 		&::before,
 		&::after {
-			@apply absolute bg-crimson-bright transition-colors duration-500 content-[""];
+			@apply absolute transition-colors duration-500 content-[""];
+			background-color: var(--theme-accent);
 		}
 
 		&::before {
@@ -463,99 +472,20 @@
 			@apply inset-x-0 top-full h-6 -translate-y-2;
 			clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 0%, 0% 100%);
 		}
+
 		&.ribbon--open {
 			span {
-				@apply text-espresso-light;
+				color: var(--theme-accent-alt-fg);
 			}
 
 			&::after,
 			&::before {
-				@apply bg-gold;
-			}
-		}
-
-		&.dark {
-			span {
-				@apply text-espresso-light;
-			}
-
-			&::before,
-			&::after {
-				@apply bg-gold;
-			}
-
-			&.ribbon--open {
-				span {
-					@apply text-parchment-light;
-				}
-
-				&::before,
-				&::after {
-					@apply bg-crimson-bright;
-				}
+				background-color: var(--theme-accent-alt);
 			}
 		}
 	}
 
 	.menu-backdrop {
 		@apply absolute z-9 h-full w-full cursor-not-allowed backdrop-blur-xl;
-	}
-
-	.burger-menu-panel.dark {
-		@apply bg-espresso text-parchment-light;
-
-		& .burger-menu__list > li > a {
-			@apply border-parchment/10;
-
-			&:hover {
-				@apply bg-gold text-espresso;
-			}
-
-			&.active {
-				@apply text-gold-light;
-
-				&::before {
-					@apply text-gold;
-				}
-			}
-
-			&.active:hover {
-				@apply text-espresso;
-			}
-		}
-
-		& .membership-link {
-			@apply text-parchment-light hover:bg-parchment-light hover:text-espresso;
-		}
-
-		& .language-trigger--menu {
-			@apply text-parchment-light hover:bg-gold hover:text-espresso;
-		}
-
-		& .language-option--menu {
-			@apply border-parchment/10 text-parchment-light hover:bg-gold hover:text-espresso;
-
-			&.active {
-				@apply bg-gold-light text-espresso;
-			}
-		}
-	}
-
-	nav.dark {
-		& .language-trigger {
-			@apply border-parchment/20 text-parchment-light hover:border-parchment hover:bg-gold-light hover:text-espresso;
-		}
-
-		& .language-dropdown {
-			@apply border-parchment/20 bg-espresso-light;
-		}
-
-		& .language-option {
-			@apply text-parchment-light hover:bg-gold-light hover:text-espresso;
-
-			&.active {
-				@apply bg-gold text-espresso;
-			}
-		}
 	}
 </style>

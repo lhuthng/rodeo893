@@ -1,8 +1,8 @@
 <script>
-	let { eyebrow, title, description, tone = 'light', children } = $props();
+	let { eyebrow, title, description, theme = 'light', children } = $props();
 </script>
 
-<section class:dark={tone === 'dark'} class="page-shell">
+<section class="page-shell" data-theme={theme !== 'light' ? theme : undefined}>
 	<div class="page-shell__inner">
 		<p class="page-shell__eyebrow">{eyebrow}</p>
 		<h1 class="page-shell__title">{title}</h1>
@@ -15,11 +15,7 @@
 	@reference '../../../app.css';
 
 	.page-shell {
-		@apply relative px-6 pt-36 pb-18 md:px-10;
-	}
-
-	.page-shell.dark {
-		@apply bg-espresso text-parchment-light;
+		@apply relative px-6 pt-36 pb-18 transition-[background-color,color] duration-500 md:px-10;
 	}
 
 	.page-shell__inner {
@@ -27,7 +23,8 @@
 	}
 
 	.page-shell__eyebrow {
-		@apply mb-4 font-mono text-xs uppercase tracking-[0.24em] text-crimson-bright;
+		@apply mb-4 font-mono text-xs tracking-[0.24em] uppercase;
+		color: var(--theme-accent);
 	}
 
 	.page-shell__title {
@@ -35,10 +32,7 @@
 	}
 
 	.page-shell__description {
-		@apply mt-5 max-w-110 text-lg leading-relaxed text-mahogany;
-	}
-
-	.dark .page-shell__description {
-		@apply text-parchment;
+		@apply mt-5 max-w-110 text-lg leading-relaxed;
+		color: var(--theme-fg-muted);
 	}
 </style>

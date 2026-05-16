@@ -11,12 +11,12 @@
   --color-parchment:         #E8D5B0;
   --color-parchment-light:   #F5ECD7;
   --color-parchment-dark:    #D4BC90;
-  --color-gold:              #C9A843;  /* warm antique gold — awards, premium badges  */
-  --color-gold-light:        #E2C97E;  /* lighter gold — highlights, glows            */
-  --color-gold-dark:         #9C7D22;  /* deep gold — pressed text, stamps            */
-  --color-olive:             #3E5232;  /* deep forest green — health, provenance      */
-  --color-olive-light:       #6B8A5A;  /* sage — secondary accents, freshness         */
-  --color-olive-muted:       #8FA07E;  /* dusty sage — backgrounds, subtle tones      */
+  --color-gold:              #C9A843; 
+  --color-gold-light:        #E2C97E;
+	--color-gold-dark:         #9C7D22;
+  --color-olive:             #3E5232; 
+  --color-olive-light:       #6B8A5A; 
+  --color-olive-muted:       #8FA07E; 
 
   /* ── FONTS ── */
   --font-display: "Playfair Display", Georgia, serif;
@@ -81,6 +81,44 @@
   --shadow-card: 0 12px 32px rgba(26, 17, 9, 0.12);
   --shadow-lift: 0 4px 16px rgba(26, 17, 9, 0.08);
 
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SEMANTIC THEME TOKENS
+   Toggle dark mode by setting data-theme="dark" on any element.
+   All descendant components inherit these custom properties.
+   ───────────────────────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --theme-bg:              var(--color-parchment-light);
+  --theme-bg-nav:          color-mix(in srgb, var(--color-parchment-light) 92%, transparent);
+  --theme-bg-elevated:     var(--color-parchment-light);      /* dropdowns, popovers      */
+  --theme-fg:              var(--color-espresso);
+  --theme-fg-muted:        var(--color-mahogany);             /* secondary / caption text */
+  --theme-fg-active:       var(--color-espresso-light);       /* active link, selected    */
+  --theme-border:          rgba(26, 17, 9, 0.1);
+  --theme-accent:          var(--color-crimson-bright);       /* primary accent           */
+  --theme-accent-fg:       var(--color-parchment-light);      /* text on accent           */
+  --theme-accent-alt:      var(--color-gold);                 /* swapped / open accent    */
+  --theme-accent-alt-fg:   var(--color-espresso);             /* text on alt accent       */
+  --theme-interactive:     var(--color-espresso);             /* hover bg on controls     */
+  --theme-interactive-fg:  var(--color-parchment-light);      /* text on interactive hover */
+}
+
+[data-theme="dark"] {
+  --theme-bg:              var(--color-espresso);
+  --theme-bg-nav:          color-mix(in srgb, var(--color-espresso) 95%, transparent);
+  --theme-bg-elevated:     var(--color-espresso-light);
+  --theme-fg:              var(--color-parchment-light);
+  --theme-fg-muted:        var(--color-parchment);
+  --theme-fg-active:       var(--color-gold-light);
+  --theme-border:          rgba(232, 213, 176, 0.1);
+  --theme-accent:          var(--color-gold);
+  --theme-accent-fg:       var(--color-espresso);
+  --theme-accent-alt:      var(--color-crimson-bright);
+  --theme-accent-alt-fg:   var(--color-parchment-light);
+  --theme-interactive:     var(--color-gold-light);
+  --theme-interactive-fg:  var(--color-espresso);
 }
 
 html {

@@ -38,11 +38,13 @@
 	@reference '../../../app.css';
 
 	.detail-grid {
-		@apply mt-10 grid gap-8 md:grid-cols-[1.05fr_0.95fr];
+		@apply mt-10 grid gap-8 transition-all duration-500 md:grid-cols-[1.05fr_0.95fr];
 	}
 
 	.detail-image {
-		@apply min-h-90 overflow-hidden border border-dashed border-parchment-dark bg-parchment;
+		@apply min-h-90 overflow-hidden border border-dashed transition-all duration-500;
+		border-color: var(--theme-border);
+		background-color: var(--theme-bg);
 
 		& img {
 			@apply h-full w-full object-cover;
@@ -50,30 +52,44 @@
 	}
 
 	.detail-copy {
-		@apply flex flex-col justify-between gap-8 border border-espresso/10 bg-parchment-light p-6;
+		@apply flex flex-col justify-between gap-8 border p-6 transition-all duration-500;
+		border-color: var(--theme-border);
+		background-color: var(--theme-bg-elevated);
+		color: var(--theme-fg);
 
 		& ul {
 			@apply grid gap-3;
 		}
 
 		& li {
-			@apply border-b border-espresso/10 pb-3 text-lg leading-relaxed text-mahogany;
+			@apply border-b pb-3 text-lg leading-relaxed transition-colors duration-500;
+			border-color: var(--theme-border);
+			color: var(--theme-fg-muted);
 		}
 	}
 
 	.detail-price {
-		@apply font-mono text-xs uppercase tracking-[0.22em] text-crimson-bright;
+		@apply font-mono text-xs tracking-widest2 uppercase transition-colors duration-500;
+		color: var(--theme-accent);
 	}
 
 	.detail-plating {
-		@apply text-lg leading-relaxed text-mahogany;
+		@apply text-lg leading-relaxed transition-colors duration-500;
+		color: var(--theme-fg-muted);
 	}
 
 	.detail-actions {
 		@apply flex flex-wrap gap-4;
 
 		& a {
-			@apply inline-flex items-center px-5 py-3 text-sm uppercase tracking-[0.18em] border border-espresso/20 transition-colors duration-150 hover:border-crimson-bright hover:text-crimson-bright;
+			@apply inline-flex items-center px-5 py-3 text-sm tracking-wider uppercase transition-colors duration-500;
+			border: 1px solid var(--theme-border);
+			color: var(--theme-fg);
+
+			&:hover {
+				border-color: var(--theme-accent);
+				color: var(--theme-accent);
+			}
 		}
 	}
 </style>
