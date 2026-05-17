@@ -1,9 +1,10 @@
 <script>
 	import { getRoute } from '$lib/navigation/index.js';
 	import { t } from '$lib/localization';
-	import { products } from '$lib/content/products/index.js';
 
-	const featuredProducts = products.slice(0, 3);
+	let { products = [] } = $props();
+
+	const featuredProducts = $derived(products.slice(0, 3));
 	const hero = $derived($t('home.hero'));
 	const featured = $derived($t('home.featured'));
 	const membership = $derived($t('home.membership'));
@@ -50,9 +51,9 @@
 				<p class="hero__panel-label">{$t('home.featured.eyebrow')}</p>
 				<div class="hero__panel-grid">
 					{#each featuredProducts as product}
-						<a class="hero__product" href={$getRoute(product.route)}>
-							<p class="hero__product-title">{$t(`productDetails.${product.route}.name`)}</p>
-							<p class="hero__product-copy">{product.imageLabel}</p>
+						<a class="hero__product" href={$getRoute(product.frontend_key)}>
+							<p class="hero__product-title">{product.name}</p>
+							<p class="hero__product-copy">{product.description}</p>
 						</a>
 					{/each}
 				</div>
