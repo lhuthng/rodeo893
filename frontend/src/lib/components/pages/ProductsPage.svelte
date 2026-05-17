@@ -19,8 +19,7 @@
 			: []
 	);
 
-	const formatPrice = (amount, currency) =>
-		`${Number(amount).toLocaleString('vi-VN')} ${currency}`;
+	const formatPrice = (amount, currency) => `${Number(amount).toLocaleString('vi-VN')} ${currency}`;
 </script>
 
 <PageShell

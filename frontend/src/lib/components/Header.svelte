@@ -42,7 +42,9 @@
 		if (!query) return [];
 		const all = $page.data?.products ?? [];
 		return all
-			.filter((p) => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query))
+			.filter(
+				(p) => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+			)
 			.slice(0, 4);
 	});
 
@@ -50,7 +52,9 @@
 		const query = debouncedSearchTerm.trim().toLowerCase();
 		if (!query) return 0;
 		const all = $page.data?.products ?? [];
-		return all.filter((p) => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)).length;
+		return all.filter(
+			(p) => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+		).length;
 	});
 
 	const getNavPortalTarget = getContext('portal-1');

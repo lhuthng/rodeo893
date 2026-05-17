@@ -1,5 +1,6 @@
 .env
 .env.local
+.env.dev
 target/
 node_modules/
 frontend/build/

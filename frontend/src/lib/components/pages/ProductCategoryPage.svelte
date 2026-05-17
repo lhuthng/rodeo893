@@ -7,8 +7,7 @@
 	const details = $derived($t(`productsPage.categories.${category}`));
 	const categoryProducts = $derived(products.filter((p) => p.category_slug === category_slug));
 
-	const formatPrice = (amount, currency) =>
-		`${Number(amount).toLocaleString('vi-VN')} ${currency}`;
+	const formatPrice = (amount, currency) => `${Number(amount).toLocaleString('vi-VN')} ${currency}`;
 </script>
 
 <PageShell

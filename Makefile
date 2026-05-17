@@ -1,4 +1,4 @@
-.PHONY: help backend-build backend-run backend-test frontend-install frontend-dev frontend-build docker-build docker-up docker-down docker-logs clean fmt lint db-migrate db-reset git-push
+.PHONY: help backend-build backend-run backend-test frontend-install frontend-dev frontend-build docker-build docker-up docker-down docker-logs clean fmt lint db-migrate db-reset git-push dev dev-db dev-backend dev-frontend dev-setup dev-docker
 
 help:
 	@echo "Bakery Project Makefile"
@@ -10,8 +10,15 @@ help:
 	@echo ""
 	@echo "Frontend commands:"
 	@echo "  make frontend-install   Install frontend dependencies (bun)"
-	@echo "  make frontend-dev       Start frontend dev server"
+	@echo "  make frontend-dev       Start frontend dev server (needs BACKEND_URL)"
 	@echo "  make frontend-build     Build frontend for production"
+	@echo ""
+	@echo "Native dev (fully local, only DB/Redis in Docker):"
+	@echo "  make dev-setup          Copy .env.dev.example → .env.dev (first time)"
+	@echo "  make dev-db             Start Postgres + Redis in Docker"
+	@echo "  make dev-backend        Run Rust backend natively on :3000"
+	@echo "  make dev-frontend       Run SvelteKit dev server natively on :5173"
+	@echo "  make dev                Start DB + print instructions"
 	@echo ""
 	@echo "Docker commands:"
 	@echo "  make docker-build       Build Docker images"
@@ -47,12 +54,36 @@ frontend-install:
 	cd frontend && bun install
 
 frontend-dev:
-	cd frontend && bun run dev
+	cd frontend && BACKEND_URL=http://localhost:3000 bun run dev
 
 frontend-build:
 	cd frontend && bun run build
 
-# Docker
+# Native dev (only Postgres + Redis in Docker)
+dev-setup:
+	@test -f .env.dev && echo ".env.dev already exists, skipping." || (cp .env.dev.example .env.dev && echo "Created .env.dev — edit it and set real secrets.")
+
+dev-db:
+	docker compose -f docker-compose.data.yml up -d
+	@echo "Waiting for Postgres..."
+	@until docker compose -f docker-compose.data.yml exec -T postgres pg_isready -U bakery > /dev/null 2>&1; do sleep 1; done
+	@echo "Postgres + Redis ready."
+
+dev-backend:
+	@test -f .env.dev || { echo "Missing .env.dev — run 'make dev-setup' first"; exit 1; }
+	set -a; . ./.env.dev; set +a; cd backend && cargo run
+
+dev-frontend:
+	cd frontend && BACKEND_URL=http://localhost:3000 bun run dev
+
+dev: dev-db
+	@echo ""
+	@echo "Data services up. Open 2 more terminals and run:"
+	@echo "  make dev-backend    # Rust API on :3000"
+	@echo "  make dev-frontend   # SvelteKit on :5173"
+	@echo ""
+
+# Docker (full stack in containers)
 docker-build:
 	docker compose build
 
@@ -102,13 +133,6 @@ git-push:
 	fi
 
 # All-in-one shortcuts
-setup: frontend-install db-migrate
-	@echo "✅ Setup complete!"
-
-dev-backend: backend-run
-
-dev-frontend: frontend-dev
-
 dev-docker: docker-up
 	@echo "✅ Docker services started (dev mode)"
 	@echo "Backend: http://localhost:3000"

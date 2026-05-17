@@ -5,43 +5,38 @@
 
 	let { product = null } = $props();
 
-	const formatPrice = (amount, currency) =>
-		`${Number(amount).toLocaleString('vi-VN')} ${currency}`;
+	const formatPrice = (amount, currency) => `${Number(amount).toLocaleString('vi-VN')} ${currency}`;
 </script>
 
 {#if product}
-<PageShell
-	eyebrow={product.category_slug}
-	title={product.name}
-	description={product.description}
->
-	<div class="detail-grid">
-		<div class="detail-image">
-			{#if product.image_url}
-				<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
-			{/if}
-		</div>
-		<div class="detail-copy">
-			<div>
-				<p class="detail-price">{formatPrice(product.base_price, product.currency)}</p>
-				{#if product.notes?.length}
-					<ul>
-						{#each product.notes as note}
-							<li>{note}</li>
-						{/each}
-					</ul>
+	<PageShell eyebrow={product.category_slug} title={product.name} description={product.description}>
+		<div class="detail-grid">
+			<div class="detail-image">
+				{#if product.image_url}
+					<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
 				{/if}
 			</div>
-			{#if product.plating}
-				<p class="detail-plating">{product.plating}</p>
-			{/if}
-			<div class="detail-actions">
-				<a href={$getRoute('products')}>{$t('cta.exploreProducts')}</a>
-				<a href={$getRoute('membership')}>{$t('cta.membership')}</a>
+			<div class="detail-copy">
+				<div>
+					<p class="detail-price">{formatPrice(product.base_price, product.currency)}</p>
+					{#if product.notes?.length}
+						<ul>
+							{#each product.notes as note}
+								<li>{note}</li>
+							{/each}
+						</ul>
+					{/if}
+				</div>
+				{#if product.plating}
+					<p class="detail-plating">{product.plating}</p>
+				{/if}
+				<div class="detail-actions">
+					<a href={$getRoute('products')}>{$t('cta.exploreProducts')}</a>
+					<a href={$getRoute('membership')}>{$t('cta.membership')}</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</PageShell>
+	</PageShell>
 {/if}
 
 <style lang="postcss">
