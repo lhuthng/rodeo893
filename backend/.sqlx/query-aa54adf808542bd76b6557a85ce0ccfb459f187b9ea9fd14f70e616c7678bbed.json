@@ -1,0 +1,125 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE order_delivery_info\n               SET recipient_name=$2,phone=$3,street=$4,ward=$5,district=$6,city=$7,\n                   country=$8,delivery_note=$9,method=$10,preferred_date=$11,preferred_time_slot=$12\n               WHERE id=$1\n               RETURNING id,order_id,recipient_name,phone,street,ward,district,city,country,delivery_note,\n                         method as \"method: DeliveryMethod\",preferred_date,preferred_time_slot",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "recipient_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "phone",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "street",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "ward",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "district",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "city",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "country",
+        "type_info": "Bpchar"
+      },
+      {
+        "ordinal": 9,
+        "name": "delivery_note",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "method: DeliveryMethod",
+        "type_info": {
+          "Custom": {
+            "name": "delivery_method",
+            "kind": {
+              "Enum": [
+                "internal_delivery",
+                "third_party"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 11,
+        "name": "preferred_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 12,
+        "name": "preferred_time_slot",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Bpchar",
+        "Text",
+        {
+          "Custom": {
+            "name": "delivery_method",
+            "kind": {
+              "Enum": [
+                "internal_delivery",
+                "third_party"
+              ]
+            }
+          }
+        },
+        "Date",
+        "Varchar"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "aa54adf808542bd76b6557a85ce0ccfb459f187b9ea9fd14f70e616c7678bbed"
+}

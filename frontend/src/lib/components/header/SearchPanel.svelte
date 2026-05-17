@@ -31,7 +31,7 @@
 			<ol>
 				{#each searchResults as product}
 					<li>
-						<a href={$getRoute(product.route)} onclick={onClose}>
+						<a href={$getRoute(product.frontend_key)} onclick={onClose}>
 							<strong>{product.name}</strong>
 							<span>{product.description}</span>
 						</a>

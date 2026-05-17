@@ -4,6 +4,23 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use validator::{Validate, ValidationError};
 
+/// Full localized product returned by the public API.
+#[derive(Debug, Serialize)]
+pub struct LocalizedProductDto {
+    pub id:           Uuid,
+    pub slug:         String,
+    pub frontend_key: Option<String>,
+    pub category_slug: String,
+    pub name:         String,
+    pub description:  String,
+    pub image_url:    Option<String>,
+    pub image_alt:    Option<String>,
+    pub base_price:   Decimal,
+    pub currency:     String,
+    pub notes:        Vec<String>,
+    pub plating:      Option<String>,
+}
+
 fn validate_positive_decimal(val: &Decimal) -> Result<(), ValidationError> {
     if *val >= Decimal::ZERO {
         Ok(())

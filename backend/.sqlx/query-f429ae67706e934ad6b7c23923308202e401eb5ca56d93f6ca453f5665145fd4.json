@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT COUNT(*) as cnt FROM order_items oi\n               JOIN orders o ON o.id = oi.order_id\n               WHERE oi.product_id = $1 AND o.status NOT IN ('delivered','cancelled','refunded')",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "cnt",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "f429ae67706e934ad6b7c23923308202e401eb5ca56d93f6ca453f5665145fd4"
+}

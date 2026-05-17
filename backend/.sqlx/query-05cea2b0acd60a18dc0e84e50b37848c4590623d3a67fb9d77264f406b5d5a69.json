@@ -1,0 +1,85 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO order_tracking (id,order_id,carrier_code,tracking_number,tracking_url,last_status,last_checked_at,raw_status,created_at,updated_at)\n               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "carrier_code",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "tracking_number",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "tracking_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "last_status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "last_checked_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "raw_status",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Timestamptz",
+        "Jsonb",
+        "Timestamptz",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "05cea2b0acd60a18dc0e84e50b37848c4590623d3a67fb9d77264f406b5d5a69"
+}

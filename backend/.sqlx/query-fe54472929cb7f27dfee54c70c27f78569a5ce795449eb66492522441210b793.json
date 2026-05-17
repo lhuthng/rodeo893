@@ -1,0 +1,76 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT * FROM order_tracking\n               WHERE last_checked_at IS NULL OR last_checked_at < NOW() - INTERVAL '5 minutes'\n               LIMIT $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "carrier_code",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "tracking_number",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "tracking_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "last_status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "last_checked_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "raw_status",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "fe54472929cb7f27dfee54c70c27f78569a5ce795449eb66492522441210b793"
+}

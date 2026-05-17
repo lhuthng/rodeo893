@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE occasion_products SET reserved_qty = GREATEST(0, reserved_qty - $2) WHERE id=$1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "25ca69455d8107188262a3fb4303c36a96c98df9a9d24b4ae0751a708d45a92b"
+}

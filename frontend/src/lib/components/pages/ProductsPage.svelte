@@ -2,25 +2,25 @@
 	import { getRoute } from '$lib/navigation/index.js';
 	import { t } from '$lib/localization';
 	import PageShell from './PageShell.svelte';
-	import {
-		productCategoriesByRoute,
-		products,
-		productsByCategory
-	} from '$lib/content/products/index.js';
+	import { CATEGORY_SLUG_TO_KEY } from './index.js';
 
-	let { searchTerm = '' } = $props();
+	let { searchTerm = '', products = [] } = $props();
 
-	const categories = ['productsCookies', 'productsIceCream', 'productsCoffee'];
+	const CATEGORY_SLUGS = ['cookies', 'ice-cream', 'coffee'];
 	const normalizedSearchTerm = $derived(searchTerm.trim().toLowerCase());
 	const filteredProducts = $derived(
 		normalizedSearchTerm
-			? products.filter((product) => {
-					const name = $t(`productDetails.${product.route}.name`).toLowerCase();
-					const description = $t(`productDetails.${product.route}.description`).toLowerCase();
-					return name.includes(normalizedSearchTerm) || description.includes(normalizedSearchTerm);
+			? products.filter((p) => {
+					return (
+						p.name.toLowerCase().includes(normalizedSearchTerm) ||
+						p.description.toLowerCase().includes(normalizedSearchTerm)
+					);
 				})
 			: []
 	);
+
+	const formatPrice = (amount, currency) =>
+		`${Number(amount).toLocaleString('vi-VN')} ${currency}`;
 </script>
 
 <PageShell
@@ -53,13 +53,15 @@
 			{#if filteredProducts.length}
 				<div class="product-grid">
 					{#each filteredProducts as product}
-						<a class="product-card" href={$getRoute(product.route)}>
+						<a class="product-card" href={$getRoute(product.frontend_key)}>
 							<div class="product-card__image">
-								<img src={product.imageSrc} alt={product.imageAlt} loading="lazy" />
+								{#if product.image_url}
+									<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
+								{/if}
 							</div>
-							<h2>{$t(`productDetails.${product.route}.name`)}</h2>
-							<p>{$t(`productDetails.${product.route}.description`)}</p>
-							<span>{product.priceFrom}</span>
+							<h2>{product.name}</h2>
+							<p>{product.description}</p>
+							<span>{formatPrice(product.base_price, product.currency)}</span>
 						</a>
 					{/each}
 				</div>
@@ -69,24 +71,30 @@
 		</section>
 	{:else}
 		<div class="product-groups">
-			{#each categories as category}
-				<section class="product-group">
-					<div class="product-group__heading">
-						<p>{$t(`productsPage.categories.${productCategoriesByRoute[category].category}`)}</p>
-					</div>
-					<div class="product-grid">
-						{#each productsByCategory[productCategoriesByRoute[category].category] ?? [] as product}
-							<a class="product-card" href={$getRoute(product.route)}>
-								<div class="product-card__image">
-									<img src={product.imageSrc} alt={product.imageAlt} loading="lazy" />
-								</div>
-								<h2>{$t(`productDetails.${product.route}.name`)}</h2>
-								<p>{$t(`productDetails.${product.route}.description`)}</p>
-								<span>{product.priceFrom}</span>
-							</a>
-						{/each}
-					</div>
-				</section>
+			{#each CATEGORY_SLUGS as categorySlug}
+				{@const categoryKey = CATEGORY_SLUG_TO_KEY[categorySlug]}
+				{@const categoryProducts = products.filter((p) => p.category_slug === categorySlug)}
+				{#if categoryProducts.length}
+					<section class="product-group">
+						<div class="product-group__heading">
+							<p>{$t(`productsPage.categories.${categoryKey}`)}</p>
+						</div>
+						<div class="product-grid">
+							{#each categoryProducts as product}
+								<a class="product-card" href={$getRoute(product.frontend_key)}>
+									<div class="product-card__image">
+										{#if product.image_url}
+											<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
+										{/if}
+									</div>
+									<h2>{product.name}</h2>
+									<p>{product.description}</p>
+									<span>{formatPrice(product.base_price, product.currency)}</span>
+								</a>
+							{/each}
+						</div>
+					</section>
+				{/if}
 			{/each}
 		</div>
 	{/if}

@@ -1,0 +1,100 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO email_notifications (id,recipient_email,template_name,payload,status,error_text,scheduled_at,sent_at,created_at)\n               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)\n               RETURNING id,recipient_email,template_name,payload,status as \"status: NotificationStatus\",error_text,scheduled_at,sent_at,created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "recipient_email",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "template_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "payload",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 4,
+        "name": "status: NotificationStatus",
+        "type_info": {
+          "Custom": {
+            "name": "notification_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "sent",
+                "failed"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "error_text",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "scheduled_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "sent_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Jsonb",
+        {
+          "Custom": {
+            "name": "notification_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "sent",
+                "failed"
+              ]
+            }
+          }
+        },
+        "Text",
+        "Timestamptz",
+        "Timestamptz",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false
+    ]
+  },
+  "hash": "47efb6ed359816051b43477cd81ccce6e19a4601e69e37f4d098d3c05cd3179a"
+}

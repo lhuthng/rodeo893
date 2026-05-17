@@ -1,0 +1,65 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT * FROM stock_batches WHERE product_id=$1 AND week_start=$2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "product_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "week_start",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 3,
+        "name": "total_qty",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "reserved_qty",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "is_released",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 6,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "99ba4ff72053551c5b8805536df246b403d1d72e20dfcd44d8a994fe0a93865e"
+}

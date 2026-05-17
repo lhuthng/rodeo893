@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT COALESCE(SUM(\n                CASE WHEN entry_type IN ('cashback','membership_topup') THEN amount ELSE -amount END\n               ), 0) as balance FROM credit_ledger WHERE user_id = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "balance",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "fd7a9d446f43b0222ff0687eda7606688eaa1402263aeda0917350e747b737e3"
+}

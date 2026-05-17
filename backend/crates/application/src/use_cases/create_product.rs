@@ -28,17 +28,20 @@ where
 
         let now = Utc::now();
         let product = Product {
-            id:          Uuid::new_v4(),
-            category_id: input.category_id,
-            name:        input.name,
-            slug:        input.slug,
-            description: input.description.unwrap_or_default(),
-            image_url:   input.image_url,
-            base_price:  input.base_price,
-            currency:    "VND".into(),
-            is_active:   true,
-            created_at:  now,
-            updated_at:  now,
+            id:           Uuid::new_v4(),
+            category_id:  input.category_id,
+            name:         input.name,
+            slug:         input.slug,
+            description:  input.description.unwrap_or_default(),
+            image_url:    input.image_url,
+            image_alt:    None,
+            plating:      None,
+            frontend_key: None,
+            base_price:   input.base_price,
+            currency:     "VND".into(),
+            is_active:    true,
+            created_at:   now,
+            updated_at:   now,
         };
 
         let product = self.product_repo.create(&product).await?;

@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE occasion_products SET reserved_qty = reserved_qty + $2 WHERE id=$1 AND reserved_qty + $2 <= total_qty",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "6f46131877f08985220bc6330fb06801db4b94a1848bcc6058b158009b4150b9"
+}

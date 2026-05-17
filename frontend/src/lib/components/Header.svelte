@@ -7,7 +7,6 @@
 	import Burger from './svgs/Burger.svelte';
 	import Language from './svgs/Language.svelte';
 	import Search from './svgs/Search.svelte';
-	import { products } from '$lib/content/products/index.js';
 	import { isAuthenticated } from '$lib/stores/auth.js';
 	import { getContext, tick } from 'svelte';
 	import { fly } from 'svelte/transition';
@@ -38,34 +37,21 @@
 		`${$getRoute('products')}?search=${encodeURIComponent(debouncedSearchTerm.trim())}`
 	);
 
-	const searchResults = $derived(
-		debouncedSearchTerm.trim()
-			? products
-					.filter((product) => {
-						const query = debouncedSearchTerm.trim().toLowerCase();
-						const name = $t(`productDetails.${product.route}.name`).toLowerCase();
-						const description = $t(`productDetails.${product.route}.description`).toLowerCase();
-						return name.includes(query) || description.includes(query);
-					})
-					.slice(0, 4)
-					.map((product) => ({
-						...product,
-						name: $t(`productDetails.${product.route}.name`),
-						description: $t(`productDetails.${product.route}.description`)
-					}))
-			: []
-	);
+	const searchResults = $derived.by(() => {
+		const query = debouncedSearchTerm.trim().toLowerCase();
+		if (!query) return [];
+		const all = $page.data?.products ?? [];
+		return all
+			.filter((p) => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query))
+			.slice(0, 4);
+	});
 
-	const totalSearchMatches = $derived(
-		debouncedSearchTerm.trim()
-			? products.filter((product) => {
-					const query = debouncedSearchTerm.trim().toLowerCase();
-					const name = $t(`productDetails.${product.route}.name`).toLowerCase();
-					const description = $t(`productDetails.${product.route}.description`).toLowerCase();
-					return name.includes(query) || description.includes(query);
-				}).length
-			: 0
-	);
+	const totalSearchMatches = $derived.by(() => {
+		const query = debouncedSearchTerm.trim().toLowerCase();
+		if (!query) return 0;
+		const all = $page.data?.products ?? [];
+		return all.filter((p) => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)).length;
+	});
 
 	const getNavPortalTarget = getContext('portal-1');
 

@@ -1,0 +1,99 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO user_addresses (id,user_id,label,recipient_name,phone,street,ward,district,city,country,is_default,created_at)\n               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "label",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "recipient_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "phone",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "street",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "ward",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "district",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "city",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "country",
+        "type_info": "Bpchar"
+      },
+      {
+        "ordinal": 10,
+        "name": "is_default",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 11,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Bpchar",
+        "Bool",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "4ffed1ab6c3e9e748e447ac8b03ee2b1c693981250215936b1819c10c1c3b32a"
+}

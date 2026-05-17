@@ -3,8 +3,12 @@
 	import { t } from '$lib/localization';
 	import PageShell from './PageShell.svelte';
 
-	let { category, products, featuredProduct } = $props();
+	let { category, category_slug, products = [], featuredProduct } = $props();
 	const details = $derived($t(`productsPage.categories.${category}`));
+	const categoryProducts = $derived(products.filter((p) => p.category_slug === category_slug));
+
+	const formatPrice = (amount, currency) =>
+		`${Number(amount).toLocaleString('vi-VN')} ${currency}`;
 </script>
 
 <PageShell
@@ -18,11 +22,13 @@
 			<a href={$getRoute(featuredProduct)}>{$t('cta.order')}</a>
 		</div>
 		<div class="category-hero__list">
-			{#each products as product}
-				<a href={$getRoute(product.route)}>
-					<img src={product.imageSrc} alt={product.imageAlt} loading="lazy" />
-					<span>{$t(`productDetails.${product.route}.name`)}</span>
-					<small>{product.priceFrom}</small>
+			{#each categoryProducts as product}
+				<a href={$getRoute(product.frontend_key)}>
+					{#if product.image_url}
+						<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
+					{/if}
+					<span>{product.name}</span>
+					<small>{formatPrice(product.base_price, product.currency)}</small>
 				</a>
 			{/each}
 		</div>

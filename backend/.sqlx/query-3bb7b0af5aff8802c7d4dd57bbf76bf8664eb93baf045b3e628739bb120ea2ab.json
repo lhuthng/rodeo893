@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM product_ordering_days WHERE product_id=$1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3bb7b0af5aff8802c7d4dd57bbf76bf8664eb93baf045b3e628739bb120ea2ab"
+}

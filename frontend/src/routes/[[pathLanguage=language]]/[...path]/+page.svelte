@@ -9,7 +9,9 @@
 	const Route = $derived(entry?.component);
 	const routeProps = $derived({
 		...(entry?.props ?? {}),
-		searchTerm: data.searchTerm ?? ''
+		searchTerm: data.searchTerm ?? '',
+		products: data.products ?? [],
+		product: (data.products ?? []).find((p) => p.frontend_key === routeId) ?? null
 	});
 
 	$effect(() => {

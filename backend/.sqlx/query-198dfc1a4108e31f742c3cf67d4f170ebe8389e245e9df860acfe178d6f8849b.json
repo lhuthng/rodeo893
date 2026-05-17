@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE stock_batches SET reserved_qty = reserved_qty + $2\n               WHERE id = $1 AND reserved_qty + $2 <= total_qty",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "198dfc1a4108e31f742c3cf67d4f170ebe8389e245e9df860acfe178d6f8849b"
+}

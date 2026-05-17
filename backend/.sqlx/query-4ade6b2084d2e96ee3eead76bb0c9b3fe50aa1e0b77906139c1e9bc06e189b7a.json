@@ -1,0 +1,111 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO payments (id,order_id,provider_id,amount,currency,status,gateway_ref,gateway_payload,created_at,updated_at)\n               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)\n               RETURNING id,order_id,provider_id,amount,currency,status as \"status: PaymentStatus\",gateway_ref,gateway_payload,created_at,updated_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "provider_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "currency",
+        "type_info": "Bpchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "status: PaymentStatus",
+        "type_info": {
+          "Custom": {
+            "name": "payment_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "processing",
+                "completed",
+                "failed",
+                "refunded"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "gateway_ref",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "gateway_payload",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        "Bpchar",
+        {
+          "Custom": {
+            "name": "payment_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "processing",
+                "completed",
+                "failed",
+                "refunded"
+              ]
+            }
+          }
+        },
+        "Text",
+        "Jsonb",
+        "Timestamptz",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "4ade6b2084d2e96ee3eead76bb0c9b3fe50aa1e0b77906139c1e9bc06e189b7a"
+}

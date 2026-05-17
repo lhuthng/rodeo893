@@ -1,0 +1,86 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO credit_ledger (id,user_id,order_id,amount,entry_type,description,created_at)\n               VALUES ($1,$2,$3,$4,$5,$6,$7)\n               RETURNING id,user_id,order_id,amount,entry_type as \"entry_type: CreditEntryType\",description,created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "entry_type: CreditEntryType",
+        "type_info": {
+          "Custom": {
+            "name": "credit_entry_type",
+            "kind": {
+              "Enum": [
+                "cashback",
+                "redemption",
+                "membership_topup"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        {
+          "Custom": {
+            "name": "credit_entry_type",
+            "kind": {
+              "Enum": [
+                "cashback",
+                "redemption",
+                "membership_topup"
+              ]
+            }
+          }
+        },
+        "Text",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "b177f704844b24996829a814357497c6590e997194db06cf4d000443b3957621"
+}

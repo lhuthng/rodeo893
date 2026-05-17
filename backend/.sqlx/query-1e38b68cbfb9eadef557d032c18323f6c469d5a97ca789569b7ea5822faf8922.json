@@ -1,0 +1,80 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE order_tracking SET last_status=$2,last_checked_at=$3,raw_status=$4,updated_at=$5\n               WHERE id=$1 RETURNING *",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "carrier_code",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "tracking_number",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "tracking_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "last_status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "last_checked_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "raw_status",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Timestamptz",
+        "Jsonb",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "1e38b68cbfb9eadef557d032c18323f6c469d5a97ca789569b7ea5822faf8922"
+}

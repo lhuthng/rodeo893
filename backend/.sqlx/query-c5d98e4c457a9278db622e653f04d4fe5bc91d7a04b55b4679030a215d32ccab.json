@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE stock_batches SET reserved_qty = GREATEST(0, reserved_qty - $2) WHERE id=$1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "c5d98e4c457a9278db622e653f04d4fe5bc91d7a04b55b4679030a215d32ccab"
+}
