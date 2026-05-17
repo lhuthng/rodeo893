@@ -2,8 +2,10 @@ import AboutPage from './AboutPage.svelte';
 import AccountPage from './AccountPage.svelte';
 import ContactPage from './ContactPage.svelte';
 import HomePage from './HomePage.svelte';
+import LoginPage from './LoginPage.svelte';
 import MembershipPage from './MembershipPage.svelte';
 import OrdersPage from './OrdersPage.svelte';
+import ProfilePage from './ProfilePage.svelte';
 import ProductDetailPage from './ProductDetailPage.svelte';
 import ProductCategoryPage from './ProductCategoryPage.svelte';
 import ProductsPage from './ProductsPage.svelte';
@@ -34,6 +36,8 @@ const baseRegistry = {
 		}
 	},
 	membership: { component: MembershipPage },
+	login: { component: LoginPage },
+	profile: { component: ProfilePage },
 	account: { component: AccountPage },
 	orders: { component: OrdersPage },
 	about: { component: AboutPage },

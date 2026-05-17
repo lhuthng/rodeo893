@@ -32,20 +32,20 @@ tower-http      = { version = "0.6", features = ["cors", "trace", "compression-b
 # ── Database ──────────────────────────────────────────────────────────────────
 sqlx            = { version = "0.8", features = [
     "postgres", "runtime-tokio", "macros", "migrate",
-    "uuid", "chrono", "json"
+    "uuid", "chrono", "json", "rust_decimal"
 ]}
 
 # ── Cache ─────────────────────────────────────────────────────────────────────
-deadpool-redis  = { version = "0.18", features = ["tokio-comp"] }
+deadpool-redis  = { version = "0.18" }
 redis           = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
 
 # ── Jobs ──────────────────────────────────────────────────────────────────────
-apalis          = { version = "0.6", features = ["tokio-comp"] }
+apalis          = { version = "0.6" }
 apalis-sql      = { version = "0.6", features = ["postgres"] }
 
 # ── OpenAPI ───────────────────────────────────────────────────────────────────
 utoipa          = { version = "5", features = ["uuid", "chrono"] }
-utoipa-scalar   = { version = "0.2" }
+utoipa-scalar   = { version = "0.3" }
 
 # ── Serialization ─────────────────────────────────────────────────────────────
 serde           = { version = "1", features = ["derive"] }

@@ -27,7 +27,8 @@ impl Membership {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, sqlx::Type)]
+#[sqlx(type_name = "credit_entry_type", rename_all = "snake_case")]
 #[serde(rename_all = "snake_case")]
 pub enum CreditEntryType {
     Cashback,

@@ -1,4 +1,5 @@
 <script>
+	import { page } from '$app/stores';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { language } from '$lib/localization/index.js';
@@ -13,7 +14,7 @@
 		language.set(data.pathLanguage);
 	});
 
-	const isDarkPage = $derived($pathRoute === 'membership');
+	const isDarkPage = $derived($pathRoute === 'membership' || $page.data?.routeId === 'membership');
 </script>
 
 <Header />

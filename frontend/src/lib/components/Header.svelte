@@ -1,44 +1,156 @@
 <script>
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Logo from './svgs/Logo.svelte';
 	import { getRoute, pathRoute, switchLanguage } from '$lib/navigation/index.js';
 	import { allLanguages, language, t } from '$lib/localization';
 	import Burger from './svgs/Burger.svelte';
 	import Language from './svgs/Language.svelte';
-	import { getContext } from 'svelte';
+	import Search from './svgs/Search.svelte';
+	import { products } from '$lib/content/products/index.js';
+	import { isAuthenticated } from '$lib/stores/auth.js';
+	import { getContext, tick } from 'svelte';
+	import { fly } from 'svelte/transition';
 	import Portal from './Portal.svelte';
-	import { fade, fly } from 'svelte/transition';
+	import SearchPanel from './header/SearchPanel.svelte';
+	import BurgerMenu from './header/BurgerMenu.svelte';
+	import {
+		animatePanelLeave,
+		animatePanelEnter,
+		animateBackdrop,
+		Flip,
+		PANEL_MS
+	} from '$lib/animations/panel.js';
 
 	const primaryItems = $derived($t('navigation.primary'));
-	const accountLink = $derived($t('navigation.account'));
 	const currentRoute = $derived($pathRoute || 'home');
 	const isProductsRoute = $derived(
 		currentRoute === 'products' ||
 			currentRoute.startsWith('products') ||
 			currentRoute.startsWith('product')
 	);
-	const isMembershipRoute = $derived(currentRoute === 'membership');
+	const isMembershipRoute = $derived(
+		currentRoute === 'membership' || $page.data?.routeId === 'membership'
+	);
 	const currentLanguageCode = $derived($language || 'en');
 	const availableLanguages = $derived(allLanguages().length ? allLanguages() : ['en', 'vi']);
+	const searchQueryLink = $derived(
+		`${$getRoute('products')}?search=${encodeURIComponent(debouncedSearchTerm.trim())}`
+	);
+
+	const searchResults = $derived(
+		debouncedSearchTerm.trim()
+			? products
+					.filter((product) => {
+						const query = debouncedSearchTerm.trim().toLowerCase();
+						const name = $t(`productDetails.${product.route}.name`).toLowerCase();
+						const description = $t(`productDetails.${product.route}.description`).toLowerCase();
+						return name.includes(query) || description.includes(query);
+					})
+					.slice(0, 4)
+					.map((product) => ({
+						...product,
+						name: $t(`productDetails.${product.route}.name`),
+						description: $t(`productDetails.${product.route}.description`)
+					}))
+			: []
+	);
+
+	const totalSearchMatches = $derived(
+		debouncedSearchTerm.trim()
+			? products.filter((product) => {
+					const query = debouncedSearchTerm.trim().toLowerCase();
+					const name = $t(`productDetails.${product.route}.name`).toLowerCase();
+					const description = $t(`productDetails.${product.route}.description`).toLowerCase();
+					return name.includes(query) || description.includes(query);
+				}).length
+			: 0
+	);
 
 	const getNavPortalTarget = getContext('portal-1');
 
-	//
+	const SEARCH_DEBOUNCE_MS = 1000;
 	const BREAKPOINT_LG = 1024;
-	let isBurgerOpen = $state(false);
+	let currentPanel = $state(null);
+	let panelTransitionInFlight = $state(false);
+	let isSearchOpen = $derived(currentPanel === 'search');
+	let isBurgerOpen = $derived(currentPanel === 'burger');
 	let isLanguageDropdownOpen = $state(false);
 	let isMenuLanguageDropdownOpen = $state(false);
+	let searchTerm = $state('');
+	let debouncedSearchTerm = $state('');
+	let searchInputEl = $state(null);
+	let panelStackEl = $state(null);
+	let backdropEl = $state(null);
+	let searchPanelEl = $state(null);
+	let searchControlsEl = $state(null);
 	let desktopLanguagePickerEl = $state(null);
 	let menuLanguagePickerEl = $state(null);
+	let searchDebounceTimer = null;
+	let queuedPanelTarget = null;
 	let innerWidth = $state();
+
+	const runPanelTransition = async (targetPanel) => {
+		if (!panelStackEl || currentPanel === targetPanel) return;
+
+		const isOpening = currentPanel === null;
+		const isClosing = targetPanel === null;
+
+		const leavingPanel = panelStackEl.querySelector('[data-panel]');
+		if (leavingPanel) {
+			if (isClosing) animateBackdrop(backdropEl, false); // simultaneous with leave
+			await animatePanelLeave(leavingPanel);
+		}
+
+		const prevState = Flip.getState('[data-panel]');
+		currentPanel = null;
+		await tick();
+
+		if (isClosing) return;
+
+		currentPanel = targetPanel;
+		await tick();
+
+		if (isOpening) animateBackdrop(backdropEl, true); // simultaneous with enter
+
+		Flip.from(prevState, { duration: PANEL_MS / 1000, ease: 'power2.inOut', absolute: true });
+
+		const enteringPanel = panelStackEl.querySelector('[data-panel]');
+		if (!enteringPanel) return;
+
+		await animatePanelEnter(enteringPanel);
+		if (targetPanel === 'search') searchInputEl?.focus();
+	};
+
+	const transitionToPanel = async (targetPanel) => {
+		if (panelTransitionInFlight) {
+			queuedPanelTarget = targetPanel;
+			return;
+		}
+
+		panelTransitionInFlight = true;
+		let nextTarget = targetPanel;
+
+		while (true) {
+			queuedPanelTarget = null;
+			await runPanelTransition(nextTarget);
+
+			if (queuedPanelTarget === null) break;
+			nextTarget = queuedPanelTarget;
+		}
+
+		panelTransitionInFlight = false;
+	};
+
 	$effect(() => {
-		if (innerWidth > BREAKPOINT_LG) {
-			isBurgerOpen = false;
+		if (innerWidth > BREAKPOINT_LG && isBurgerOpen) {
 			isMenuLanguageDropdownOpen = false;
+			transitionToPanel(null);
 		}
 	});
 
 	$effect(() => {
-		if (!isLanguageDropdownOpen && !isMenuLanguageDropdownOpen) return;
+		if (!isLanguageDropdownOpen && !isMenuLanguageDropdownOpen && !isSearchOpen) return;
 
 		const closeOnOutside = (event) => {
 			const target = event.target;
@@ -56,12 +168,22 @@
 			) {
 				isMenuLanguageDropdownOpen = false;
 			}
+			if (
+				isSearchOpen &&
+				searchPanelEl &&
+				!searchPanelEl.contains(target) &&
+				searchControlsEl &&
+				!searchControlsEl.contains(target)
+			) {
+				transitionToPanel(null);
+			}
 		};
 
 		const closeOnEscape = (event) => {
 			if (event.key !== 'Escape') return;
 			isLanguageDropdownOpen = false;
 			isMenuLanguageDropdownOpen = false;
+			if (isSearchOpen || isBurgerOpen) transitionToPanel(null);
 		};
 
 		document.addEventListener('pointerdown', closeOnOutside);
@@ -73,19 +195,42 @@
 		};
 	});
 
+	$effect(() => {
+		const query = searchTerm.trim();
+		clearTimeout(searchDebounceTimer);
+		searchDebounceTimer = setTimeout(() => {
+			debouncedSearchTerm = query;
+		}, SEARCH_DEBOUNCE_MS);
+
+		return () => clearTimeout(searchDebounceTimer);
+	});
+
 	const onSelectLanguage = (event, languageCode) => {
 		event.preventDefault();
 		isLanguageDropdownOpen = false;
-		isMenuLanguageDropdownOpen = false;
-		isBurgerOpen = false;
+		if (isBurgerOpen) transitionToPanel(null);
 		if (languageCode === currentLanguageCode) return;
 		$switchLanguage(event, languageCode);
 	};
 
 	const closeAllMenus = () => {
-		isBurgerOpen = false;
+		transitionToPanel(null);
 		isLanguageDropdownOpen = false;
 		isMenuLanguageDropdownOpen = false;
+	};
+
+	const toggleBurgerMenu = () => {
+		if (isBurgerOpen) isMenuLanguageDropdownOpen = false;
+		transitionToPanel(isBurgerOpen ? null : 'burger');
+	};
+
+	const toggleSearchPanel = () => transitionToPanel(isSearchOpen ? null : 'search');
+
+	const submitSearch = async (event) => {
+		event.preventDefault();
+		if (!searchTerm.trim()) return;
+		await goto(`${$getRoute('products')}?search=${encodeURIComponent(searchTerm.trim())}`);
+		transitionToPanel(null);
 	};
 </script>
 
@@ -94,9 +239,9 @@
 <nav class="z-200" data-theme={isMembershipRoute ? 'dark' : undefined}>
 	<div class="relative flex h-full justify-between">
 		<div class="nav-links__burger">
-			<button onclick={() => (isBurgerOpen = !isBurgerOpen)}
-				><Burger class="h-8 w-8" toggled={isBurgerOpen} /></button
-			>
+			<button class:open={isBurgerOpen} onclick={toggleBurgerMenu}
+				><Burger class="h-8 w-8" />
+			</button>
 
 			<ol class="hidden">
 				{#each primaryItems as item}
@@ -131,6 +276,18 @@
 			{/each}
 		</ol>
 		<ol class="flex items-center gap-8 pr-4">
+			<li bind:this={searchControlsEl}>
+				<button
+					type="button"
+					class="search-trigger"
+					class:open={isSearchOpen}
+					aria-haspopup="dialog"
+					aria-expanded={isSearchOpen}
+					onclick={toggleSearchPanel}
+				>
+					<Search class="h-4 w-4" />
+				</button>
+			</li>
 			<li class="language-picker not-lg:hidden" bind:this={desktopLanguagePickerEl}>
 				<button
 					type="button"
@@ -160,9 +317,21 @@
 					</div>
 				{/if}
 			</li>
-			<li><a class="membership-link" href={$getRoute('membership')}>{$t('cta.membership')}</a></li>
+			{#if $isAuthenticated}
+				<li>
+					<a
+						class="profile-trigger"
+						href={$getRoute('profile')}
+						aria-label={$t('navigation.profileLabel')}
+					>
+						<span>◉</span>
+					</a>
+				</li>
+			{:else}
+				<li><a class="membership-link" href={$getRoute('login')}>{$t('cta.membership')}</a></li>
+			{/if}
 			<li class="relative h-full w-14">
-				<a class="ribbon" class:ribbon--open={isBurgerOpen} href={$getRoute('products')}>
+				<a class="ribbon" class:open={currentPanel !== null} href={$getRoute('products')}>
 					<span class="relative z-20 block w-full px-2 py-4 text-center uppercase not-lg:text-sm"
 						>{$t('cta.order')}</span
 					>
@@ -171,73 +340,47 @@
 		</ol>
 	</div>
 </nav>
-{#if isBurgerOpen}
-	<Portal class="pointer-events-auto" target={getNavPortalTarget()}>
-		<button
-			class="menu-backdrop"
-			aria-label="backdrop"
-			in:fade={{ duration: 500 }}
-			out:fade={{ duration: 500 }}
-			onclick={closeAllMenus}
-		></button>
-		<div
-			class="burger-menu-panel"
-			data-theme={isMembershipRoute ? 'dark' : undefined}
-			in:fly={{ y: '-100%', duration: 500 }}
-			out:fly={{ y: '-100%', duration: 500 }}
-		>
-			<ol class="burger-menu__list">
-				{#each primaryItems as item}
-					<li>
-						<a
-							class:active={item.route === 'products'
-								? isProductsRoute
-								: currentRoute === item.route}
-							href={$getRoute(item.route)}
-							onclick={() => (isBurgerOpen = false)}
-						>
-							{item.label}
-						</a>
-					</li>
-				{/each}
-				<li class="mt-4 border-t border-espresso/10 pt-4">
-					<a class="membership-link" href={$getRoute('membership')} onclick={closeAllMenus}>
-						{$t('cta.membership')}
-					</a>
-				</li>
-				<li bind:this={menuLanguagePickerEl}>
-					<button
-						type="button"
-						class="language-trigger language-trigger--menu"
-						aria-haspopup="menu"
-						aria-expanded={isMenuLanguageDropdownOpen}
-						onclick={() => (isMenuLanguageDropdownOpen = !isMenuLanguageDropdownOpen)}
-					>
-						<Language class="h-4 w-4 fill-current" />
-						<span>{currentLanguageCode.toUpperCase()}</span>
-						<span class="language-caret">{isMenuLanguageDropdownOpen ? '▴' : '▾'}</span>
-					</button>
-					{#if isMenuLanguageDropdownOpen}
-						<div class="language-dropdown language-dropdown--menu" role="menu">
-							{#each availableLanguages as langCode}
-								<button
-									type="button"
-									role="menuitemradio"
-									aria-checked={langCode === currentLanguageCode}
-									class="language-option language-option--menu"
-									class:active={langCode === currentLanguageCode}
-									onclick={(event) => onSelectLanguage(event, langCode)}
-								>
-									{langCode.toUpperCase()}
-								</button>
-							{/each}
-						</div>
-					{/if}
-				</li>
-			</ol>
-		</div>
-	</Portal>
-{/if}
+<Portal class="pointer-events-auto" target={getNavPortalTarget()}>
+	<button
+		class="menu-backdrop"
+		aria-label="close panels"
+		bind:this={backdropEl}
+		onclick={closeAllMenus}
+	></button>
+	<div class="panel-stack" bind:this={panelStackEl}>
+		{#if currentPanel === 'search'}
+			<div
+				class="search-panel"
+				data-panel="search"
+				bind:this={searchPanelEl}
+				data-theme={isMembershipRoute ? 'dark' : undefined}
+			>
+				<SearchPanel
+					bind:inputEl={searchInputEl}
+					bind:searchTerm
+					{searchResults}
+					{totalSearchMatches}
+					{debouncedSearchTerm}
+					{searchQueryLink}
+					onSubmit={submitSearch}
+					onClose={closeAllMenus}
+				/>
+			</div>
+		{:else if currentPanel === 'burger'}
+			<div
+				class="burger-menu-panel"
+				data-panel="burger"
+				data-theme={isMembershipRoute ? 'dark' : undefined}
+			>
+				<BurgerMenu
+					bind:isMenuLanguageDropdownOpen
+					bind:menuLanguagePickerEl
+					onClose={closeAllMenus}
+				/>
+			</div>
+		{/if}
+	</div>
+</Portal>
 
 <style lang="postcss">
 	@reference "../../app.css";
@@ -281,6 +424,29 @@
 			background-color: var(--theme-interactive);
 			color: var(--theme-interactive-fg);
 		}
+	}
+
+	.profile-trigger,
+	.search-trigger {
+		@apply inline-flex h-10 w-10 cursor-pointer items-center justify-center transition-colors duration-150;
+		border: 1px solid var(--theme-border);
+		color: var(--theme-fg);
+
+		&:hover {
+			border-color: var(--theme-fg);
+			background-color: var(--theme-interactive);
+			color: var(--theme-interactive-fg);
+		}
+	}
+
+	.search-trigger.open {
+		border-color: var(--theme-fg);
+		background-color: var(--theme-interactive);
+		color: var(--theme-interactive-fg);
+	}
+
+	.profile-trigger {
+		@apply font-mono text-xs;
 	}
 
 	.language-picker {
@@ -333,11 +499,16 @@
 
 		button {
 			@apply my-2 ml-2 cursor-pointer transition-colors duration-150;
+
 			border: 1px solid var(--theme-border);
 
 			&:hover {
 				@apply bg-(--theme-interactive) text-(--theme-interactive-fg) [&>svg>path]:stroke-(--theme-interactive-fg);
 			}
+		}
+
+		button.open {
+			@apply bg-(--theme-interactive) text-(--theme-interactive-fg) [&>svg>path]:stroke-(--theme-interactive-fg);
 		}
 	}
 
@@ -349,7 +520,7 @@
 			color: var(--theme-fg);
 
 			&::before {
-				@apply absolute right-1/2 bottom-2 left-1/2 h-0.5 opacity-0 transition-all duration-100 content-[''];
+				@apply absolute right-1/2 bottom-2 left-1/2 h-0.5 opacity-0 transition-all duration-500 content-[''];
 				background-color: var(--theme-accent);
 			}
 
@@ -380,75 +551,19 @@
 	}
 
 	.burger-menu-panel {
-		@apply relative z-10 max-h-dvh overflow-y-auto pt-16 lg:pt-24;
+		@apply absolute z-10 w-full overflow-y-auto pt-16 transition-[background-color,color,border-color] duration-500 lg:pt-24;
 		background-color: var(--theme-bg);
 		color: var(--theme-fg);
 	}
 
-	.burger-menu__list {
-		@apply flex flex-col font-mono text-sm tracking-wider uppercase;
+	.panel-stack {
+		@apply fixed inset-x-0 top-0 z-10;
+	}
 
-		& > li > a {
-			@apply block px-6 py-3 transition-colors duration-150;
-			border-bottom: 1px solid var(--theme-border);
-
-			&:hover {
-				@apply font-bold;
-				background-color: var(--theme-accent);
-				color: var(--theme-accent-fg);
-			}
-
-			&.active {
-				@apply font-bold;
-				color: var(--theme-fg-active);
-
-				&::before {
-					content: '›';
-					@apply mr-2 inline-block;
-					color: var(--theme-accent);
-				}
-			}
-
-			&.active:hover {
-				color: var(--theme-accent-fg);
-			}
-		}
-
-		& > li.membership-link {
-			@apply px-0 py-0;
-		}
-
-		& .membership-link {
-			@apply inline-flex w-full items-center justify-center border-none px-6 py-4 font-mono text-sm tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-150;
-			color: var(--theme-fg);
-
-			&:hover {
-				border: none;
-				background-color: var(--theme-fg);
-				color: var(--theme-bg);
-			}
-		}
-
-		& .language-trigger--menu {
-			@apply inline-flex w-full items-center justify-center gap-2 border-none px-6 py-4 font-mono text-sm tracking-[0.14em] uppercase transition-colors duration-150;
-			color: var(--theme-fg);
-
-			&:hover {
-				background-color: var(--theme-accent);
-				color: var(--theme-accent-fg);
-			}
-		}
-
-		& .language-dropdown--menu {
-			@apply static mt-2 w-full p-0 shadow-none;
-			background-color: transparent;
-			border-color: var(--theme-border);
-		}
-
-		& .language-option--menu {
-			@apply px-6 py-3;
-			border-bottom: 1px solid var(--theme-border);
-		}
+	.search-panel {
+		@apply absolute z-10 mx-auto mt-16 w-full border p-4 transition-[background-color,color,border-color] duration-500 lg:mt-24;
+		border-color: var(--theme-border);
+		background-color: var(--theme-bg-elevated);
 	}
 
 	.ribbon {
@@ -473,7 +588,7 @@
 			clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 0%, 0% 100%);
 		}
 
-		&.ribbon--open {
+		&.open {
 			span {
 				color: var(--theme-accent-alt-fg);
 			}
@@ -486,6 +601,10 @@
 	}
 
 	.menu-backdrop {
-		@apply absolute z-9 h-full w-full cursor-not-allowed backdrop-blur-xl;
+		@apply fixed inset-0 z-8 h-full w-full cursor-pointer backdrop-blur-xl;
+		opacity: 0;
+		visibility: hidden;
+		display: none;
+		pointer-events: none;
 	}
 </style>

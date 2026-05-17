@@ -6,3 +6,5 @@ pub mod products;
 pub mod orders;
 pub mod payments;
 pub mod staff;
+pub mod stock;
+pub mod occasions;

@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use sqlx::PgPool;
 use uuid::Uuid;
 use domain::{
-    entities::membership::{CreditLedgerEntry, Membership},
+    entities::membership::{CreditEntryType, CreditLedgerEntry, Membership},
     repositories::membership::{CreditLedgerRepository, MembershipRepository},
     DomainError,
 };
@@ -44,9 +44,10 @@ impl CreditLedgerRepository for PgCreditLedgerRepository {
     async fn append(&self, entry: &CreditLedgerEntry) -> Result<CreditLedgerEntry, DomainError> {
         sqlx::query_as!(CreditLedgerEntry,
             r#"INSERT INTO credit_ledger (id,user_id,order_id,amount,entry_type,description,created_at)
-               VALUES ($1,$2,$3,$4,$5::credit_entry_type,$6,$7) RETURNING *"#,
+               VALUES ($1,$2,$3,$4,$5,$6,$7)
+               RETURNING id,user_id,order_id,amount,entry_type as "entry_type: CreditEntryType",description,created_at"#,
             entry.id, entry.user_id, entry.order_id, entry.amount,
-            entry.entry_type.as_str(), entry.description, entry.created_at
+            entry.entry_type as _, entry.description, entry.created_at
         )
         .fetch_one(&self.0).await.map_err(db_err)
     }
@@ -71,9 +72,11 @@ impl CreditLedgerRepository for PgCreditLedgerRepository {
         Ok(row.cnt.unwrap_or(0) > 0)
     }
 
-    async fn list_for_user(&self, user_id: Uuid) -> Result<Vec<CreditLedgerEntry>, DomainError> {
+    async fn list_for_user(&self, user_id: Uuid, limit: i64, offset: i64) -> Result<Vec<CreditLedgerEntry>, DomainError> {
         sqlx::query_as!(CreditLedgerEntry,
-            "SELECT * FROM credit_ledger WHERE user_id=$1 ORDER BY created_at DESC", user_id
+            r#"SELECT id,user_id,order_id,amount,entry_type as "entry_type: CreditEntryType",description,created_at
+               FROM credit_ledger WHERE user_id=$1 ORDER BY created_at DESC LIMIT $2 OFFSET $3"#,
+            user_id, limit, offset
         )
         .fetch_all(&self.0).await.map_err(db_err)
     }

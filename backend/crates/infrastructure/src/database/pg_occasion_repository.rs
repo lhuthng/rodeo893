@@ -31,6 +31,14 @@ impl OccasionRepository for PgOccasionRepository {
         sqlx::query_as!(Occasion, "SELECT * FROM occasions WHERE is_active=true ORDER BY order_open_at")
             .fetch_all(&self.0).await.map_err(db_err)
     }
+
+    async fn update(&self, o: &Occasion) -> Result<Occasion, DomainError> {
+        sqlx::query_as!(Occasion,
+            "UPDATE occasions SET title=$2,description=$3,order_open_at=$4,order_close_at=$5,is_active=$6 WHERE id=$1 RETURNING *",
+            o.id, o.title, o.description, o.order_open_at, o.order_close_at, o.is_active
+        )
+        .fetch_one(&self.0).await.map_err(db_err)
+    }
 }
 
 pub struct PgOccasionProductRepository(pub PgPool);
@@ -43,6 +51,15 @@ impl OccasionProductRepository for PgOccasionProductRepository {
             .ok_or_else(|| DomainError::NotFound(format!("OccasionProduct {}", id)))
     }
 
+    async fn create(&self, op: &OccasionProduct) -> Result<OccasionProduct, DomainError> {
+        sqlx::query_as!(OccasionProduct,
+            r#"INSERT INTO occasion_products (id,occasion_id,product_id,total_qty,reserved_qty,unit_price)
+               VALUES ($1,$2,$3,$4,$5,$6) RETURNING *"#,
+            op.id, op.occasion_id, op.product_id, op.total_qty, op.reserved_qty, op.unit_price
+        )
+        .fetch_one(&self.0).await.map_err(db_err)
+    }
+
     async fn list_for_occasion(&self, occasion_id: Uuid) -> Result<Vec<OccasionProduct>, DomainError> {
         sqlx::query_as!(OccasionProduct,
             "SELECT * FROM occasion_products WHERE occasion_id=$1", occasion_id
@@ -50,7 +67,7 @@ impl OccasionProductRepository for PgOccasionProductRepository {
         .fetch_all(&self.0).await.map_err(db_err)
     }
 
-    async fn reserve(&self, id: Uuid, qty: i32) -> Result<(), DomainError> {
+    async fn reserve(&self, id: Uuid, qty: i32) -> Result<OccasionProduct, DomainError> {
         let rows = sqlx::query!(
             "UPDATE occasion_products SET reserved_qty = reserved_qty + $2 WHERE id=$1 AND reserved_qty + $2 <= total_qty",
             id, qty
@@ -65,7 +82,7 @@ impl OccasionProductRepository for PgOccasionProductRepository {
                 available: op.available_qty(),
             });
         }
-        Ok(())
+        self.find_by_id(id).await
     }
 
     async fn release(&self, id: Uuid, qty: i32) -> Result<(), DomainError> {
@@ -89,6 +106,14 @@ impl OccasionAnnouncementRepository for PgOccasionAnnouncementRepository {
             a.id, a.occasion_id, a.sent_at, a.recipient_count, a.status
         )
         .fetch_one(&self.0).await.map_err(db_err)
+    }
+
+    async fn list_for_occasion(&self, occasion_id: Uuid) -> Result<Vec<OccasionAnnouncement>, DomainError> {
+        sqlx::query_as!(OccasionAnnouncement,
+            "SELECT * FROM occasion_announcements WHERE occasion_id=$1 ORDER BY sent_at DESC",
+            occasion_id
+        )
+        .fetch_all(&self.0).await.map_err(db_err)
     }
 }
 

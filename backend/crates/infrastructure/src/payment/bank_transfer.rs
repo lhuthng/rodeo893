@@ -24,8 +24,8 @@ impl PaymentGateway for BankTransferGateway {
             amount, currency, self.bank_name, self.account_number, self.account_name, reference
         );
         Ok(PaymentCreationResult {
-            gateway_ref:  reference.to_string(),
-            instructions: Some(instructions),
+              gateway_ref:  Some(reference.to_string()),
+              instructions: serde_json::json!({ "text": instructions }),
         })
     }
 }

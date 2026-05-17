@@ -57,20 +57,27 @@ impl UserRepository for PgUserRepository {
         )
         .fetch_all(&self.0).await.map_err(db_err)
     }
+
+    async fn count(&self) -> Result<i64, DomainError> {
+        let row = sqlx::query!("SELECT COUNT(*) as cnt FROM users WHERE is_active = true")
+            .fetch_one(&self.0).await.map_err(db_err)?;
+        Ok(row.cnt.unwrap_or(0))
+    }
 }
 
 pub struct PgUserSessionRepository(pub PgPool);
 
 #[async_trait]
 impl UserSessionRepository for PgUserSessionRepository {
-    async fn create(&self, session: &UserSession) -> Result<UserSession, DomainError> {
-        sqlx::query_as!(UserSession,
+    async fn create(&self, session: &UserSession) -> Result<(), DomainError> {
+        sqlx::query!(
             r#"INSERT INTO user_sessions (id, user_id, token_hash, expires_at, ip_addr, user_agent, created_at)
-               VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *"#,
+               VALUES ($1,$2,$3,$4,$5,$6,$7)"#,
             session.id, session.user_id, session.token_hash, session.expires_at,
             session.ip_addr, session.user_agent, session.created_at
         )
-        .fetch_one(&self.0).await.map_err(db_err)
+        .execute(&self.0).await.map_err(db_err)?;
+        Ok(())
     }
 
     async fn find_by_token_hash(&self, hash: &str) -> Result<UserSession, DomainError> {
@@ -133,8 +140,10 @@ impl UserAddressRepository for PgUserAddressRepository {
         .fetch_one(&self.0).await.map_err(db_err)
     }
 
-    async fn clear_default(&self, user_id: Uuid) -> Result<(), DomainError> {
+    async fn set_default(&self, user_id: Uuid, address_id: Uuid) -> Result<(), DomainError> {
         sqlx::query!("UPDATE user_addresses SET is_default=false WHERE user_id=$1", user_id)
+            .execute(&self.0).await.map_err(db_err)?;
+        sqlx::query!("UPDATE user_addresses SET is_default=true WHERE id=$1 AND user_id=$2", address_id, user_id)
             .execute(&self.0).await.map_err(db_err)?;
         Ok(())
     }

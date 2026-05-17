@@ -1,8 +1,9 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, NaiveDate, Utc};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use validator::Validate;
+use domain::entities::order::DeliveryMethod;
 
 #[derive(Debug, Deserialize, Validate)]
 pub struct PlaceOrderInput {
@@ -55,6 +56,15 @@ pub struct DeliveryInfoInput {
     pub city: String,
 
     pub delivery_note: Option<String>,
+
+    #[serde(default)]
+    pub method: DeliveryMethod,
+
+    /// Required when method = internal_delivery. Must be tomorrow or later.
+    pub preferred_date: Option<NaiveDate>,
+
+    /// Required when method = internal_delivery. One of: 08:00-12:00 | 13:00-17:00 | 17:00-20:00
+    pub preferred_time_slot: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -95,14 +105,17 @@ pub struct OrderItemDto {
 
 #[derive(Debug, Serialize)]
 pub struct DeliveryInfoDto {
-    pub recipient_name: String,
-    pub phone:          String,
-    pub street:         String,
-    pub ward:           String,
-    pub district:       String,
-    pub city:           String,
-    pub country:        String,
-    pub delivery_note:  Option<String>,
+    pub recipient_name:      String,
+    pub phone:               String,
+    pub street:              String,
+    pub ward:                String,
+    pub district:            String,
+    pub city:                String,
+    pub country:             String,
+    pub delivery_note:       Option<String>,
+    pub method:              String,
+    pub preferred_date:      Option<NaiveDate>,
+    pub preferred_time_slot: Option<String>,
 }
 
 #[derive(Debug, Serialize)]

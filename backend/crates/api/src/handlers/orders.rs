@@ -12,17 +12,16 @@ use application::{
         place_order::PlaceOrder,
     },
 };
-use crate::{extractors::ValidatedJson, middleware::auth_user::RequireUserSession, state::AppState};
+use crate::{error::ApiResult, extractors::ValidatedJson, middleware::auth_user::RequireUserSession, state::AppState};
 
 /// Place a new order
 #[utoipa::path(post, path = "/orders", tag = "orders",
-    request_body = PlaceOrderInput,
     responses((status = 201, description = "Created")))]
 pub async fn place_order(
     State(s): State<AppState>,
     session: Option<RequireUserSession>,
     ValidatedJson(input): ValidatedJson<PlaceOrderInput>,
-) -> Result<(StatusCode, Json<serde_json::Value>), application::error::AppError> {
+) -> ApiResult<(StatusCode, Json<serde_json::Value>)> {
     let uc = PlaceOrder {
         order_repo:       Arc::clone(&s.order_repo),
         item_repo:        Arc::clone(&s.order_item_repo),
@@ -32,6 +31,7 @@ pub async fn place_order(
         provider_repo:    Arc::clone(&s.payment_provider_repo),
         payment_repo:     Arc::clone(&s.payment_repo),
         payment_gateway:  Arc::clone(&s.payment_gateway),
+        product_repo:     Arc::clone(&s.product_repo),
     };
     let user_id = session.map(|s| s.user_id);
     let resp = uc.execute(user_id, input).await?;
@@ -44,7 +44,7 @@ pub async fn place_order(
 pub async fn get_order(
     State(s): State<AppState>,
     Path(reference): Path<String>,
-) -> Result<Json<serde_json::Value>, application::error::AppError> {
+) -> ApiResult<Json<serde_json::Value>> {
     let uc = GetOrderByReference {
         order_repo:    Arc::clone(&s.order_repo),
         item_repo:     Arc::clone(&s.order_item_repo),
@@ -63,7 +63,7 @@ pub async fn cancel_order(
     State(s): State<AppState>,
     session: RequireUserSession,
     Path(id): Path<uuid::Uuid>,
-) -> Result<StatusCode, application::error::AppError> {
+) -> ApiResult<StatusCode> {
     let uc = CancelOrder {
         order_repo:       Arc::clone(&s.order_repo),
         item_repo:        Arc::clone(&s.order_item_repo),

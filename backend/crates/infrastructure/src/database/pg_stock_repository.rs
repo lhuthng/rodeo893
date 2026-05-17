@@ -45,8 +45,7 @@ impl StockBatchRepository for PgStockBatchRepository {
         .fetch_one(&self.0).await.map_err(db_err)
     }
 
-    /// Atomic reserve: prevents over-reservation at the DB level.
-    async fn reserve(&self, id: Uuid, qty: i32) -> Result<(), DomainError> {
+    async fn reserve(&self, id: Uuid, qty: i32) -> Result<StockBatch, DomainError> {
         let rows = sqlx::query!(
             r#"UPDATE stock_batches SET reserved_qty = reserved_qty + $2
                WHERE id = $1 AND reserved_qty + $2 <= total_qty"#,
@@ -62,7 +61,7 @@ impl StockBatchRepository for PgStockBatchRepository {
                 available: b.available_qty(),
             });
         }
-        Ok(())
+        self.find_by_id(id).await
     }
 
     async fn release(&self, id: Uuid, qty: i32) -> Result<(), DomainError> {
@@ -72,6 +71,14 @@ impl StockBatchRepository for PgStockBatchRepository {
         )
         .execute(&self.0).await.map_err(db_err)?;
         Ok(())
+    }
+
+    async fn list_by_week(&self, week_start: NaiveDate) -> Result<Vec<StockBatch>, DomainError> {
+        sqlx::query_as!(StockBatch,
+            "SELECT * FROM stock_batches WHERE week_start=$1 AND is_released=true",
+            week_start
+        )
+        .fetch_all(&self.0).await.map_err(db_err)
     }
 }
 

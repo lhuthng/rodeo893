@@ -1,4 +1,5 @@
 use deadpool_redis::Pool;
+use redis::AsyncCommands;
 use application::error::AppError;
 
 pub struct ProductCache {
@@ -13,23 +14,13 @@ impl ProductCache {
 
     pub async fn get(&self, key: &str) -> Option<String> {
         let mut conn = self.pool.get().await.ok()?;
-        let val: Option<String> = redis::cmd("GET")
-            .arg(key)
-            .query_async(&mut conn)
-            .await
-            .ok()?;
-        val
+        conn.get::<_, Option<String>>(key).await.ok().flatten()
     }
 
     pub async fn set(&self, key: &str, value: &str) -> Result<(), AppError> {
         let mut conn = self.pool.get().await
             .map_err(|e| AppError::Internal(e.to_string()))?;
-        redis::cmd("SETEX")
-            .arg(key)
-            .arg(self.ttl)
-            .arg(value)
-            .query_async::<_, ()>(&mut conn)
-            .await
+        conn.set_ex::<_, _, ()>(key, value, self.ttl).await
             .map_err(|e| AppError::Internal(e.to_string()))?;
         Ok(())
     }
@@ -37,10 +28,7 @@ impl ProductCache {
     pub async fn invalidate(&self, key: &str) -> Result<(), AppError> {
         let mut conn = self.pool.get().await
             .map_err(|e| AppError::Internal(e.to_string()))?;
-        redis::cmd("DEL")
-            .arg(key)
-            .query_async::<_, ()>(&mut conn)
-            .await
+        conn.del::<_, ()>(key).await
             .map_err(|e| AppError::Internal(e.to_string()))?;
         Ok(())
     }

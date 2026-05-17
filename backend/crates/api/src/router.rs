@@ -4,7 +4,7 @@ use axum::{
 };
 use tower_http::{cors::CorsLayer, trace::TraceLayer};
 use crate::{
-    handlers::{auth, health, membership, orders, payments, products, staff, user},
+    handlers::{auth, health, membership, occasions, orders, payments, products, staff, stock, user},
     openapi::docs_router,
     state::AppState,
 };
@@ -25,8 +25,22 @@ pub fn build_router(state: AppState) -> Router {
         // Membership
         .route("/api/membership",          get(membership::get_status))
         .route("/api/membership/activate", post(membership::activate))
-        // Products
+        // Products (public)
         .route("/api/products", get(products::list_products))
+        // Products (staff)
+        .route("/api/staff/products",     post(products::create_product))
+        .route("/api/staff/products/:id", patch(products::update_product))
+        .route("/api/staff/products/:id", delete(products::deactivate_product))
+        // Stock batches (staff)
+        .route("/api/staff/stock-batches",              get(stock::list_batches))
+        .route("/api/staff/stock-batches",              post(stock::create_batch))
+        .route("/api/staff/stock-batches/:id",          patch(stock::update_batch))
+        .route("/api/staff/stock-batches/:id/release",  post(stock::release_batch))
+        // Occasions (public list)
+        .route("/api/occasions", get(occasions::list_occasions))
+        // Occasions (staff)
+        .route("/api/staff/occasions",              post(occasions::create_occasion))
+        .route("/api/staff/occasions/:id/announce", post(occasions::announce))
         // Orders
         .route("/api/orders",         post(orders::place_order))
         .route("/api/orders/:ref",    get(orders::get_order))

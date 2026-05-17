@@ -6,12 +6,13 @@ use validator::Validate;
 
 use domain::{
     entities::{
-        order::{Order, OrderDeliveryInfo, OrderItem, OrderStatus},
+        order::{Order, OrderDeliveryInfo, OrderItem, OrderStatus, DeliveryMethod},
         payment::{Payment, PaymentStatus},
     },
     repositories::{
         order::{OrderDeliveryInfoRepository, OrderItemRepository, OrderRepository},
         payment::{PaymentProviderRepository, PaymentRepository},
+        product::ProductRepository,
         stock::StockBatchRepository,
         occasion::OccasionProductRepository,
     },
@@ -25,7 +26,7 @@ use crate::{
     use_cases::activate_membership::PaymentGateway,
 };
 
-pub struct PlaceOrder<OR, OIR, ODR, SBR, OPR, PPR, PR, PG> {
+pub struct PlaceOrder<OR, OIR, ODR, SBR, OPR, PPR, PR, PG, ProR> {
     pub order_repo:       Arc<OR>,
     pub item_repo:        Arc<OIR>,
     pub delivery_repo:    Arc<ODR>,
@@ -34,18 +35,20 @@ pub struct PlaceOrder<OR, OIR, ODR, SBR, OPR, PPR, PR, PG> {
     pub provider_repo:    Arc<PPR>,
     pub payment_repo:     Arc<PR>,
     pub payment_gateway:  Arc<PG>,
+    pub product_repo:     Arc<ProR>,
 }
 
-impl<OR, OIR, ODR, SBR, OPR, PPR, PR, PG> PlaceOrder<OR, OIR, ODR, SBR, OPR, PPR, PR, PG>
+impl<OR, OIR, ODR, SBR, OPR, PPR, PR, PG, ProR> PlaceOrder<OR, OIR, ODR, SBR, OPR, PPR, PR, PG, ProR>
 where
-    OR:  OrderRepository,
-    OIR: OrderItemRepository,
-    ODR: OrderDeliveryInfoRepository,
-    SBR: StockBatchRepository,
-    OPR: OccasionProductRepository,
-    PPR: PaymentProviderRepository,
-    PR:  PaymentRepository,
-    PG:  PaymentGateway,
+    OR:   OrderRepository,
+    OIR:  OrderItemRepository,
+    ODR:  OrderDeliveryInfoRepository,
+    SBR:  StockBatchRepository,
+    OPR:  OccasionProductRepository,
+    PPR:  PaymentProviderRepository,
+    PR:   PaymentRepository,
+    PG:   PaymentGateway,
+    ProR: ProductRepository,
 {
     pub async fn execute(
         &self,
@@ -61,6 +64,26 @@ where
             .map_err(|_| AppError::Validation(format!("Unknown provider: {}", input.provider_code)))?;
         if !provider.is_active {
             return Err(AppError::Validation("Payment provider not available".into()));
+        }
+
+        // Validate internal delivery fields
+        const VALID_SLOTS: &[&str] = &["08:00-12:00", "13:00-17:00", "17:00-20:00"];
+        if input.delivery.method == DeliveryMethod::InternalDelivery {
+            let date = input.delivery.preferred_date.ok_or_else(|| {
+                AppError::Validation("preferred_date is required for internal delivery".into())
+            })?;
+            if date <= Utc::now().date_naive() {
+                return Err(AppError::Validation("preferred_date must be tomorrow or later".into()));
+            }
+            let slot = input.delivery.preferred_time_slot.as_deref().ok_or_else(|| {
+                AppError::Validation("preferred_time_slot is required for internal delivery".into())
+            })?;
+            if !VALID_SLOTS.contains(&slot) {
+                return Err(AppError::Validation(format!(
+                    "preferred_time_slot must be one of: {}",
+                    VALID_SLOTS.join(", ")
+                )));
+            }
         }
 
         // Reserve stock & compute total
@@ -98,16 +121,19 @@ where
         self.item_repo.create_many(&items).await?;
 
         let delivery = OrderDeliveryInfo {
-            id:             Uuid::new_v4(),
-            order_id:       order.id,
-            recipient_name: input.delivery.recipient_name,
-            phone:          input.delivery.phone,
-            street:         input.delivery.street,
-            ward:           input.delivery.ward,
-            district:       input.delivery.district,
-            city:           input.delivery.city,
-            country:        "VN".into(),
-            delivery_note:  input.delivery.delivery_note,
+            id:                  Uuid::new_v4(),
+            order_id:            order.id,
+            recipient_name:      input.delivery.recipient_name,
+            phone:               input.delivery.phone,
+            street:              input.delivery.street,
+            ward:                input.delivery.ward,
+            district:            input.delivery.district,
+            city:                input.delivery.city,
+            country:             "VN".into(),
+            delivery_note:       input.delivery.delivery_note,
+            method:              input.delivery.method,
+            preferred_date:      input.delivery.preferred_date,
+            preferred_time_slot: input.delivery.preferred_time_slot,
         };
         self.delivery_repo.create(&delivery).await?;
 
@@ -161,21 +187,17 @@ where
                 }
                 self.batch_repo.reserve(*batch_id, input.quantity).await?;
 
-                // Get product price from batch (product base_price)
-                // For simplicity, stored at order time from product.base_price
-                // In practice, query product; here we use the batch's product_id
+                let product = self.product_repo.find_by_id(batch.product_id).await?;
                 let item = OrderItem {
                     id:                  Uuid::new_v4(),
-                    order_id:            Uuid::nil(), // set after order creation
+                    order_id:            Uuid::nil(),
                     product_id:          batch.product_id,
                     batch_id:            Some(*batch_id),
                     occasion_product_id: None,
                     quantity:            input.quantity,
-                    unit_price:          Decimal::ZERO, // will be overwritten below
+                    unit_price:          product.base_price,
                 };
-                // unit_price needs product — infrastructure layer passes it; for now set placeholder
-                // The actual price is resolved by infrastructure which has product repo
-                Ok((item, Decimal::ZERO))
+                Ok((item, product.base_price))
             }
             OrderItemSource::OccasionProduct { occasion_product_id } => {
                 let op = self.occ_product_repo.find_by_id(*occasion_product_id).await?;

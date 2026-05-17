@@ -47,7 +47,7 @@ async fn main() -> anyhow::Result<()> {
         .connect(&config.database_url)
         .await?;
 
-    sqlx::migrate!("./migrations").run(&db).await?;
+    sqlx::migrate!("../migrations").run(&db).await?;
     tracing::info!("Migrations applied");
 
     // Redis
@@ -70,6 +70,7 @@ async fn main() -> anyhow::Result<()> {
         product_cache:  Arc::new(ProductCache::new(redis.clone())),
         tracking_cache: Arc::new(TrackingCache::new(redis.clone())),
         payment_gateway: Arc::new(gw_registry),
+        membership_topup_amount: config.membership_topup,
         user_repo:             Arc::new(PgUserRepository(db.clone())),
         session_repo:          Arc::new(PgUserSessionRepository(db.clone())),
         address_repo:          Arc::new(PgUserAddressRepository(db.clone())),

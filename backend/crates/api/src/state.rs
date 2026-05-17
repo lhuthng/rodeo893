@@ -19,6 +19,7 @@ use infrastructure::{
 };
 use sqlx::PgPool;
 use deadpool_redis::Pool as RedisPool;
+use rust_decimal::Decimal;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -35,6 +36,7 @@ pub struct AppState {
 
     // Payment
     pub payment_gateway: Arc<PaymentGatewayRegistry>,
+    pub membership_topup_amount: Decimal,
 
     // Repos (arc-wrapped so cloning AppState is cheap)
     pub user_repo:           Arc<PgUserRepository>,

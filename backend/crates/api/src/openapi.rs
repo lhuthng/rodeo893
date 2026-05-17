@@ -1,6 +1,6 @@
 use utoipa::OpenApi;
-use utoipa_scalar::{Scalar, Servable};
-use axum::Router;
+use utoipa_scalar::Scalar;
+use axum::{response::Html, routing::get, Router};
 use crate::state::AppState;
 
 #[derive(OpenApi)]
@@ -24,7 +24,7 @@ use crate::state::AppState;
         crate::handlers::orders::get_order,
         crate::handlers::orders::cancel_order,
         crate::handlers::payments::webhook,
-        crate::handlers::staff::login as staff_login,
+        crate::handlers::staff::login,
         crate::handlers::staff::list_orders,
         crate::handlers::staff::update_status,
         crate::handlers::staff::attach_tracking,
@@ -43,5 +43,9 @@ use crate::state::AppState;
 pub struct ApiDoc;
 
 pub fn docs_router() -> Router<AppState> {
-    Router::new().merge(Scalar::with_url("/docs", ApiDoc::openapi()))
+    let html = Scalar::new(ApiDoc::openapi()).to_html();
+    Router::new().route("/docs", get(move || {
+        let html = html.clone();
+        async move { Html(html) }
+    }))
 }

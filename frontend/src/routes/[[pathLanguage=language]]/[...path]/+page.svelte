@@ -7,7 +7,10 @@
 	const routeId = $derived(data.routeId);
 	const entry = $derived(getPageEntry(routeId));
 	const Route = $derived(entry?.component);
-	const routeProps = $derived(entry?.props ?? {});
+	const routeProps = $derived({
+		...(entry?.props ?? {}),
+		searchTerm: data.searchTerm ?? ''
+	});
 
 	$effect(() => {
 		pathRoute.set(routeId);

@@ -22,6 +22,9 @@ impl PaymentGateway for VnPayGateway {
         let instructions = Some(format!(
             "Redirect to VnPay payment URL for {} (ref: {})", amount, gateway_ref
         ));
-        Ok(PaymentCreationResult { gateway_ref, instructions })
+        Ok(PaymentCreationResult {
+            gateway_ref: Some(gateway_ref),
+            instructions: serde_json::json!({ "text": instructions }),
+        })
     }
 }

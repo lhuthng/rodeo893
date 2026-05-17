@@ -2,7 +2,6 @@
 	let { target, children, ...rest } = $props();
 	const Portal = (element) => {
 		if (!target) return;
-
 		target.appendChild(element);
 		return () => element.remove();
 	};

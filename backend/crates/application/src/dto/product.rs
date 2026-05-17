@@ -2,7 +2,15 @@ use chrono::{DateTime, NaiveDate, Utc};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use validator::Validate;
+use validator::{Validate, ValidationError};
+
+fn validate_positive_decimal(val: &Decimal) -> Result<(), ValidationError> {
+    if *val >= Decimal::ZERO {
+        Ok(())
+    } else {
+        Err(ValidationError::new("base_price must be non-negative"))
+    }
+}
 
 #[derive(Debug, Serialize)]
 pub struct CategoryDto {
@@ -56,7 +64,7 @@ pub struct CreateProductInput {
     pub description: Option<String>,
     pub image_url:   Option<String>,
 
-    #[validate(range(min = 0.0))]
+    #[validate(custom(function = "validate_positive_decimal"))]
     pub base_price: Decimal,
 
     /// 0 = Monday … 6 = Sunday

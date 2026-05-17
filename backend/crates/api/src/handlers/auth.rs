@@ -5,6 +5,7 @@ use application::{
     use_cases::{login_user::LoginUser, logout_user::LogoutUser, register_user::RegisterUser},
 };
 use crate::{
+    error::ApiResult,
     extractors::ValidatedJson,
     middleware::auth_user::RequireUserSession,
     state::AppState,
@@ -12,13 +13,12 @@ use crate::{
 
 /// Register a new user
 #[utoipa::path(post, path = "/auth/register", tag = "auth",
-    request_body = RegisterUserInput,
     responses((status = 201, description = "Created")))]
 pub async fn register(
     State(s): State<AppState>,
     headers: HeaderMap,
     ValidatedJson(input): ValidatedJson<RegisterUserInput>,
-) -> Result<(StatusCode, Json<AuthResponse>), application::error::AppError> {
+) -> ApiResult<(StatusCode, Json<AuthResponse>)> {
     let uc = RegisterUser {
         user_repo:    Arc::clone(&s.user_repo),
         session_repo: Arc::clone(&s.session_repo),
@@ -36,13 +36,12 @@ pub async fn register(
 
 /// Login
 #[utoipa::path(post, path = "/auth/login", tag = "auth",
-    request_body = LoginInput,
     responses((status = 200, description = "OK")))]
 pub async fn login(
     State(s): State<AppState>,
     headers: HeaderMap,
     ValidatedJson(input): ValidatedJson<LoginInput>,
-) -> Result<Json<AuthResponse>, application::error::AppError> {
+) -> ApiResult<Json<AuthResponse>> {
     let uc = LoginUser {
         user_repo:    Arc::clone(&s.user_repo),
         session_repo: Arc::clone(&s.session_repo),
@@ -63,7 +62,7 @@ pub async fn login(
 pub async fn logout(
     State(s): State<AppState>,
     session: RequireUserSession,
-) -> Result<StatusCode, application::error::AppError> {
+) -> ApiResult<StatusCode> {
     let uc = LogoutUser { session_repo: Arc::clone(&s.session_repo) };
     uc.execute(session.session_id).await?;
     Ok(StatusCode::NO_CONTENT)

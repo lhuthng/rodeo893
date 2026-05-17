@@ -7,6 +7,8 @@
 		"productsIceCream": "ice-cream",
 		"productsCoffee": "coffee",
 		"membership": "membership",
+		"login": "login",
+		"profile": "profile",
 		"account": "account",
 		"orders": "orders",
 		"about": "about",
@@ -27,6 +29,8 @@
 		"productsIceCream": "Ice Cream | Rodeo 893",
 		"productsCoffee": "Coffee | Rodeo 893",
 		"membership": "Membership | Rodeo 893",
+		"login": "Login | Rodeo 893",
+		"profile": "Profile | Rodeo 893",
 		"account": "Account | Rodeo 893",
 		"orders": "Orders | Rodeo 893",
 		"about": "Our Story | Rodeo 893",
@@ -47,6 +51,8 @@
 		"productsIceCream": "See all Rodeo 893 ice cream offerings and browse the available flavors.",
 		"productsCoffee": "See Rodeo 893 coffee and its signature pour.",
 		"membership": "Join the Rodeo 893 membership for priority drops, early ordering, and premium bakery perks.",
+		"login": "Sign in to access your profile, orders, and membership details.",
+		"profile": "Review your personal details, orders, and membership status.",
 		"account": "View profile, saved addresses, and membership status in your Rodeo 893 account.",
 		"orders": "Review your order flow, recent orders, and delivery guidance at Rodeo 893.",
 		"about": "Read the story behind Rodeo 893 and its small-batch bakery philosophy.",
@@ -61,19 +67,26 @@
 		"productBlueCheeseCoffee": "Signature blue cheese coffee for guests who want something daring and memorable."
 	},
 	"brand": {
-		"name": "Rodeo 893",
-		"subtitle": "Bakery",
+		"name": "Rodeo",
+		"subtitle": "893",
 		"eyebrow": "Pre-order only · Small batch · Made to order",
 		"footerNote": "Baked with intent"
 	},
 	"navigation": {
 		"primary": [
+			{ "route": "home", "label": "Home" },
 			{ "route": "products", "label": "Products" },
 			{ "route": "membership", "label": "Membership" },
-			{ "route": "about", "label": "Story" },
-			{ "route": "contact", "label": "Contact" }
+			{ "route": "about", "label": "About" }
 		],
-		"account": { "route": "account", "label": "Account" }
+		"account": { "route": "profile", "label": "Profile" },
+		"profileLabel": "Profile"
+	},
+	"search": {
+		"placeholder": "Search products",
+		"submit": "Search",
+		"viewMore": "View more in products",
+		"empty": "No products matched your search."
 	},
 	"cta": {
 		"membership": "Join",
@@ -160,6 +173,12 @@
 			"Cleaner repeat-order flow through your account",
 			"A premium feeling without a noisy loyalty gimmick"
 		]
+	},
+	"loginPage": {
+		"eyebrow": "Login",
+		"title": "Sign in to continue.",
+		"description": "Login is being connected to backend authentication. This page is now a routing placeholder.",
+		"note": "In this phase, profile visibility in the header is driven by client-side session state while backend auth endpoints are integrated."
 	},
 	"accountPage": {
 		"eyebrow": "Account",

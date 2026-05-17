@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use sqlx::PgPool;
 use uuid::Uuid;
 use domain::{
-    entities::notification::EmailNotification,
+    entities::notification::{EmailNotification, NotificationStatus},
     repositories::notification::EmailNotificationRepository,
     DomainError,
 };
@@ -14,34 +14,36 @@ impl EmailNotificationRepository for PgEmailNotificationRepository {
     async fn create(&self, n: &EmailNotification) -> Result<EmailNotification, DomainError> {
         sqlx::query_as!(EmailNotification,
             r#"INSERT INTO email_notifications (id,recipient_email,template_name,payload,status,error_text,scheduled_at,sent_at,created_at)
-               VALUES ($1,$2,$3,$4,$5::notification_status,$6,$7,$8,$9) RETURNING *"#,
+               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+               RETURNING id,recipient_email,template_name,payload,status as "status: NotificationStatus",error_text,scheduled_at,sent_at,created_at"#,
             n.id, n.recipient_email, n.template_name, n.payload,
-            n.status.as_str(), n.error_text, n.scheduled_at, n.sent_at, n.created_at
+            n.status as _, n.error_text, n.scheduled_at, n.sent_at, n.created_at
         )
         .fetch_one(&self.0).await.map_err(db_err)
     }
 
-    async fn mark_sent(&self, id: Uuid) -> Result<(), DomainError> {
-        sqlx::query!(
-            "UPDATE email_notifications SET status='sent'::notification_status, sent_at=NOW() WHERE id=$1",
-            id
+    async fn update(&self, n: &EmailNotification) -> Result<EmailNotification, DomainError> {
+        sqlx::query_as!(EmailNotification,
+            r#"UPDATE email_notifications SET status=$2,error_text=$3,sent_at=$4 WHERE id=$1
+               RETURNING id,recipient_email,template_name,payload,status as "status: NotificationStatus",error_text,scheduled_at,sent_at,created_at"#,
+            n.id, n.status as _, n.error_text, n.sent_at
         )
-        .execute(&self.0).await.map_err(db_err)?;
-        Ok(())
+        .fetch_one(&self.0).await.map_err(db_err)
     }
 
-    async fn mark_failed(&self, id: Uuid, error: &str) -> Result<(), DomainError> {
-        sqlx::query!(
-            "UPDATE email_notifications SET status='failed'::notification_status, error_text=$2 WHERE id=$1",
-            id, error
+    async fn find_by_id(&self, id: Uuid) -> Result<EmailNotification, DomainError> {
+        sqlx::query_as!(EmailNotification,
+            r#"SELECT id,recipient_email,template_name,payload,status as "status: NotificationStatus",error_text,scheduled_at,sent_at,created_at
+               FROM email_notifications WHERE id=$1"#, id
         )
-        .execute(&self.0).await.map_err(db_err)?;
-        Ok(())
+        .fetch_optional(&self.0).await.map_err(db_err)?
+        .ok_or_else(|| DomainError::NotFound(format!("Notification {}", id)))
     }
 
     async fn list_pending(&self, limit: i64) -> Result<Vec<EmailNotification>, DomainError> {
         sqlx::query_as!(EmailNotification,
-            r#"SELECT * FROM email_notifications WHERE status='pending'::notification_status
+            r#"SELECT id,recipient_email,template_name,payload,status as "status: NotificationStatus",error_text,scheduled_at,sent_at,created_at
+               FROM email_notifications WHERE status='pending'
                AND scheduled_at <= NOW() ORDER BY scheduled_at LIMIT $1"#,
             limit
         )

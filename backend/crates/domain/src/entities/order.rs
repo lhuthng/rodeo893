@@ -1,9 +1,10 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, NaiveDate, Utc};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, sqlx::Type)]
+#[sqlx(type_name = "order_status", rename_all = "snake_case")]
 #[serde(rename_all = "snake_case")]
 pub enum OrderStatus {
     PendingPayment,
@@ -63,16 +64,40 @@ pub struct OrderItem {
     pub unit_price:          Decimal,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, sqlx::Type)]
+#[sqlx(type_name = "delivery_method", rename_all = "snake_case")]
+#[serde(rename_all = "snake_case")]
+pub enum DeliveryMethod {
+    InternalDelivery,
+    ThirdParty,
+}
+
+impl Default for DeliveryMethod {
+    fn default() -> Self { Self::ThirdParty }
+}
+
+impl std::fmt::Display for DeliveryMethod {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::InternalDelivery => f.write_str("internal_delivery"),
+            Self::ThirdParty       => f.write_str("third_party"),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OrderDeliveryInfo {
-    pub id:             Uuid,
-    pub order_id:       Uuid,
-    pub recipient_name: String,
-    pub phone:          String,
-    pub street:         String,
-    pub ward:           String,
-    pub district:       String,
-    pub city:           String,
-    pub country:        String,
-    pub delivery_note:  Option<String>,
+    pub id:                  Uuid,
+    pub order_id:            Uuid,
+    pub recipient_name:      String,
+    pub phone:               String,
+    pub street:              String,
+    pub ward:                String,
+    pub district:            String,
+    pub city:                String,
+    pub country:             String,
+    pub delivery_note:       Option<String>,
+    pub method:              DeliveryMethod,
+    pub preferred_date:      Option<NaiveDate>,
+    pub preferred_time_slot: Option<String>,
 }

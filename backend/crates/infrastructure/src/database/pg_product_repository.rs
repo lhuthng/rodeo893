@@ -21,6 +21,29 @@ impl ProductCategoryRepository for PgProductCategoryRepository {
         sqlx::query_as!(ProductCategory, "SELECT * FROM product_categories ORDER BY sort_order")
             .fetch_all(&self.0).await.map_err(db_err)
     }
+
+    async fn find_by_slug(&self, slug: &str) -> Result<ProductCategory, DomainError> {
+        sqlx::query_as!(ProductCategory, "SELECT * FROM product_categories WHERE slug=$1", slug)
+            .fetch_optional(&self.0).await.map_err(db_err)?
+            .ok_or_else(|| DomainError::NotFound(format!("Category slug {}", slug)))
+    }
+
+    async fn create(&self, c: &ProductCategory) -> Result<ProductCategory, DomainError> {
+        sqlx::query_as!(ProductCategory,
+            r#"INSERT INTO product_categories (id,name,slug,description,sort_order,created_at)
+               VALUES ($1,$2,$3,$4,$5,$6) RETURNING *"#,
+            c.id, c.name, c.slug, c.description, c.sort_order, c.created_at
+        )
+        .fetch_one(&self.0).await.map_err(db_err)
+    }
+
+    async fn update(&self, c: &ProductCategory) -> Result<ProductCategory, DomainError> {
+        sqlx::query_as!(ProductCategory,
+            "UPDATE product_categories SET name=$2,description=$3,sort_order=$4 WHERE id=$1 RETURNING *",
+            c.id, c.name, c.description, c.sort_order
+        )
+        .fetch_one(&self.0).await.map_err(db_err)
+    }
 }
 
 pub struct PgProductRepository(pub PgPool);
@@ -49,14 +72,14 @@ impl ProductRepository for PgProductRepository {
             .ok_or_else(|| DomainError::NotFound(format!("Product slug {}", slug)))
     }
 
-    async fn list(&self, active_only: bool) -> Result<Vec<Product>, DomainError> {
-        if active_only {
-            sqlx::query_as!(Product, "SELECT * FROM products WHERE is_active=true ORDER BY name")
-                .fetch_all(&self.0).await.map_err(db_err)
-        } else {
-            sqlx::query_as!(Product, "SELECT * FROM products ORDER BY name")
-                .fetch_all(&self.0).await.map_err(db_err)
-        }
+    async fn list_active(&self) -> Result<Vec<Product>, DomainError> {
+        sqlx::query_as!(Product, "SELECT * FROM products WHERE is_active=true ORDER BY name")
+            .fetch_all(&self.0).await.map_err(db_err)
+    }
+
+    async fn list_by_category(&self, category_id: Uuid) -> Result<Vec<Product>, DomainError> {
+        sqlx::query_as!(Product, "SELECT * FROM products WHERE category_id=$1 AND is_active=true ORDER BY name", category_id)
+            .fetch_all(&self.0).await.map_err(db_err)
     }
 
     async fn update(&self, p: &Product) -> Result<Product, DomainError> {
@@ -103,13 +126,13 @@ impl ProductOrderingDayRepository for PgProductOrderingDayRepository {
         Ok(())
     }
 
-    async fn list_for_product(&self, product_id: Uuid) -> Result<Vec<i16>, DomainError> {
+    async fn list_for_product(&self, product_id: Uuid) -> Result<Vec<ProductOrderingDay>, DomainError> {
         let rows = sqlx::query!(
             "SELECT day_of_week FROM product_ordering_days WHERE product_id=$1 ORDER BY day_of_week",
             product_id
         )
         .fetch_all(&self.0).await.map_err(db_err)?;
-        Ok(rows.into_iter().map(|r| r.day_of_week).collect())
+        Ok(rows.into_iter().map(|r| ProductOrderingDay { product_id, day_of_week: r.day_of_week }).collect())
     }
 }
 

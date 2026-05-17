@@ -1,4 +1,5 @@
 use deadpool_redis::Pool;
+use redis::AsyncCommands;
 use application::error::AppError;
 
 pub struct TrackingCache {
@@ -13,22 +14,14 @@ impl TrackingCache {
 
     pub async fn get(&self, tracking_number: &str) -> Option<String> {
         let mut conn = self.pool.get().await.ok()?;
-        let val: Option<String> = redis::cmd("GET")
-            .arg(format!("tracking:{}", tracking_number))
-            .query_async(&mut conn)
-            .await
-            .ok()?;
-        val
+        conn.get::<_, Option<String>>(format!("tracking:{}", tracking_number))
+            .await.ok().flatten()
     }
 
     pub async fn set(&self, tracking_number: &str, status: &str) -> Result<(), AppError> {
         let mut conn = self.pool.get().await
             .map_err(|e| AppError::Internal(e.to_string()))?;
-        redis::cmd("SETEX")
-            .arg(format!("tracking:{}", tracking_number))
-            .arg(self.ttl)
-            .arg(status)
-            .query_async::<_, ()>(&mut conn)
+        conn.set_ex::<_, _, ()>(format!("tracking:{}", tracking_number), status, self.ttl)
             .await
             .map_err(|e| AppError::Internal(e.to_string()))?;
         Ok(())

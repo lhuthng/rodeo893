@@ -1,24 +1,25 @@
 <script>
-	let { class: className, toggled } = $props();
+	let { class: className } = $props();
 </script>
 
 <svg
-	class:toggled
 	class={className}
+	xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 24 24"
 	fill="none"
-	xmlns="http://www.w3.org/2000/svg"
+	stroke="currentColor"
+	stroke-linecap="round"
 >
-	<path d="M4 6L20 6" stroke-linecap="round"></path>
-	<path d="M4 12L20 12" stroke-linecap="round"></path>
-	<path d="M4 18L20 18" stroke-linecap="round"></path>
+	<path d="M4 6L20 6"></path>
+	<path d="M4 12L20 12"></path>
+	<path d="M4 18L20 18"></path>
 </svg>
 
 <style lang="postcss">
 	@reference "../../../app.css";
 
 	path {
-		@apply origin-center stroke-(--theme-fg) transition-[stroke] duration-500 transform-fill;
+		@apply origin-center transition-[stroke] duration-500 transform-fill;
 
 		stroke: var(--theme-fg);
 		transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);

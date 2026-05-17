@@ -2,7 +2,7 @@ use std::sync::Arc;
 use axum::{extract::State, http::StatusCode, Json};
 use application::use_cases::handle_payment_webhook::{HandlePaymentWebhook, WebhookData};
 use domain::entities::payment::PaymentStatus;
-use crate::state::AppState;
+use crate::{error::ApiResult, state::AppState};
 
 /// Receive payment webhook (HMAC verification done in real impl)
 #[utoipa::path(post, path = "/payments/webhook", tag = "payments",
@@ -10,7 +10,7 @@ use crate::state::AppState;
 pub async fn webhook(
     State(s): State<AppState>,
     Json(body): Json<serde_json::Value>,
-) -> Result<StatusCode, application::error::AppError> {
+) -> ApiResult<StatusCode> {
     // TODO: verify HMAC per provider before processing
     let gateway_ref = body["gateway_ref"].as_str().unwrap_or("").to_string();
     let status_str  = body["status"].as_str().unwrap_or("");

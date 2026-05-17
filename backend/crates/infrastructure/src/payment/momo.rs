@@ -23,6 +23,9 @@ impl PaymentGateway for MoMoGateway {
         let instructions = Some(format!(
             "Redirect to MoMo payment URL for {} (ref: {})", amount, gateway_ref
         ));
-        Ok(PaymentCreationResult { gateway_ref, instructions })
+        Ok(PaymentCreationResult {
+            gateway_ref: Some(gateway_ref),
+            instructions: serde_json::json!({ "text": instructions }),
+        })
     }
 }

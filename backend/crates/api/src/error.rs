@@ -6,10 +6,27 @@ use axum::{
 use serde_json::json;
 use application::error::AppError;
 
-/// Converts AppError into an Axum JSON response.
-impl IntoResponse for AppError {
+#[derive(Debug)]
+pub struct ApiError(pub AppError);
+
+pub type ApiResult<T> = Result<T, ApiError>;
+
+impl From<AppError> for ApiError {
+    fn from(value: AppError) -> Self {
+        Self(value)
+    }
+}
+
+impl From<domain::DomainError> for ApiError {
+    fn from(value: domain::DomainError) -> Self {
+        Self(AppError::from(value))
+    }
+}
+
+/// Converts application errors into an Axum JSON response.
+impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
-        let (status, code, message) = match &self {
+        let (status, code, message) = match &self.0 {
             AppError::Validation(m) => (StatusCode::UNPROCESSABLE_ENTITY, "validation_error", m.as_str()),
             AppError::Unauthorized(m) => (StatusCode::UNAUTHORIZED, "unauthorized", m.as_str()),
             AppError::NotFound(m) => (StatusCode::NOT_FOUND, "not_found", m.as_str()),

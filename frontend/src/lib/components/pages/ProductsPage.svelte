@@ -2,9 +2,25 @@
 	import { getRoute } from '$lib/navigation/index.js';
 	import { t } from '$lib/localization';
 	import PageShell from './PageShell.svelte';
-	import { productCategoriesByRoute, productsByCategory } from '$lib/content/products/index.js';
+	import {
+		productCategoriesByRoute,
+		products,
+		productsByCategory
+	} from '$lib/content/products/index.js';
+
+	let { searchTerm = '' } = $props();
 
 	const categories = ['productsCookies', 'productsIceCream', 'productsCoffee'];
+	const normalizedSearchTerm = $derived(searchTerm.trim().toLowerCase());
+	const filteredProducts = $derived(
+		normalizedSearchTerm
+			? products.filter((product) => {
+					const name = $t(`productDetails.${product.route}.name`).toLowerCase();
+					const description = $t(`productDetails.${product.route}.description`).toLowerCase();
+					return name.includes(normalizedSearchTerm) || description.includes(normalizedSearchTerm);
+				})
+			: []
+	);
 </script>
 
 <PageShell
@@ -29,14 +45,14 @@
 		</div>
 	</div>
 
-	<div class="product-groups">
-		{#each categories as category}
-			<section class="product-group">
-				<div class="product-group__heading">
-					<p>{$t(`productsPage.categories.${productCategoriesByRoute[category].category}`)}</p>
-				</div>
+	{#if normalizedSearchTerm}
+		<section class="product-group product-group--search">
+			<div class="product-group__heading">
+				<p>{$t('search.submit')}: {searchTerm}</p>
+			</div>
+			{#if filteredProducts.length}
 				<div class="product-grid">
-					{#each productsByCategory[productCategoriesByRoute[category].category] ?? [] as product}
+					{#each filteredProducts as product}
 						<a class="product-card" href={$getRoute(product.route)}>
 							<div class="product-card__image">
 								<img src={product.imageSrc} alt={product.imageAlt} loading="lazy" />
@@ -47,9 +63,33 @@
 						</a>
 					{/each}
 				</div>
-			</section>
-		{/each}
-	</div>
+			{:else}
+				<p class="product-search-empty">{$t('search.empty')}</p>
+			{/if}
+		</section>
+	{:else}
+		<div class="product-groups">
+			{#each categories as category}
+				<section class="product-group">
+					<div class="product-group__heading">
+						<p>{$t(`productsPage.categories.${productCategoriesByRoute[category].category}`)}</p>
+					</div>
+					<div class="product-grid">
+						{#each productsByCategory[productCategoriesByRoute[category].category] ?? [] as product}
+							<a class="product-card" href={$getRoute(product.route)}>
+								<div class="product-card__image">
+									<img src={product.imageSrc} alt={product.imageAlt} loading="lazy" />
+								</div>
+								<h2>{$t(`productDetails.${product.route}.name`)}</h2>
+								<p>{$t(`productDetails.${product.route}.description`)}</p>
+								<span>{product.priceFrom}</span>
+							</a>
+						{/each}
+					</div>
+				</section>
+			{/each}
+		</div>
+	{/if}
 </PageShell>
 
 <style lang="postcss">
@@ -123,6 +163,12 @@
 		@apply border-b pb-4 font-mono text-xs tracking-widest2 uppercase transition-colors duration-500;
 		border-color: var(--theme-border);
 		color: var(--theme-accent);
+	}
+
+	.product-search-empty {
+		@apply mt-6 border px-4 py-3 text-lg;
+		border-color: var(--theme-border);
+		color: var(--theme-fg-muted);
 	}
 
 	.product-grid {

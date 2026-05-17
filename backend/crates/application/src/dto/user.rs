@@ -50,6 +50,8 @@ pub struct AddressDto {
 
 #[derive(Debug, Deserialize, Validate)]
 pub struct UpsertAddressInput {
+    pub id: Option<Uuid>,
+
     #[validate(length(min = 1, max = 50))]
     pub label: Option<String>,
 

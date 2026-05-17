@@ -7,6 +7,8 @@
 		"productsIceCream": "kem",
 		"productsCoffee": "ca-phe",
 		"membership": "thanh-vien",
+		"login": "dang-nhap",
+		"profile": "ho-so",
 		"account": "tai-khoan",
 		"orders": "don-hang",
 		"about": "ve-chung-toi",
@@ -27,6 +29,8 @@
 		"productsIceCream": "Kem | Rodeo 893",
 		"productsCoffee": "Cà Phê | Rodeo 893",
 		"membership": "Thành Viên | Rodeo 893",
+		"login": "Đăng Nhập | Rodeo 893",
+		"profile": "Hồ Sơ | Rodeo 893",
 		"account": "Tài Khoản | Rodeo 893",
 		"orders": "Đơn Hàng | Rodeo 893",
 		"about": "Câu Chuyện Của Chúng Tôi | Rodeo 893",
@@ -47,6 +51,8 @@
 		"productsIceCream": "Xem toàn bộ các loại kem của Rodeo 893 và khám phá các hương vị hiện có.",
 		"productsCoffee": "Khám phá cà phê đặc trưng của Rodeo 893 và công thức pha chế độc quyền.",
 		"membership": "Trở thành thành viên Rodeo 893 để được ưu tiên đặt hàng, tiếp cận sớm và tận hưởng đặc quyền bakery cao cấp.",
+		"login": "Đăng nhập để truy cập hồ sơ, đơn hàng và trạng thái thành viên.",
+		"profile": "Xem thông tin cá nhân, đơn hàng và trạng thái thành viên.",
 		"account": "Xem thông tin cá nhân, địa chỉ đã lưu và trạng thái thành viên trong tài khoản Rodeo 893 của bạn.",
 		"orders": "Xem lại quy trình đặt hàng, đơn hàng gần đây và hướng dẫn giao hàng tại Rodeo 893.",
 		"about": "Đọc câu chuyện đằng sau Rodeo 893 và triết lý làm bánh thủ công số lượng nhỏ.",
@@ -61,19 +67,26 @@
 		"productBlueCheeseCoffee": "Cà phê phô mai xanh đặc trưng dành cho những vị khách muốn trải nghiệm táo bạo và khó quên."
 	},
 	"brand": {
-		"name": "Rodeo 893",
-		"subtitle": "Tiệm Bánh",
+		"name": "Rodeo",
+		"subtitle": "893",
 		"eyebrow": "Đặt trước · Số lượng có hạn · Làm theo đơn",
 		"footerNote": "Nướng với tâm huyết"
 	},
 	"navigation": {
 		"primary": [
+			{ "route": "home", "label": "Trang Chủ" },
 			{ "route": "products", "label": "Sản Phẩm" },
 			{ "route": "membership", "label": "Thành Viên" },
-			{ "route": "about", "label": "Câu Chuyện" },
-			{ "route": "contact", "label": "Liên Hệ" }
+			{ "route": "about", "label": "Giới Thiệu" }
 		],
-		"account": { "route": "account", "label": "Tài Khoản" }
+		"account": { "route": "profile", "label": "Hồ Sơ" },
+		"profileLabel": "Hồ Sơ"
+	},
+	"search": {
+		"placeholder": "Tìm sản phẩm",
+		"submit": "Tìm",
+		"viewMore": "Xem thêm trong trang sản phẩm",
+		"empty": "Không có sản phẩm phù hợp."
 	},
 	"cta": {
 		"membership": "Đăng ký",

@@ -16,6 +16,8 @@ export const routeTree = {
 	productIceCreamCoffee: ['products', 'productsIceCream', 'productIceCreamCoffee'],
 	productBlueCheeseCoffee: ['products', 'productsCoffee', 'productBlueCheeseCoffee'],
 	membership: ['membership'],
+	login: ['login'],
+	profile: ['profile'],
 	account: ['account'],
 	orders: ['orders'],
 	about: ['about'],

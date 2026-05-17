@@ -4,7 +4,7 @@ use application::{
     dto::user::{UpsertAddressInput, UserProfileDto},
     use_cases::{get_user_profile::GetUserProfile, upsert_address::UpsertAddress},
 };
-use crate::{extractors::ValidatedJson, middleware::auth_user::RequireUserSession, state::AppState};
+use crate::{error::ApiResult, extractors::ValidatedJson, middleware::auth_user::RequireUserSession, state::AppState};
 
 /// Get current user profile
 #[utoipa::path(get, path = "/user/profile", tag = "users",
@@ -12,7 +12,7 @@ use crate::{extractors::ValidatedJson, middleware::auth_user::RequireUserSession
 pub async fn get_profile(
     State(s): State<AppState>,
     session: RequireUserSession,
-) -> Result<Json<UserProfileDto>, application::error::AppError> {
+) -> ApiResult<Json<UserProfileDto>> {
     let uc = GetUserProfile {
         user_repo:       Arc::clone(&s.user_repo),
         address_repo:    Arc::clone(&s.address_repo),
@@ -24,13 +24,12 @@ pub async fn get_profile(
 
 /// Add or update address
 #[utoipa::path(post, path = "/user/addresses", tag = "users",
-    request_body = UpsertAddressInput,
     responses((status = 200, description = "OK")))]
 pub async fn upsert_address(
     State(s): State<AppState>,
     session: RequireUserSession,
     ValidatedJson(input): ValidatedJson<UpsertAddressInput>,
-) -> Result<Json<serde_json::Value>, application::error::AppError> {
+) -> ApiResult<Json<serde_json::Value>> {
     let uc = UpsertAddress {
         user_repo:    Arc::clone(&s.user_repo),
         address_repo: Arc::clone(&s.address_repo),

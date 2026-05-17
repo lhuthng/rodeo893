@@ -52,7 +52,7 @@
 				membership endpoints.
 			</p>
 			<div class="membership-actions">
-				<a class="membership-primary" href={$getRoute('account')}>{$t('cta.membership')}</a>
+				<a class="membership-primary" href={$getRoute('profile')}>{$t('cta.membership')}</a>
 				<a class="membership-secondary" href={$getRoute('products')}>{$t('cta.order')}</a>
 			</div>
 		</div>

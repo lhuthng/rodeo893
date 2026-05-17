@@ -14,6 +14,7 @@ application.workspace     = true
 domain.workspace          = true
 
 tokio.workspace           = true
+axum.workspace            = true
 tracing.workspace         = true
 tracing-subscriber.workspace = true
 dotenvy.workspace         = true

@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { get } from 'svelte/store';
 
 import { defaultLanguage } from '$lib/localization/index.js';
-import { resolveRouteBySegments } from '$lib/routing/routes.js';
+import { buildRoutePath, resolveRouteBySegments } from '$lib/routing/routes.js';
 
 export const trailingSlash = 'never';
 
@@ -41,5 +41,12 @@ export const load = async ({ params, url }) => {
 		throw redirect(307, resolved.canonicalPath);
 	}
 
-	return { routeId: resolved.routeId };
+	if (resolved.routeId === 'account') {
+		throw redirect(307, buildRoutePath('profile', requestedLanguage, activeDefaultLanguage));
+	}
+
+	return {
+		routeId: resolved.routeId,
+		searchTerm: url.searchParams.get('search') ?? ''
+	};
 };
