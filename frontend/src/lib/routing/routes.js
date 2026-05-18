@@ -104,6 +104,13 @@ export const buildRoutePath = (routeId, language, defaultLanguage) => {
 		return '/';
 	}
 
+	const languagePrefix = language && language !== defaultLanguage ? `/${language}` : '';
+
+	// Home has no path segment; keep only language prefix for non-default languages.
+	if (segments.length === 0) {
+		return languagePrefix || '/';
+	}
+
 	const localizedSegments = segments
 		.map((segment) => getLocalizedRouteName(`${language}.${segment}`))
 		.filter(Boolean);
@@ -111,8 +118,6 @@ export const buildRoutePath = (routeId, language, defaultLanguage) => {
 	if (localizedSegments.length === 0) {
 		return '/';
 	}
-
-	const languagePrefix = language && language !== defaultLanguage ? `/${language}` : '';
 	return `${languagePrefix}/${localizedSegments.join('/')}`.replace(/\/+/g, '/');
 };
 

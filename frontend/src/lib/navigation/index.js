@@ -25,6 +25,8 @@ export const switchLanguage = derived(
         const currentData = $page?.data ?? {};
         const currentPageType = currentData.pageType;
         const currentRouteId = currentData.routeId;
+        const fallbackRoute = $pathRoute === '/' ? 'home' : $pathRoute;
+        const routeForLanguageSwitch = currentRouteId || fallbackRoute || 'home';
 
         let nextPath;
         if (currentRouteId === 'products') {
@@ -48,7 +50,7 @@ export const switchLanguage = derived(
                 nextPath = $getRoute('products', newLanguage);
             }
         } else {
-            nextPath = $getRoute($pathRoute, newLanguage);
+			nextPath = $getRoute(routeForLanguageSwitch, newLanguage);
         }
 
         const search = $page?.url?.search ?? '';
