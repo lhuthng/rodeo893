@@ -61,6 +61,7 @@
 	const SEARCH_DEBOUNCE_MS = 1000;
 	const BREAKPOINT_LG = 1024;
 	let currentPanel = $state(null);
+	let ribbonOpen = $state(false);
 	let panelTransitionInFlight = $state(false);
 	let isSearchOpen = $derived(currentPanel === 'search');
 	let isBurgerOpen = $derived(currentPanel === 'burger');
@@ -81,6 +82,9 @@
 
 	const runPanelTransition = async (targetPanel) => {
 		if (!panelStackEl || currentPanel === targetPanel) return;
+
+		// Update ribbon color state as soon as a transition starts, not when it finishes.
+		ribbonOpen = targetPanel !== null;
 
 		const isOpening = currentPanel === null;
 		const isClosing = targetPanel === null;
@@ -320,7 +324,7 @@
 				<li><a class="membership-link" href={$getRoute('login')}>{$t('cta.membership')}</a></li>
 			{/if}
 			<li class="relative h-full w-14">
-				<a class="ribbon" class:open={currentPanel !== null} href={$getRoute('products')}>
+				<a class="ribbon" class:open={ribbonOpen} href={$getRoute('products')}>
 					<span class="relative z-20 block w-full px-2 py-4 text-center uppercase not-lg:text-sm"
 						>{$t('cta.order')}</span
 					>
