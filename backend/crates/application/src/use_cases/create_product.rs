@@ -4,7 +4,7 @@ use uuid::Uuid;
 use validator::Validate;
 
 use domain::{
-    entities::product::{Product, ProductCategory, ProductOrderingDay},
+    entities::product::Product,
     repositories::product::{ProductCategoryRepository, ProductOrderingDayRepository, ProductRepository},
 };
 use crate::{dto::product::{CreateProductInput, ProductDto}, error::AppError};

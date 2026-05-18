@@ -4,7 +4,7 @@ use uuid::Uuid;
 
 use domain::{
     entities::occasion::Occasion,
-    repositories::occasion::{OccasionAnnouncementRepository, OccasionRepository},
+    repositories::occasion::{OccasionRepository},
 };
 use crate::error::AppError;
 

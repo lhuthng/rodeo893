@@ -19,7 +19,7 @@ use domain::{
 };
 use crate::{
     dto::order::{
-        DeliveryInfoDto, OrderItemInput, OrderItemSource, OrderSummaryDto,
+        OrderItemInput, OrderItemSource, OrderSummaryDto,
         PaymentInstructionsDto, PlaceOrderInput, PlaceOrderResponse,
     },
     error::AppError,

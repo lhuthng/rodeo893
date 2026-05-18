@@ -1,6 +1,5 @@
 use std::sync::Arc;
 use chrono::Utc;
-use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 use uuid::Uuid;
 use validator::Validate;
