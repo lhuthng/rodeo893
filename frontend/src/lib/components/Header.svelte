@@ -421,7 +421,7 @@
 
 	.profile-trigger,
 	.search-trigger {
-		@apply inline-flex h-10 w-10 cursor-pointer items-center justify-center transition-colors duration-150;
+		@apply inline-flex h-10 w-10 cursor-pointer items-center justify-center p-2 transition-colors duration-500;
 		border: 1px solid var(--theme-border);
 		color: var(--theme-fg);
 

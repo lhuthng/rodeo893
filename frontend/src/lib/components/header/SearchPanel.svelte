@@ -56,7 +56,7 @@
 		@apply mx-auto flex max-w-300 flex-col gap-3 md:flex-row;
 
 		& input {
-			@apply w-full border px-4 py-3 font-mono text-sm tracking-wider uppercase;
+			@apply w-full border px-4 py-3 font-mono text-sm tracking-wider uppercase focus:outline-(--theme-accent);
 			border-color: var(--theme-border);
 			background-color: var(--theme-bg);
 			color: var(--theme-fg);
@@ -75,7 +75,7 @@
 	}
 
 	.search-panel__results {
-		@apply mt-4 grid gap-2;
+		@apply mx-auto mt-4 grid max-w-300 gap-2;
 
 		& ol {
 			@apply grid gap-2;
