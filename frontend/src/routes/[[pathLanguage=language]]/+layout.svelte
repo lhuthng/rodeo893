@@ -1,9 +1,8 @@
 <script>
-	import { page } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { language } from '$lib/localization/index.js';
-	import { pathRoute } from '$lib/navigation/index.js';
 	import { setContext } from 'svelte';
 
 	let { children, data } = $props();
@@ -14,7 +13,9 @@
 		language.set(data.pathLanguage);
 	});
 
-	const isDarkPage = $derived($pathRoute === 'membership' || $page.data?.routeId === 'membership');
+	// Clear dark theme as soon as navigation starts (not after the new page commits).
+	// This ensures the header transitions in sync with the page leaving, not after it loads.
+	const isDarkPage = $derived($page.data?.routeId === 'membership' && !$navigating);
 </script>
 
 <Header />

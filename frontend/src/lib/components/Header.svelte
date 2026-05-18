@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { navigating, page } from '$app/stores';
 	import Logo from './svgs/Logo.svelte';
 	import { getRoute, pathRoute, switchLanguage } from '$lib/navigation/index.js';
 	import { allLanguages, language, t } from '$lib/localization';
@@ -28,9 +28,8 @@
 			currentRoute.startsWith('products') ||
 			currentRoute.startsWith('product')
 	);
-	const isMembershipRoute = $derived(
-		currentRoute === 'membership' || $page.data?.routeId === 'membership'
-	);
+	// Clear dark theme as soon as navigation starts — same timing as the layout.
+	const isMembershipRoute = $derived($page.data?.routeId === 'membership' && !$navigating);
 	const currentLanguageCode = $derived($language || 'en');
 	const availableLanguages = $derived(allLanguages().length ? allLanguages() : ['en', 'vi']);
 	const searchQueryLink = $derived(
