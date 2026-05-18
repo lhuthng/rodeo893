@@ -1,17 +1,15 @@
 import { redirect } from '@sveltejs/kit';
-import { get } from 'svelte/store';
 
-import { defaultLanguage } from '$lib/localization/index.js';
 import { buildRoutePath, resolveRouteBySegments } from '$lib/routing/routes.js';
 
-export const trailingSlash = 'never';
-
-export const load = async ({ params, url }) => {
-	const activeDefaultLanguage = get(defaultLanguage);
-	const requestedLanguage = params.pathLanguage || activeDefaultLanguage;
-	const segments = params.path.split('/').filter(Boolean);
-
-	// Walk up the path until a route matches (longest match wins)
+export const resolveStaticRoute = ({
+	segments,
+	requestedLanguage,
+	activeDefaultLanguage,
+	searchTerm,
+	params,
+	url
+}) => {
 	let resolved = null;
 	let matchedLength = segments.length;
 
@@ -26,17 +24,14 @@ export const load = async ({ params, url }) => {
 	}
 
 	if (!resolved) {
-		// Nothing matched at all — go to language root
 		const langPrefix = params.pathLanguage ? `/${requestedLanguage}` : '';
 		throw redirect(307, langPrefix || '/');
 	}
 
-	// Partial match (some trailing segments were unrecognised) — redirect to resolved parent
 	if (matchedLength < segments.length) {
 		throw redirect(307, resolved.canonicalPath);
 	}
 
-	// Cross-language or non-canonical slug — redirect to canonical path
 	if (url.pathname !== resolved.canonicalPath) {
 		throw redirect(307, resolved.canonicalPath);
 	}
@@ -46,7 +41,8 @@ export const load = async ({ params, url }) => {
 	}
 
 	return {
+		pageType: 'static',
 		routeId: resolved.routeId,
-		searchTerm: url.searchParams.get('search') ?? ''
+		searchTerm
 	};
 };

@@ -1,4 +1,4 @@
-.PHONY: help backend-build backend-run backend-test frontend-install frontend-dev frontend-build docker-build docker-up docker-down docker-logs clean fmt lint db-migrate db-reset git-push dev dev-db dev-backend dev-frontend dev-setup dev-docker
+.PHONY: help backend-build backend-run backend-test frontend-install frontend-dev frontend-build docker-build docker-up docker-down docker-logs clean fmt lint db-migrate db-reset db-seed db-reseed db-export git-push dev dev-db dev-backend dev-frontend dev-setup dev-docker
 
 help:
 	@echo "Bakery Project Makefile"
@@ -29,7 +29,10 @@ help:
 	@echo ""
 	@echo "Database commands:"
 	@echo "  make db-migrate         Run migrations"
-	@echo "  make db-reset           Reset database (caution!)"
+	@echo "  make db-reset           Reset database + re-seed (caution!)"
+	@echo "  make db-seed            Import data/categories.json + data/products.json"
+	@echo "  make db-reseed          Truncate seed data, then re-import"
+	@echo "  make db-export          Export current DB state back to JSON files"
 	@echo ""
 	@echo "Code quality:"
 	@echo "  make fmt                Format all code"
@@ -107,11 +110,26 @@ db-reset:
 	@echo "⚠️  WARNING: This will reset the entire database!"
 	@read -p "Are you sure? [y/N] " -n 1 -r; \
 	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
-		docker compose down -v && \
-		docker compose up -d postgres && \
-		sleep 5 && \
-		cd backend && sqlx migrate run; \
+		docker compose -f docker-compose.data.yml down -v && \
+		$(MAKE) dev-db && \
+		cd backend && sqlx migrate run && \
+		cd .. && $(MAKE) db-seed; \
 	fi
+
+db-seed:
+	@test -f .env.dev || { echo "Missing .env.dev — run 'make dev-setup' first"; exit 1; }
+	@test -d backend/seeds/node_modules || (cd backend/seeds && npm install --silent)
+	@set -a; . ./.env.dev; set +a; node backend/seeds/import.js
+
+db-reseed:
+	@test -f .env.dev || { echo "Missing .env.dev — run 'make dev-setup' first"; exit 1; }
+	@test -d backend/seeds/node_modules || (cd backend/seeds && npm install --silent)
+	@set -a; . ./.env.dev; set +a; node backend/seeds/import.js --reset
+
+db-export:
+	@test -f .env.dev || { echo "Missing .env.dev — run 'make dev-setup' first"; exit 1; }
+	@test -d backend/seeds/node_modules || (cd backend/seeds && npm install --silent)
+	@set -a; . ./.env.dev; set +a; node backend/seeds/export.js
 
 # Code quality
 fmt:

@@ -1,11 +1,29 @@
 <script>
+	import { page } from '$app/stores';
 	import { getRoute } from '$lib/navigation/index.js';
 	import { t } from '$lib/localization';
 	import PageShell from './PageShell.svelte';
 
-	let { category, category_slug, products = [], featuredProduct } = $props();
-	const details = $derived($t(`productsPage.categories.${category}`));
-	const categoryProducts = $derived(products.filter((p) => p.category_slug === category_slug));
+	let { category = null, products = [] } = $props();
+	const activeCategory = $derived(category ?? $page.data?.category ?? null);
+	const categoryProducts = $derived(
+		products.length
+			? products
+			: ($page.data?.products ?? []).filter(
+					(product) => product.category_slug === activeCategory?.slug
+				)
+	);
+	const details = $derived(
+		activeCategory?.name ||
+			categoryProducts[0]?.category_slug
+				?.split('-')
+				.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+				.join(' ') ||
+			$t('productsPage.title')
+	);
+	const featuredPath = $derived(
+		activeCategory?.featured_path ?? categoryProducts[0]?.path ?? $getRoute('products')
+	);
 
 	const formatPrice = (amount, currency) => `${Number(amount).toLocaleString('vi-VN')} ${currency}`;
 </script>
@@ -13,16 +31,16 @@
 <PageShell
 	eyebrow={$t('productsPage.eyebrow')}
 	title={details}
-	description={$t('productsPage.description')}
+	description={activeCategory?.description || $t('productsPage.description')}
 >
 	<div class="category-hero">
 		<div class="category-hero__copy">
 			<p>{$t('cta.exploreProducts')}</p>
-			<a href={$getRoute(featuredProduct)}>{$t('cta.order')}</a>
+			<a href={featuredPath}>{$t('cta.order')}</a>
 		</div>
 		<div class="category-hero__list">
 			{#each categoryProducts as product}
-				<a href={$getRoute(product.frontend_key)}>
+				<a href={product.path}>
 					{#if product.image_url}
 						<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
 					{/if}

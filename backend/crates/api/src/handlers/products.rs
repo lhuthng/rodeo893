@@ -5,9 +5,9 @@ use axum::{
     Json,
 };
 use rust_decimal::Decimal;
-use serde::Deserialize;
 use std::collections::HashMap;
 use uuid::Uuid;
+use sqlx::types::Json as SqlxJson;
 use application::{
     dto::product::{CreateProductInput, LocalizedProductDto, UpdateProductInput},
     error::AppError,
@@ -17,7 +17,6 @@ use application::{
         update_product::UpdateProduct,
     },
 };
-use domain::repositories::product::ProductRepository;
 use crate::{error::{ApiError, ApiResult}, extractors::ValidatedJson, middleware::auth_staff::RequireStaff, state::AppState};
 
 // ── Internal row types for the localized JOIN queries ────────────────────────
@@ -26,8 +25,11 @@ use crate::{error::{ApiError, ApiResult}, extractors::ValidatedJson, middleware:
 struct LocalizedProductRow {
     pub id:           Uuid,
     pub slug:         String,
+    pub localized_slug: String,
     pub frontend_key: Option<String>,
     pub category_slug: String,
+    pub category_localized_slug: String,
+    pub category_name: String,
     pub name:         String,
     pub description:  String,
     pub image_url:    Option<String>,
@@ -35,12 +37,25 @@ struct LocalizedProductRow {
     pub base_price:   Decimal,
     pub currency:     String,
     pub plating:      Option<String>,
+    pub notes:        SqlxJson<Vec<String>>,
 }
 
 #[derive(sqlx::FromRow)]
-struct NoteRow {
-    pub product_id: Uuid,
-    pub body:       String,
+struct ResolvedCategoryRow {
+    pub category_slug: String,
+}
+
+#[derive(sqlx::FromRow)]
+struct ResolvedProductRow {
+    pub product_slug:  String,
+}
+
+#[derive(serde::Serialize, utoipa::ToSchema)]
+pub struct ResolvedCatalogPathDto {
+    pub category_slug: String,
+    pub category_localized_slug: String,
+    pub product_slug: Option<String>,
+    pub product_localized_slug: Option<String>,
 }
 
 async fn query_localized(pool: &sqlx::PgPool, lang: &str) -> Result<Vec<LocalizedProductDto>, sqlx::Error> {
@@ -48,19 +63,25 @@ async fn query_localized(pool: &sqlx::PgPool, lang: &str) -> Result<Vec<Localize
         SELECT
             p.id,
             p.slug,
+            COALESCE(pt.slug, p.slug) AS localized_slug,
             p.frontend_key,
             pc.slug        AS category_slug,
+            COALESCE(pct.slug, pc.slug) AS category_localized_slug,
+            COALESCE(pct.name, initcap(replace(pc.slug, '-', ' '))) AS category_name,
             COALESCE(pt.name,        p.name)        AS name,
             COALESCE(pt.description, p.description) AS description,
             p.image_url,
             p.image_alt,
             p.base_price,
             p.currency,
-            p.plating
+            p.plating,
+            COALESCE(pt.notes, '[]'::jsonb) AS notes
         FROM products p
         JOIN product_categories pc ON pc.id = p.category_id
         LEFT JOIN product_translations pt
             ON pt.product_id = p.id AND pt.lang = $1
+        LEFT JOIN product_category_translations pct
+            ON pct.category_id = pc.id AND pct.lang = $1
         WHERE p.is_active = true
         ORDER BY pc.sort_order, p.name
     "#)
@@ -68,41 +89,22 @@ async fn query_localized(pool: &sqlx::PgPool, lang: &str) -> Result<Vec<Localize
     .fetch_all(pool)
     .await?;
 
-    if rows.is_empty() {
-        return Ok(vec![]);
-    }
-
-    let ids: Vec<Uuid> = rows.iter().map(|r| r.id).collect();
-    let notes = sqlx::query_as::<_, NoteRow>(r#"
-        SELECT product_id, body
-        FROM product_notes
-        WHERE product_id = ANY($1) AND lang = $2
-        ORDER BY product_id, sort_order
-    "#)
-    .bind(&ids)
-    .bind(lang)
-    .fetch_all(pool)
-    .await?;
-
-    let mut notes_map: HashMap<Uuid, Vec<String>> = HashMap::new();
-    for n in notes {
-        notes_map.entry(n.product_id).or_default().push(n.body);
-    }
-
     Ok(rows.into_iter().map(|r| {
-        let notes = notes_map.remove(&r.id).unwrap_or_default();
         LocalizedProductDto {
             id:           r.id,
             slug:         r.slug,
+            localized_slug: r.localized_slug,
             frontend_key: r.frontend_key,
             category_slug: r.category_slug,
+            category_localized_slug: r.category_localized_slug,
+            category_name: r.category_name,
             name:         r.name,
             description:  r.description,
             image_url:    r.image_url,
             image_alt:    r.image_alt,
             base_price:   r.base_price,
             currency:     r.currency,
-            notes,
+            notes:        r.notes.0,
             plating:      r.plating,
         }
     }).collect())
@@ -142,6 +144,127 @@ pub async fn get_product(
     let product = products.into_iter().find(|p| p.slug == slug)
         .ok_or_else(|| ApiError(AppError::NotFound(format!("Product '{slug}' not found"))))?;
     Ok(Json(product))
+}
+
+/// Resolve category/product slugs from any supported language to canonical and requested-language slugs.
+#[utoipa::path(get, path = "/products/resolve-path", tag = "products",
+    params(
+        ("category" = String, Query, description = "Category slug in any supported language"),
+        ("product" = Option<String>, Query, description = "Product slug in any supported language"),
+        ("lang" = Option<String>, Query, description = "Target language for localized output slugs"),
+    ),
+    responses(
+        (status = 200, description = "Resolved", body = ResolvedCatalogPathDto),
+        (status = 404, description = "Not found")
+    ))]
+pub async fn resolve_catalog_path(
+    State(s): State<AppState>,
+    Query(params): Query<HashMap<String, String>>,
+) -> ApiResult<Json<ResolvedCatalogPathDto>> {
+    let lang = params.get("lang").map(|s| s.as_str()).unwrap_or("en");
+    let incoming_category = params
+        .get("category")
+        .map(|value| value.trim())
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| ApiError(AppError::Validation("Missing query parameter 'category'".to_string())))?;
+    let incoming_product = params
+        .get("product")
+        .map(|value| value.trim())
+        .filter(|value| !value.is_empty())
+        .map(ToOwned::to_owned);
+
+    let resolved_category = sqlx::query_as::<_, ResolvedCategoryRow>(
+        r#"
+        SELECT pc.slug AS category_slug
+        FROM product_categories pc
+        LEFT JOIN product_category_translations pct ON pct.category_id = pc.id
+        WHERE pc.slug = $1 OR pct.slug = $1
+        LIMIT 1
+        "#,
+    )
+    .bind(incoming_category)
+    .fetch_optional(&s.db)
+    .await
+    .map_err(|e| ApiError(AppError::Internal(e.to_string())))?
+    .ok_or_else(|| {
+        ApiError(AppError::NotFound(format!(
+            "Category '{incoming_category}' not found"
+        )))
+    })?;
+
+    let category_localized_slug = sqlx::query_scalar::<_, String>(
+        r#"
+        SELECT COALESCE(pct.slug, pc.slug) AS localized_slug
+        FROM product_categories pc
+        LEFT JOIN product_category_translations pct
+            ON pct.category_id = pc.id AND pct.lang = $2
+        WHERE pc.slug = $1
+        LIMIT 1
+        "#,
+    )
+    .bind(&resolved_category.category_slug)
+    .bind(lang)
+    .fetch_one(&s.db)
+    .await
+    .map_err(|e| ApiError(AppError::Internal(e.to_string())))?;
+
+    let (product_slug, product_localized_slug) = match incoming_product {
+        None => (None, None),
+        Some(incoming_product_slug) => {
+            let resolved_product = sqlx::query_as::<_, ResolvedProductRow>(
+                r#"
+                SELECT
+                    p.slug  AS product_slug
+                FROM products p
+                JOIN product_categories pc ON pc.id = p.category_id
+                LEFT JOIN product_category_translations pct ON pct.category_id = pc.id
+                LEFT JOIN product_translations pt ON pt.product_id = p.id
+                WHERE p.is_active = true
+                  AND (pc.slug = $1 OR pct.slug = $1)
+                  AND (p.slug = $2 OR pt.slug = $2)
+                LIMIT 1
+                "#,
+            )
+            .bind(&resolved_category.category_slug)
+            .bind(&incoming_product_slug)
+            .fetch_optional(&s.db)
+            .await
+            .map_err(|e| ApiError(AppError::Internal(e.to_string())))?
+            .ok_or_else(|| {
+                ApiError(AppError::NotFound(format!(
+                    "Product '{incoming_product_slug}' not found"
+                )))
+            })?;
+
+            let localized_product_slug = sqlx::query_scalar::<_, String>(
+                r#"
+                SELECT COALESCE(pt.slug, p.slug) AS localized_slug
+                FROM products p
+                LEFT JOIN product_translations pt
+                    ON pt.product_id = p.id AND pt.lang = $2
+                WHERE p.slug = $1
+                LIMIT 1
+                "#,
+            )
+            .bind(&resolved_product.product_slug)
+            .bind(lang)
+            .fetch_one(&s.db)
+            .await
+            .map_err(|e| ApiError(AppError::Internal(e.to_string())))?;
+
+            (
+                Some(resolved_product.product_slug),
+                Some(localized_product_slug),
+            )
+        }
+    };
+
+    Ok(Json(ResolvedCatalogPathDto {
+        category_slug: resolved_category.category_slug,
+        category_localized_slug,
+        product_slug,
+        product_localized_slug,
+    }))
 }
 
 // ── Staff handlers ───────────────────────────────────────────────────────────

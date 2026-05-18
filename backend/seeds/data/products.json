@@ -1,0 +1,202 @@
+[
+  {
+    "slug": "vanilla-cookie",
+    "category": "cookies",
+    "frontend_key": "productVanilla",
+    "image_url": "/mockups/premium-products/product-vanilla.svg",
+    "image_alt": "Vanilla cookie stack in soft premium studio lighting",
+    "plating": "Pair with black coffee or keep it as the quiet first pick in a mixed box.",
+    "base_price": 68000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Vanilla Cookie",
+        "description": "A restrained vanilla cookie built around butter, soft edges, and a clean finish.",
+        "slug": "vanilla-cookie",
+        "notes": ["Warm butter profile", "Soft center", "Elegant everyday choice"]
+      },
+      "vi": {
+        "name": "Bánh Quy Vani",
+        "description": "Bánh quy vani bơ mềm với phần kết tinh tế — nhẹ nhàng trên hương vị, rõ ràng trong cấu trúc. Không có gì phô trương, không có gì thiếu.",
+        "slug": "banh-quy-vani",
+        "notes": ["Hương vani thuần túy", "Viền nướng vàng nhẹ", "Giòn bên ngoài, mềm bên trong"]
+      }
+    }
+  },
+  {
+    "slug": "mocha-cookie",
+    "category": "cookies",
+    "frontend_key": "productMocha",
+    "image_url": "/mockups/premium-products/product-mocha.svg",
+    "image_alt": "Mocha cookie with deep cocoa tones and side-lit shadows",
+    "plating": "Best merchandised next to coffee-led products and darker packaging notes.",
+    "base_price": 72000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Mocha Cookie",
+        "description": "Mocha with a roasted perfume and a darker cocoa backbone.",
+        "slug": "mocha-cookie",
+        "notes": ["Coffee-led aroma", "Dark cocoa depth", "For richer pairings"]
+      },
+      "vi": {
+        "name": "Bánh Quy Mocha",
+        "description": "Bánh quy mocha rang xay cân bằng chiều sâu ca cao và hương cà phê — đậm đà nhưng không nặng nề. Dành cho những ai muốn thứ gì đó có tính cách.",
+        "slug": "banh-quy-mocha",
+        "notes": ["Ca cao rang xay thực sự", "Hương cà phê nhẹ", "Kết cấu dày và dẻo"]
+      }
+    }
+  },
+  {
+    "slug": "choco-chip-cookie",
+    "category": "cookies",
+    "frontend_key": "productChocoChip",
+    "image_url": "/mockups/premium-products/product-choco-chip.svg",
+    "image_alt": "Choco chip cookie split open to reveal dark chocolate center",
+    "plating": "Lead with texture and warmth in photography rather than bright sweetness cues.",
+    "base_price": 74000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Choco Chip Cookie",
+        "description": "A dark chocolate cookie with a soft center and a polished finish.",
+        "slug": "choco-chip-cookie",
+        "notes": ["Dark chocolate pieces", "Soft bite", "Signature staple"]
+      },
+      "vi": {
+        "name": "Bánh Quy Sôcôla Viên",
+        "description": "Bánh quy sôcôla viên đậm đà với chocolate đen và nhân mềm giữ nguyên sau khi nguội. Một công thức cổ điển được thực hiện với nguyên liệu nghiêm túc.",
+        "slug": "banh-quy-socola-vien",
+        "notes": ["Chocolate đen chất lượng cao", "Nhân mềm sau khi nguội", "Mép nướng giòn nhẹ"]
+      }
+    }
+  },
+  {
+    "slug": "peanut-butter-cookie",
+    "category": "cookies",
+    "frontend_key": "productPeanutButter",
+    "image_url": "/mockups/premium-products/product-peanut-butter.svg",
+    "image_alt": "Peanut butter cookie with refined cross-hatch pattern on warm tones",
+    "plating": "Style with darker, savory props so the product reads grown-up rather than playful.",
+    "base_price": 76000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Peanut Butter Cookie",
+        "description": "Peanut butter made dense, savory, and a little more refined than expected.",
+        "slug": "peanut-butter-cookie",
+        "notes": ["Roasted nut depth", "Dense texture", "Balanced salt finish"]
+      },
+      "vi": {
+        "name": "Bánh Quy Bơ Đậu Phộng",
+        "description": "Bánh quy bơ đậu phộng chắc nịch với vị béo ngậy và cạnh mặn tinh tế — không ngọt một chiều, không mỏng. Một cái gì đó để cầm tay với sự tự tin.",
+        "slug": "banh-quy-bo-dau-phong",
+        "notes": ["Bơ đậu phộng tự nhiên", "Muối biển hoàn thiện", "Kết cấu dày đặc và dẻo"]
+      }
+    }
+  },
+  {
+    "slug": "almond-crescent",
+    "category": "cookies",
+    "frontend_key": "productAlmondCrescent",
+    "image_url": "/mockups/premium-products/product-almond-crescent.svg",
+    "image_alt": "Almond crescent cookies arranged with elegant negative space",
+    "plating": "Use a ceremony-like composition with negative space and pale props.",
+    "base_price": 78000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Almond Crescent",
+        "description": "A delicate almond crescent designed for a quieter, ceremonial sort of indulgence.",
+        "slug": "almond-crescent",
+        "notes": ["Fragrant almond", "Delicate crumb", "Elegant presentation"]
+      },
+      "vi": {
+        "name": "Bánh Trăng Hạnh Nhân",
+        "description": "Bánh trăng hạnh nhân mỏng giòn với phần bột nhẹ và hạnh nhân được xử lý kỹ. Một loại bánh để thưởng thức từ từ — không vội vã.",
+        "slug": "banh-trang-hanh-nhan",
+        "notes": ["Bơ chất lượng cao", "Bột hạnh nhân mịn", "Đường bột hoàn thiện nhẹ nhàng"]
+      }
+    }
+  },
+  {
+    "slug": "choco-ice-cream",
+    "category": "ice-cream",
+    "frontend_key": "productIceCreamChoco",
+    "image_url": "/mockups/premium-products/product-ice-cream-choco.svg",
+    "image_alt": "Dark chocolate ice cream scoop in minimal premium composition",
+    "plating": "Keep the set cold, dark, and editorial rather than colorful.",
+    "base_price": 95000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Choco Ice Cream",
+        "description": "Dark choco ice cream with a richer profile and a clean melt.",
+        "slug": "choco-ice-cream",
+        "notes": ["Dark chocolate body", "Silky texture", "Dessert-forward finish"]
+      },
+      "vi": {
+        "name": "Kem Sôcôla",
+        "description": "Kem sôcôla đen với profile vị trưởng thành — đậm đà hơn, mịn hơn, ít ngọt hơn những gì bạn mong đợi. Dành cho những ai nghiêm túc về sôcôla.",
+        "slug": "kem-socola",
+        "notes": ["Ca cao Valrhona", "Ít ngọt hơn bình thường", "Kết cấu kem mịn màng"]
+      }
+    }
+  },
+  {
+    "slug": "coffee-ice-cream",
+    "category": "ice-cream",
+    "frontend_key": "productIceCreamCoffee",
+    "image_url": "/mockups/premium-products/product-ice-cream-coffee.svg",
+    "image_alt": "Coffee ice cream scoop with roasted bean accents on warm backdrop",
+    "plating": "Merchandise beside espresso tones and polished metal rather than bright dessert styling.",
+    "base_price": 95000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Coffee Ice Cream",
+        "description": "Coffee ice cream with roasted depth and an elegant bitterness.",
+        "slug": "coffee-ice-cream",
+        "notes": ["Roasted coffee note", "Smooth finish", "Adult dessert profile"]
+      },
+      "vi": {
+        "name": "Kem Cà Phê",
+        "description": "Kem cà phê với nền hương rang xay thanh lịch — không phải vanilla với màu nâu, mà là cà phê thực sự được tôn trọng. Một profile mà cả người uống cà phê đều nhận ra.",
+        "slug": "kem-ca-phe",
+        "notes": ["Hạt cà phê chất lượng cao", "Ngâm nguội lâu", "Độ ngọt cân bằng"]
+      }
+    }
+  },
+  {
+    "slug": "blue-cheese-coffee",
+    "category": "coffee",
+    "frontend_key": "productBlueCheeseCoffee",
+    "image_url": "/mockups/premium-products/product-blue-cheese-coffee.svg",
+    "image_alt": "Signature blue cheese coffee in a refined espresso glass profile",
+    "plating": "Present as the signature conversation piece with restrained, almost tasting-menu styling.",
+    "base_price": 88000,
+    "currency": "VND",
+    "is_active": true,
+    "translations": {
+      "en": {
+        "name": "Blue Cheese Coffee",
+        "description": "The signature pour: unexpected, aromatic, and designed to be remembered.",
+        "slug": "blue-cheese-coffee",
+        "notes": ["Distinct aroma", "Conversation starter", "For adventurous regulars"]
+      },
+      "vi": {
+        "name": "Cà Phê Phô Mai Xanh",
+        "description": "Cà phê phô mai xanh đặc trưng dành cho những vị khách muốn thứ gì đó dũng cảm và đáng nhớ. Không phải cho tất cả mọi người — nhưng đối với người phù hợp, không có gì khác sánh kịp.",
+        "slug": "ca-phe-pho-mai-xanh",
+        "notes": ["Phô mai xanh nhập khẩu", "Cà phê espresso đậm đà", "Phục vụ lạnh theo cách riêng"]
+      }
+    }
+  }
+]

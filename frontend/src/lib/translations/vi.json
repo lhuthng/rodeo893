@@ -3,68 +3,35 @@
 	"routes": {
 		"home": "trang-chu",
 		"products": "san-pham",
-		"productsCookies": "banh-quy",
-		"productsIceCream": "kem",
-		"productsCoffee": "ca-phe",
 		"membership": "thanh-vien",
 		"login": "dang-nhap",
 		"profile": "ho-so",
 		"account": "tai-khoan",
 		"orders": "don-hang",
 		"about": "ve-chung-toi",
-		"contact": "lien-he",
-		"productVanilla": "vani-banh-quy",
-		"productMocha": "mocha-banh-quy",
-		"productChocoChip": "socola-vien-banh-quy",
-		"productPeanutButter": "bo-dua-phong-banh-quy",
-		"productAlmondCrescent": "vong-trang-hanh-nhan",
-		"productIceCreamChoco": "kem-socola",
-		"productIceCreamCoffee": "kem-ca-phe",
-		"productBlueCheeseCoffee": "ca-phe-pho-mai-xanh"
+		"contact": "lien-he"
 	},
 	"titles": {
 		"home": "Rodeo 893",
 		"products": "Sản Phẩm | Rodeo 893",
-		"productsCookies": "Bánh Quy | Rodeo 893",
-		"productsIceCream": "Kem | Rodeo 893",
-		"productsCoffee": "Cà Phê | Rodeo 893",
 		"membership": "Thành Viên | Rodeo 893",
 		"login": "Đăng Nhập | Rodeo 893",
 		"profile": "Hồ Sơ | Rodeo 893",
 		"account": "Tài Khoản | Rodeo 893",
 		"orders": "Đơn Hàng | Rodeo 893",
 		"about": "Câu Chuyện Của Chúng Tôi | Rodeo 893",
-		"contact": "Liên Hệ | Rodeo 893",
-		"productVanilla": "Bánh Quy Vani | Rodeo 893",
-		"productMocha": "Bánh Quy Mocha | Rodeo 893",
-		"productChocoChip": "Bánh Quy Sôcôla Viên | Rodeo 893",
-		"productPeanutButter": "Bánh Quy Bơ Đậu Phộng | Rodeo 893",
-		"productAlmondCrescent": "Bánh Trăng Hạnh Nhân | Rodeo 893",
-		"productIceCreamChoco": "Kem Sôcôla | Rodeo 893",
-		"productIceCreamCoffee": "Kem Cà Phê | Rodeo 893",
-		"productBlueCheeseCoffee": "Cà Phê Phô Mai Xanh | Rodeo 893"
+		"contact": "Liên Hệ | Rodeo 893"
 	},
 	"meta-descriptions": {
 		"home": "Tiệm bánh cao cấp với bánh quy, kem và cà phê thủ công — đặt trước, số lượng có hạn, làm theo đơn.",
 		"products": "Khám phá bánh quy, kem và cà phê đặc trưng của Rodeo 893 trong bộ sưu tập được tuyển chọn kỹ lưỡng.",
-		"productsCookies": "Xem toàn bộ các loại bánh quy của Rodeo 893 và khám phá các hương vị hiện có.",
-		"productsIceCream": "Xem toàn bộ các loại kem của Rodeo 893 và khám phá các hương vị hiện có.",
-		"productsCoffee": "Khám phá cà phê đặc trưng của Rodeo 893 và công thức pha chế độc quyền.",
 		"membership": "Trở thành thành viên Rodeo 893 để được ưu tiên đặt hàng, tiếp cận sớm và tận hưởng đặc quyền bakery cao cấp.",
 		"login": "Đăng nhập để truy cập hồ sơ, đơn hàng và trạng thái thành viên.",
 		"profile": "Xem thông tin cá nhân, đơn hàng và trạng thái thành viên.",
 		"account": "Xem thông tin cá nhân, địa chỉ đã lưu và trạng thái thành viên trong tài khoản Rodeo 893 của bạn.",
 		"orders": "Xem lại quy trình đặt hàng, đơn hàng gần đây và hướng dẫn giao hàng tại Rodeo 893.",
 		"about": "Đọc câu chuyện đằng sau Rodeo 893 và triết lý làm bánh thủ công số lượng nhỏ.",
-		"contact": "Liên hệ với Rodeo 893 để đặt trước, sự kiện và thông tin về bộ sưu tập.",
-		"productVanilla": "Bánh quy vani mềm mại với hương thơm tinh tế và phần kết hoàn hảo.",
-		"productMocha": "Bánh quy mocha rang xay với chiều sâu ca cao và hương cà phê quyến rũ.",
-		"productChocoChip": "Bánh quy sôcôla viên đậm đà với chocolate đen và nhân mềm mịn.",
-		"productPeanutButter": "Bánh quy bơ đậu phộng chắc chắn với vị béo ngậy tinh tế.",
-		"productAlmondCrescent": "Bánh trăng hạnh nhân mỏng giòn với phần hoàn thiện đặc biệt.",
-		"productIceCreamChoco": "Kem sôcôla đen với hồ sơ vị trưởng thành, mịn màng hơn.",
-		"productIceCreamCoffee": "Kem cà phê với nền hương rang xay thanh lịch.",
-		"productBlueCheeseCoffee": "Cà phê phô mai xanh đặc trưng dành cho những vị khách muốn trải nghiệm táo bạo và khó quên."
+		"contact": "Liên hệ với Rodeo 893 để đặt trước, sự kiện và thông tin về bộ sưu tập."
 	},
 	"brand": {
 		"name": "Rodeo",
@@ -208,55 +175,5 @@
 			"Email cho yêu cầu sự kiện và hợp tác",
 			"Hướng dẫn đặt hàng trực tiếp cho nhận tại chỗ hoặc giao hàng"
 		]
-	},
-	"productDetails": {
-		"productVanilla": {
-			"name": "Bánh Quy Vani",
-			"tagline": "Yên tĩnh. Bơ mềm. Tinh tế.",
-			"description": "Bánh quy vani bơ mềm với phần kết tinh tế — nhẹ nhàng trên hương vị, rõ ràng trong cấu trúc. Không có gì phô trương, không có gì thiếu.",
-			"details": ["Hương vani thuần túy", "Viền nướng vàng nhẹ", "Giòn bên ngoài, mềm bên trong"]
-		},
-		"productMocha": {
-			"name": "Bánh Quy Mocha",
-			"tagline": "Ca cao đậm đà gặp cà phê thơm ngát.",
-			"description": "Bánh quy mocha rang xay cân bằng chiều sâu ca cao và hương cà phê — đậm đà nhưng không nặng nề. Dành cho những ai muốn thứ gì đó có tính cách.",
-			"details": ["Ca cao rang xay thực sự", "Hương cà phê nhẹ", "Kết cấu dày và dẻo"]
-		},
-		"productChocoChip": {
-			"name": "Bánh Quy Sôcôla Viên",
-			"tagline": "Đậm đà. Mềm mịn. Không thể chối từ.",
-			"description": "Bánh quy sôcôla viên đậm đà với chocolate đen và nhân mềm giữ nguyên sau khi nguội. Một công thức cổ điển được thực hiện với nguyên liệu nghiêm túc.",
-			"details": ["Chocolate đen chất lượng cao", "Nhân mềm sau khi nguội", "Mép nướng giòn nhẹ"]
-		},
-		"productPeanutButter": {
-			"name": "Bánh Quy Bơ Đậu Phộng",
-			"tagline": "Chắc chắn. Đậm đà. Hơi mặn.",
-			"description": "Bánh quy bơ đậu phộng chắc nịch với vị béo ngậy và cạnh mặn tinh tế — không ngọt một chiều, không mỏng. Một cái gì đó để cầm tay với sự tự tin.",
-			"details": ["Bơ đậu phộng tự nhiên", "Muối biển hoàn thiện", "Kết cấu dày đặc và dẻo"]
-		},
-		"productAlmondCrescent": {
-			"name": "Bánh Trăng Hạnh Nhân",
-			"tagline": "Tinh tế. Giòn nhẹ. Nghi lễ.",
-			"description": "Bánh trăng hạnh nhân mỏng giòn với phần bột nhẹ và hạnh nhân được xử lý kỹ. Một loại bánh để thưởng thức từ từ — không vội vã.",
-			"details": ["Bơ chất lượng cao", "Bột hạnh nhân mịn", "Đường bột hoàn thiện nhẹ nhàng"]
-		},
-		"productIceCreamChoco": {
-			"name": "Kem Sôcôla",
-			"tagline": "Đen. Mịn màng. Trưởng thành.",
-			"description": "Kem sôcôla đen với profile vị trưởng thành — đậm đà hơn, mịn hơn, ít ngọt hơn những gì bạn mong đợi. Dành cho những ai nghiêm túc về sôcôla.",
-			"details": ["Ca cao Valrhona", "Ít ngọt hơn bình thường", "Kết cấu kem mịn màng"]
-		},
-		"productIceCreamCoffee": {
-			"name": "Kem Cà Phê",
-			"tagline": "Rang xay. Thanh lịch. Sâu sắc.",
-			"description": "Kem cà phê với nền hương rang xay thanh lịch — không phải vanilla với màu nâu, mà là cà phê thực sự được tôn trọng. Một profile mà cả người uống cà phê đều nhận ra.",
-			"details": ["Hạt cà phê chất lượng cao", "Ngâm nguội lâu", "Độ ngọt cân bằng"]
-		},
-		"productBlueCheeseCoffee": {
-			"name": "Cà Phê Phô Mai Xanh",
-			"tagline": "Táo bạo. Khó quên. Chỉ có ở đây.",
-			"description": "Cà phê phô mai xanh đặc trưng dành cho những vị khách muốn thứ gì đó dũng cảm và đáng nhớ. Không phải cho tất cả mọi người — nhưng đối với người phù hợp, không có gì khác sánh kịp.",
-			"details": ["Phô mai xanh nhập khẩu", "Cà phê espresso đậm đà", "Phục vụ lạnh theo cách riêng"]
-		}
 	}
 }

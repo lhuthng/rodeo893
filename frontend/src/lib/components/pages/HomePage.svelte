@@ -1,10 +1,18 @@
 <script>
+	import { page } from '$app/stores';
 	import { getRoute } from '$lib/navigation/index.js';
 	import { t } from '$lib/localization';
 
-	let { products = [] } = $props();
+	let { products = [], featuredProducts = [], catalogError = null } = $props();
 
-	const featuredProducts = $derived(products.slice(0, 3));
+	const allProducts = $derived(products.length ? products : ($page.data?.products ?? []));
+	const allFeaturedProducts = $derived(
+		featuredProducts.length ? featuredProducts : ($page.data?.featuredProducts ?? [])
+	);
+	const activeCatalogError = $derived(catalogError ?? $page.data?.catalogError ?? null);
+	const heroProducts = $derived(
+		allFeaturedProducts.length ? allFeaturedProducts : allProducts.slice(0, 3)
+	);
 	const hero = $derived($t('home.hero'));
 	const featured = $derived($t('home.featured'));
 	const membership = $derived($t('home.membership'));
@@ -49,14 +57,20 @@
 		<div class="hero__panel">
 			<div class="hero__card">
 				<p class="hero__panel-label">{$t('home.featured.eyebrow')}</p>
-				<div class="hero__panel-grid">
-					{#each featuredProducts as product}
-						<a class="hero__product" href={$getRoute(product.frontend_key)}>
-							<p class="hero__product-title">{product.name}</p>
-							<p class="hero__product-copy">{product.description}</p>
-						</a>
-					{/each}
-				</div>
+				{#if activeCatalogError}
+					<p class="hero__product-copy">Catalog unavailable: {activeCatalogError}</p>
+				{:else if heroProducts.length}
+					<div class="hero__panel-grid">
+						{#each heroProducts as product}
+							<a class="hero__product" href={product.path}>
+								<p class="hero__product-title">{product.name}</p>
+								<p class="hero__product-copy">{product.description}</p>
+							</a>
+						{/each}
+					</div>
+				{:else}
+					<p class="hero__product-copy">No signature picks available yet.</p>
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -121,14 +135,14 @@
 	@reference '../../../app.css';
 
 	.hero {
-		@apply relative flex min-h-208 w-full h-screen items-center px-6 pb-14 pt-32 md:px-10 md:pb-18;
+		@apply relative flex h-screen min-h-208 w-full items-center px-6 pt-32 pb-14 md:px-10 md:pb-18;
 
 		&::before {
-			@apply pointer-events-none absolute inset-x-0 top-0 bottom-100 z-10 content-[""] bg-parchment/40;
+			@apply pointer-events-none absolute inset-x-0 top-0 bottom-100 z-10 bg-parchment/40 content-[""];
 		}
 
 		&::after {
-			@apply pointer-events-none absolute inset-x-0 bottom-0 z-10 h-100 content-[""] bg-parchment/40;
+			@apply pointer-events-none absolute inset-x-0 bottom-0 z-10 h-100 bg-parchment/40 content-[""];
 			min-width: 80rem;
 			mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0 0 L1440 0 L1440 30 C1200 30 960 40 720 30 C480 20 240 30 0 30 L0 40 Z' fill='black'/%3E%3C/svg%3E");
 			mask-size: 100% 100%;
@@ -152,7 +166,7 @@
 	}
 
 	.hero__eyebrow {
-		@apply mb-5 font-mono text-xs uppercase tracking-[0.24em] text-crimson-bright;
+		@apply mb-5 font-mono text-xs tracking-[0.24em] text-crimson-bright uppercase;
 	}
 
 	.hero__title {
@@ -164,7 +178,7 @@
 		}
 
 		& > em {
-			@apply text-right italic text-crimson-bright md:text-left;
+			@apply text-right text-crimson-bright italic md:text-left;
 		}
 	}
 
@@ -183,7 +197,7 @@
 	.hero__primary,
 	.hero__secondary,
 	.section-card__link {
-		@apply inline-flex items-center px-5 py-3 text-sm uppercase tracking-wider transition-colors duration-150;
+		@apply inline-flex items-center px-5 py-3 text-sm tracking-wider uppercase transition-colors duration-150;
 	}
 
 	.hero__primary {
@@ -209,7 +223,7 @@
 
 	.hero__panel-label,
 	.section-card__eyebrow {
-		@apply mb-3 font-mono text-xs uppercase tracking-widest2 text-crimson-bright;
+		@apply mb-3 font-mono text-xs tracking-widest2 text-crimson-bright uppercase;
 	}
 
 	.hero__panel-grid {
@@ -238,10 +252,10 @@
 	}
 
 	.home-marquee__track {
-		@apply flex gap-16 whitespace-nowrap animate-[marquee_20s_linear_infinite] select-none font-extrabold;
+		@apply flex animate-[marquee_20s_linear_infinite] gap-16 font-extrabold whitespace-nowrap select-none;
 
 		& :global(span:nth-child(2n)) {
-			@apply text-xs text-crimson-bright/60 translate-y-2;
+			@apply translate-y-2 text-xs text-crimson-bright/60;
 		}
 	}
 
@@ -279,7 +293,7 @@
 		}
 
 		& span {
-			@apply font-mono text-xs uppercase tracking-widest2 text-crimson-bright;
+			@apply font-mono text-xs tracking-widest2 text-crimson-bright uppercase;
 		}
 
 		& p {

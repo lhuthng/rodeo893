@@ -1,0 +1,8 @@
+{
+  "name": "bakery-seeds",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "pg": "^8.13.0"
+  }
+}

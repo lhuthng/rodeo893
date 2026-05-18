@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "cookies",
+    "sort_order": 1,
+    "frontend_key": "productsCookies",
+    "translations": {
+      "en": { "name": "Cookies",   "slug": "cookies"  },
+      "vi": { "name": "Bánh Quy", "slug": "banh-quy" }
+    }
+  },
+  {
+    "slug": "ice-cream",
+    "sort_order": 2,
+    "frontend_key": "productsIceCream",
+    "translations": {
+      "en": { "name": "Ice Cream", "slug": "ice-cream" },
+      "vi": { "name": "Kem",       "slug": "kem"       }
+    }
+  },
+  {
+    "slug": "coffee",
+    "sort_order": 3,
+    "frontend_key": "productsCoffee",
+    "translations": {
+      "en": { "name": "Coffee",  "slug": "coffee" },
+      "vi": { "name": "Cà Phê", "slug": "ca-phe" }
+    }
+  }
+]

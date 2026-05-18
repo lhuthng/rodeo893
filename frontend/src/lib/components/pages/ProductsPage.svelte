@@ -1,22 +1,52 @@
 <script>
+	import { page } from '$app/stores';
 	import { getRoute } from '$lib/navigation/index.js';
 	import { t } from '$lib/localization';
 	import PageShell from './PageShell.svelte';
-	import { CATEGORY_SLUG_TO_KEY } from './index.js';
 
-	let { searchTerm = '', products = [] } = $props();
+	let {
+		searchTerm = '',
+		products = [],
+		categories = [],
+		featuredProducts = [],
+		catalogError = null
+	} = $props();
+	const allProducts = $derived(products.length ? products : ($page.data?.products ?? []));
+	const allCategories = $derived(categories.length ? categories : ($page.data?.categories ?? []));
+	const allFeaturedProducts = $derived(
+		featuredProducts.length ? featuredProducts : ($page.data?.featuredProducts ?? [])
+	);
+	const activeCatalogError = $derived(catalogError ?? $page.data?.catalogError ?? null);
 
-	const CATEGORY_SLUGS = ['cookies', 'ice-cream', 'coffee'];
 	const normalizedSearchTerm = $derived(searchTerm.trim().toLowerCase());
 	const filteredProducts = $derived(
 		normalizedSearchTerm
-			? products.filter((p) => {
+			? allProducts.filter((p) => {
 					return (
 						p.name.toLowerCase().includes(normalizedSearchTerm) ||
 						p.description.toLowerCase().includes(normalizedSearchTerm)
 					);
 				})
 			: []
+	);
+	const visibleCategories = $derived(
+		allCategories.length
+			? allCategories
+			: Array.from(
+					new Map(
+						allProducts.map((product) => [
+							product.category_slug,
+							{
+								slug: product.category_slug,
+								name: product.category_slug
+									.split('-')
+									.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+									.join(' '),
+								path: product.category_path
+							}
+						])
+					).values()
+				)
 	);
 
 	const formatPrice = (amount, currency) => `${Number(amount).toLocaleString('vi-VN')} ${currency}`;
@@ -33,18 +63,43 @@
 			<h2>{$t('productsPage.title')}</h2>
 			<p>{$t('productsPage.description')}</p>
 			<div class="products-hero__actions">
-				<a href={$getRoute('productsCookies')}>{$t('cta.exploreProducts')}</a>
+				<a href={visibleCategories[0]?.path ?? $getRoute('products')}>{$t('cta.exploreProducts')}</a
+				>
 				<a href={$getRoute('membership')}>{$t('cta.order')}</a>
 			</div>
 		</div>
 		<div class="products-hero__panel">
-			<p>{$t('productsPage.categories.cookies')}</p>
-			<p>{$t('productsPage.categories.iceCream')}</p>
-			<p>{$t('productsPage.categories.coffee')}</p>
+			{#each visibleCategories as category}
+				<p>{category.name}</p>
+			{/each}
 		</div>
 	</div>
 
-	{#if normalizedSearchTerm}
+	{#if activeCatalogError}
+		<p class="product-search-empty">Catalog unavailable: {activeCatalogError}</p>
+	{:else if allFeaturedProducts.length && !normalizedSearchTerm}
+		<section class="product-group product-group--featured">
+			<div class="product-group__heading">
+				<p>Signature picks</p>
+			</div>
+			<div class="product-grid">
+				{#each allFeaturedProducts as product}
+					<a class="product-card" href={product.path}>
+						<div class="product-card__image">
+							{#if product.image_url}
+								<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
+							{/if}
+						</div>
+						<h2>{product.name}</h2>
+						<p>{product.description}</p>
+						<span>{formatPrice(product.base_price, product.currency)}</span>
+					</a>
+				{/each}
+			</div>
+		</section>
+	{/if}
+
+	{#if !activeCatalogError && normalizedSearchTerm}
 		<section class="product-group product-group--search">
 			<div class="product-group__heading">
 				<p>{$t('search.submit')}: {searchTerm}</p>
@@ -52,7 +107,7 @@
 			{#if filteredProducts.length}
 				<div class="product-grid">
 					{#each filteredProducts as product}
-						<a class="product-card" href={$getRoute(product.frontend_key)}>
+						<a class="product-card" href={product.path}>
 							<div class="product-card__image">
 								{#if product.image_url}
 									<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
@@ -68,19 +123,18 @@
 				<p class="product-search-empty">{$t('search.empty')}</p>
 			{/if}
 		</section>
-	{:else}
+	{:else if !activeCatalogError && allProducts.length}
 		<div class="product-groups">
-			{#each CATEGORY_SLUGS as categorySlug}
-				{@const categoryKey = CATEGORY_SLUG_TO_KEY[categorySlug]}
-				{@const categoryProducts = products.filter((p) => p.category_slug === categorySlug)}
+			{#each visibleCategories as category}
+				{@const categoryProducts = allProducts.filter((p) => p.category_slug === category.slug)}
 				{#if categoryProducts.length}
 					<section class="product-group">
 						<div class="product-group__heading">
-							<p>{$t(`productsPage.categories.${categoryKey}`)}</p>
+							<p>{category.name}</p>
 						</div>
 						<div class="product-grid">
 							{#each categoryProducts as product}
-								<a class="product-card" href={$getRoute(product.frontend_key)}>
+								<a class="product-card" href={product.path}>
 									<div class="product-card__image">
 										{#if product.image_url}
 											<img src={product.image_url} alt={product.image_alt ?? ''} loading="lazy" />
@@ -96,6 +150,8 @@
 				{/if}
 			{/each}
 		</div>
+	{:else if !activeCatalogError}
+		<p class="product-search-empty">No products available yet.</p>
 	{/if}
 </PageShell>
 

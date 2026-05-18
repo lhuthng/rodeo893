@@ -3,68 +3,35 @@
 	"routes": {
 		"home": "home",
 		"products": "products",
-		"productsCookies": "cookies",
-		"productsIceCream": "ice-cream",
-		"productsCoffee": "coffee",
 		"membership": "membership",
 		"login": "login",
 		"profile": "profile",
 		"account": "account",
 		"orders": "orders",
 		"about": "about",
-		"contact": "contact",
-		"productVanilla": "vanilla-cookie",
-		"productMocha": "mocha-cookie",
-		"productChocoChip": "choco-chip-cookie",
-		"productPeanutButter": "peanut-butter-cookie",
-		"productAlmondCrescent": "almond-crescent",
-		"productIceCreamChoco": "choco-ice-cream",
-		"productIceCreamCoffee": "coffee-ice-cream",
-		"productBlueCheeseCoffee": "blue-cheese-coffee"
+		"contact": "contact"
 	},
 	"titles": {
 		"home": "Rodeo 893",
 		"products": "Products | Rodeo 893",
-		"productsCookies": "Cookies | Rodeo 893",
-		"productsIceCream": "Ice Cream | Rodeo 893",
-		"productsCoffee": "Coffee | Rodeo 893",
 		"membership": "Membership | Rodeo 893",
 		"login": "Login | Rodeo 893",
 		"profile": "Profile | Rodeo 893",
 		"account": "Account | Rodeo 893",
 		"orders": "Orders | Rodeo 893",
 		"about": "Our Story | Rodeo 893",
-		"contact": "Contact | Rodeo 893",
-		"productVanilla": "Vanilla Cookie | Rodeo 893",
-		"productMocha": "Mocha Cookie | Rodeo 893",
-		"productChocoChip": "Choco Chip Cookie | Rodeo 893",
-		"productPeanutButter": "Peanut Butter Cookie | Rodeo 893",
-		"productAlmondCrescent": "Almond Crescent | Rodeo 893",
-		"productIceCreamChoco": "Choco Ice Cream | Rodeo 893",
-		"productIceCreamCoffee": "Coffee Ice Cream | Rodeo 893",
-		"productBlueCheeseCoffee": "Blue Cheese Coffee | Rodeo 893"
+		"contact": "Contact | Rodeo 893"
 	},
 	"meta-descriptions": {
 		"home": "Luxury bakery storefront for small-batch cookies, ice cream, and coffee with membership and order-first calls to action.",
 		"products": "Explore Rodeo 893 cookies, ice cream, and signature coffee in a curated product gallery.",
-		"productsCookies": "See all Rodeo 893 cookies and browse the available flavors.",
-		"productsIceCream": "See all Rodeo 893 ice cream offerings and browse the available flavors.",
-		"productsCoffee": "See Rodeo 893 coffee and its signature pour.",
 		"membership": "Join the Rodeo 893 membership for priority drops, early ordering, and premium bakery perks.",
 		"login": "Sign in to access your profile, orders, and membership details.",
 		"profile": "Review your personal details, orders, and membership status.",
 		"account": "View profile, saved addresses, and membership status in your Rodeo 893 account.",
 		"orders": "Review your order flow, recent orders, and delivery guidance at Rodeo 893.",
 		"about": "Read the story behind Rodeo 893 and its small-batch bakery philosophy.",
-		"contact": "Get in touch with Rodeo 893 for pre-orders, events, and collection details.",
-		"productVanilla": "A quiet, buttery vanilla cookie with a refined finish.",
-		"productMocha": "A roasted mocha cookie balancing cocoa depth and coffee perfume.",
-		"productChocoChip": "A rich choco chip cookie with dark chocolate and a soft center.",
-		"productPeanutButter": "A dense peanut butter cookie with a polished savory edge.",
-		"productAlmondCrescent": "A delicate almond crescent with a ceremonial finish.",
-		"productIceCreamChoco": "Dark choco ice cream with a silkier, grown-up profile.",
-		"productIceCreamCoffee": "Coffee ice cream with a roasted, elegant backbone.",
-		"productBlueCheeseCoffee": "Signature blue cheese coffee for guests who want something daring and memorable."
+		"contact": "Get in touch with Rodeo 893 for pre-orders, events, and collection details."
 	},
 	"brand": {
 		"name": "Rodeo",
@@ -214,55 +181,5 @@
 			"Email for event and partnership inquiries",
 			"Direct order guidance for pickup or delivery coordination"
 		]
-	},
-	"productDetails": {
-		"productVanilla": {
-			"name": "Vanilla",
-			"category": "Cookie",
-			"description": "A restrained vanilla cookie built around butter, soft edges, and a clean finish.",
-			"notes": ["Warm butter profile", "Soft center", "Elegant everyday choice"]
-		},
-		"productMocha": {
-			"name": "Mocha",
-			"category": "Cookie",
-			"description": "Mocha with a roasted perfume and a darker cocoa backbone.",
-			"notes": ["Coffee-led aroma", "Dark cocoa depth", "For richer pairings"]
-		},
-		"productChocoChip": {
-			"name": "Choco chip",
-			"category": "Cookie",
-			"description": "A dark chocolate cookie with a soft center and a polished finish.",
-			"notes": ["Dark chocolate pieces", "Soft bite", "Signature staple"]
-		},
-		"productPeanutButter": {
-			"name": "Peanut butter",
-			"category": "Cookie",
-			"description": "Peanut butter made dense, savory, and a little more refined than expected.",
-			"notes": ["Roasted nut depth", "Dense texture", "Balanced salt finish"]
-		},
-		"productAlmondCrescent": {
-			"name": "Almond crescent",
-			"category": "Cookie",
-			"description": "A delicate almond crescent designed for a quieter, ceremonial sort of indulgence.",
-			"notes": ["Fragrant almond", "Delicate crumb", "Elegant presentation"]
-		},
-		"productIceCreamChoco": {
-			"name": "Choco",
-			"category": "Ice cream",
-			"description": "Dark choco ice cream with a richer profile and a clean melt.",
-			"notes": ["Dark chocolate body", "Silky texture", "Dessert-forward finish"]
-		},
-		"productIceCreamCoffee": {
-			"name": "Coffee",
-			"category": "Ice cream",
-			"description": "Coffee ice cream with roasted depth and an elegant bitterness.",
-			"notes": ["Roasted coffee note", "Smooth finish", "Adult dessert profile"]
-		},
-		"productBlueCheeseCoffee": {
-			"name": "Blue cheese coffee",
-			"category": "Coffee",
-			"description": "The signature pour: unexpected, aromatic, and designed to be remembered.",
-			"notes": ["Distinct aroma", "Conversation starter", "For adventurous regulars"]
-		}
 	}
 }

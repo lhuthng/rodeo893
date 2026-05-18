@@ -27,6 +27,7 @@ pub fn build_router(state: AppState) -> Router {
         .route("/api/membership/activate", post(membership::activate))
         // Products (public)
         .route("/api/products",         get(products::list_products))
+        .route("/api/products/resolve-path", get(products::resolve_catalog_path))
         .route("/api/products/{slug}",  get(products::get_product))
         // Products (staff)
         .route("/api/staff/products",       post(products::create_product))

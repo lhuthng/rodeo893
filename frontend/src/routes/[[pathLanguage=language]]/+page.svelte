@@ -7,7 +7,13 @@
 	const routeId = $derived(data.pathRoute);
 	const routeEntry = $derived(getPageEntry(routeId));
 	const Route = $derived(routeEntry?.component);
-	const routeProps = $derived(routeEntry?.props ?? {});
+	const routeProps = $derived({
+		...(routeEntry?.props ?? {}),
+		products: data.products ?? [],
+		categories: data.categories ?? [],
+		featuredProducts: data.featuredProducts ?? [],
+		catalogError: data.catalogError ?? null
+	});
 
 	$effect(() => {
 		pathRoute.set(routeId);

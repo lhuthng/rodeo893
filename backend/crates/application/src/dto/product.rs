@@ -9,8 +9,11 @@ use validator::{Validate, ValidationError};
 pub struct LocalizedProductDto {
     pub id:           Uuid,
     pub slug:         String,
+    pub localized_slug: String,
     pub frontend_key: Option<String>,
     pub category_slug: String,
+    pub category_localized_slug: String,
+    pub category_name: String,
     pub name:         String,
     pub description:  String,
     pub image_url:    Option<String>,
